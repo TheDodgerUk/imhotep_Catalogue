@@ -1,0 +1,53 @@
+{
+  "$schema": "https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/master/schemas/fixture.json",
+  "name": "Confetti",
+  "shortName": "Confetti",
+  "categories": ["Smoke", "Color Changer", "Dimmer"],
+  "meta": {
+    "authors": ["MAGIC FX B.V."],
+    "createDate": "2018-09-06",
+    "lastModifyDate": "2018-09-06"
+  },
+  "comment": "Smoke machine with built-in power LED’s which blows coloured smoked on stages. Can also be mounted in trusses and blow smoke downwards and sideways.",
+  "links": {
+    "manual": [
+      "https://www.magicfx.eu/media/mconnect_uploadfiles/m/a/magicfx_smokejet_user_and_installation_manual_en_v01-00.pdf"
+    ],
+    "productPage": [
+      "https://www.magicfx.eu/hardware/smoke-fx/magicfx-reg-smokejet"
+    ],
+    "video": [
+      "https://youtu.be/amAVrtUQr4g"
+    ]
+  },
+  "physical": {
+    "dimensions": [193, 380, 345],
+    "weight": 12.6,
+    "power": 1420,
+    "DMXconnector": "5-pin"
+  },
+  "availableChannels": {
+    "Confetti": {
+      "capabilities": [
+        {
+          "dmxRange": [0, 4],
+          "type": "NoFunction"
+        },
+        {
+          "dmxRange": [5, 255],
+          "type": "Confetti",
+          "fogType": "Fog"
+        }
+      ]
+    }
+  },
+  "modes": [
+    {
+      "name": "1-channel",
+      "shortName": "1ch",
+      "channels": [
+        "Confetti"
+      ]
+    }
+  ]
+}

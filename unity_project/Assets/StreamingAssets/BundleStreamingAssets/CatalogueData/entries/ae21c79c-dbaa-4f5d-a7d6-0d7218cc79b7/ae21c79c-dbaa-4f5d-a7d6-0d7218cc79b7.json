@@ -1,0 +1,167 @@
+{
+  "ReferenceNumber": "P0CAQ",
+  "Guid": "ae21c79c-dbaa-4f5d-a7d6-0d7218cc79b7",
+  "Attributes": [
+    "Moveable"
+  ],
+  "MetaData": {
+    "Render": {
+      "Main": {
+        "Bundle": "catalogue/prefabs/tcelectronic/tcelectronic_guitarpedals/afterglow.unity3d",
+        "Prefab": "TCElectronic_Afterglow_Prefab"
+      },
+      "Parts": [],
+      "Variants": [],
+      "Version": 0,
+      "SizeOfFileMB": [
+        14.5870075,
+        8.111595,
+        0.0,
+        12.7868223,
+        14.6853056
+      ]
+    },
+    "ContentPlacement": {
+      "Placement": "Stackable",
+      "Method": "Gravity",
+      "m_MainColliderEnabledInVR": true,
+      "m_UseAllMainColliders": false,
+      "m_SnapToOthers": true,
+      "m_SnapToOnlyTheseOthers": false,
+      "m_SnappingItemData": [],
+      "m_SnappingDistance": 0.1,
+      "m_SnappingPointEnumField": 1,
+      "m_ExtraPivotPoint": "",
+      "m_ExtraPivotPointAxis": "X"
+    },
+    "ContentSteamAudio": {
+      "m_SoundEnumType": "None",
+      "m_SoundGameObjectName": "RootModel",
+      "m_SplGameObjectName": "",
+      "m_MaterialPreset": "Generic",
+      "m_MaterialValue": {
+        "LowFreqAbsorption": 0.0,
+        "MidFreqAbsorption": 0.0,
+        "HighFreqAbsorption": 0.0,
+        "Scattering": 0.0,
+        "LowFreqTransmission": 0.0,
+        "MidFreqTransmission": 0.0,
+        "HighFreqTransmission": 0.0
+      },
+      "m_ExportAllChildren": true
+    },
+    "ContentButton": {
+      "m_ItemData": [
+        {
+          "m_ModelMoveTime": 0.3,
+          "m_UseEmmision": false,
+          "m_Up": {
+            "r": 0.32,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+          },
+          "m_Down": {
+            "r": 1.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0
+          },
+          "m_ButtonType": "Hold",
+          "m_SimpleButtonType": "None",
+          "m_SimpleButtonPress": "Toggle",
+          "m_SetActive": {},
+          "m_SetAnimation": {},
+          "m_SetEmmissive": {},
+          "m_MoveType": "Amount",
+          "m_ModelEndLocalPositionfloat": -0.003,
+          "m_ModelGameObjectName": "TCElectronic_Afterglow/Button_Activate_LOD0",
+          "m_sTitle": "Activate",
+          "m_sDescription": "Turns the effects on and off. The pedal operates in true bypass when disengaged."
+        }
+      ]
+    },
+    "ContentDial": {
+      "m_DialData": [
+        {
+          "m_RotationDialTargetGameObjectName": "",
+          "m_RotationAmount": 270.0,
+          "m_ModelGameObjectName": "TCElectronic_Afterglow/Dial_Depth_LOD0",
+          "m_sTitle": "Depth",
+          "m_sDescription": "Adjust the intensity of the effect."
+        },
+        {
+          "m_RotationDialTargetGameObjectName": "",
+          "m_RotationAmount": 270.0,
+          "m_ModelGameObjectName": "TCElectronic_Afterglow/Dial_Mix_LOD0",
+          "m_sTitle": "Mix",
+          "m_sDescription": "Adjust how much the effect is mixed with the dry signal."
+        },
+        {
+          "m_RotationDialTargetGameObjectName": "",
+          "m_RotationAmount": 270.0,
+          "m_ModelGameObjectName": "TCElectronic_Afterglow/Dial_Rate_LOD0",
+          "m_sTitle": "Rate",
+          "m_sDescription": "Adjust the speed of the effect."
+        }
+      ],
+      "m_PatchData": [
+        {
+          "m_sPatchName": "Test",
+          "m_DialRotations": {
+            "Dial_Depth_LOD0": 270.0,
+            "Dial_Mix_LOD0": 50.0,
+            "Dial_Rate_LOD0": 200.0
+          }
+        },
+        {
+          "m_sPatchName": "Test Two Electric Boogaloo",
+          "m_DialRotations": {
+            "Dial_Depth_LOD0": 75.0,
+            "Dial_Mix_LOD0": 230.0,
+            "Dial_Rate_LOD0": 180.0
+          }
+        },
+        {
+          "m_sPatchName": "Test Origins",
+          "m_DialRotations": {
+            "Dial_Depth_LOD0": 34.0,
+            "Dial_Mix_LOD0": 192.0,
+            "Dial_Rate_LOD0": 97.0
+          }
+        }
+      ]
+    },
+    "ArFeatures": {
+      "m_bSupportsExplosion": true,
+      "m_bSupportsXRay": true,
+      "m_bSupportsInteraction": true,
+      "m_bSupportsInstruction": true,
+      "m_bSupportsArGuide": true,
+      "m_bSupportsPatches": true,
+      "m_bHasInfo": true,
+      "m_XrayObjectNames": [
+        "RootModel/TCElectronic_Afterglow/Top_LOD0",
+        "RootModel/TCElectronic_Afterglow/Base_LOD0"
+      ],
+      "m_XrayGameObjects": [
+        {},
+        {}
+      ]
+    }
+  },
+  "Version": 0,
+  "HasVideo": false,
+  "FlipThumbnail": false,
+  "IncludeInUnitTests": true,
+  "EnvironmentsAvailable": [
+    "ArBase/ArViewer",
+    "HouseBuilder/Builder",
+    "MobileWebBase/MobileWebAR"
+  ],
+  "CatalogueFilters": [
+    "Brands/TCElectronic",
+    "Instrument/Guitar Pedal"
+  ],
+  "m_SubItems": []
+}

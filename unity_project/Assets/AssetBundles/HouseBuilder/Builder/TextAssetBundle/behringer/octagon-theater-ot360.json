@@ -1,0 +1,271 @@
+{
+  "$schema": "https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/schema-12.2.1/schemas/fixture.json",
+  "name": " OCTAGON THEATER OT360",
+  "shortName": " OCTAGON THEATER OT360",
+  "catalogueLinkageGuid": "2d504a4a-b7de-4e3e-bfd2-6f21b5c7f6a7",
+  "categories": ["Blinder"],
+  "meta": {
+    "authors": ["Anthony Brown"],
+    "createDate": "2021-03-17",
+    "lastModifyDate": "2021-03-17"
+  },
+  "links": {
+    "video": [
+      "https://www.youtube.com/watch?v=DDtC1N6sEE0"
+    ]
+  },
+    "physical": {
+    "dimensions": [427, 459, 373],
+    "weight": 18,
+    "power": 500,
+    "DMXconnector": "3-pin",
+    "bulb": {
+      "type": "Sylvania BA 250/2 GY-9.5",
+      "colorTemperature": 6400
+    },
+    "lens": {
+      "degreesMinMax": [18, 18]
+    }
+  },
+  "availableChannels": {
+    "CWDimmer": {
+      "capability": {
+        "type": "Intensity"
+      }
+    },
+    "WWDimmer": {
+      "capability": {
+        "type": "Intensity"
+      }
+    },
+    "Dimmer": {
+      "capability": {
+        "type": "Intensity"
+      }
+    },
+    "Color Wheel": {
+      "capabilities": [
+        {
+          "dmxRange": [0, 5],
+          "type": "NoFunction",
+		  "spriteName": "Non"
+        },
+        {
+          "dmxRange": [6, 22],
+          "type": "ColorPreset",
+		  "spriteName": "OSC_CColor01"
+        },
+        {
+          "dmxRange": [23, 39],
+          "type": "ColorPreset",
+		  "spriteName": "OSC_CColor02"
+        },
+        {
+          "dmxRange": [40, 56],
+          "type": "ColorPreset",
+		  "spriteName": "OSC_CColor03"
+        },
+        {
+          "dmxRange": [57, 73],
+          "type": "ColorPreset",
+		  "spriteName": "OSC_CColor04"
+        },
+        {
+          "dmxRange": [74, 90],
+          "type": "ColorPreset",
+		  "spriteName": "OSC_CColor05"
+        },
+        {
+          "dmxRange": [91, 107],
+          "type": "ColorPreset",
+		  "spriteName": "OSC_CColor06"
+        },
+        {
+          "dmxRange": [108, 124],
+          "type": "ColorPreset",
+		  "spriteName": "OSC_CColor07"
+        },
+        {
+          "dmxRange": [125, 141],
+          "type": "ColorPreset",
+		  "spriteName": "OSC_CColor08"
+        },
+        {
+          "dmxRange": [142, 158],
+          "type": "ColorPreset",
+		  "spriteName": "OSC_CColor09"
+        },
+        {
+          "dmxRange": [159, 175],
+          "type": "ColorPreset",
+		  "spriteName": "OSC_CColor10"
+        },
+        {
+          "dmxRange": [176, 192],
+          "type": "ColorPreset",
+		  "spriteName": "OSC_CColor11"
+        },
+        {
+          "dmxRange": [193, 209],
+          "type": "ColorPreset",
+		  "spriteName": "OSC_CColor12"
+        },
+        {
+          "dmxRange": [210, 226],
+          "type": "ColorPreset",
+		  "spriteName": "OSC_CColor13"
+        },
+        {
+          "dmxRange": [227, 243],
+          "type": "ColorPreset",
+		  "spriteName": "OSC_CColor14"
+        },
+        {
+          "dmxRange": [244, 254],
+          "type": "ColorPreset",
+		  "spriteName": "OSC_CColor15"
+        },
+        {
+          "dmxRange": [255, 255],
+          "type": "ColorPreset",
+		  "spriteName": "OSC_CColor16"
+        }
+      ]
+    },
+    "Strobe": {
+      "capabilities": [
+        {
+          "dmxRange": [0, 5],
+          "type": "ShutterStrobe",
+          "shutterEffect": "Open",
+		  "spriteName": "OSC_SOpen"
+        },
+        {
+          "dmxRange": [6, 10],
+          "type": "ShutterStrobe",
+          "shutterEffect": "Closed",
+		  "spriteName": "OSC_SStrob2"
+        },
+        {
+          "dmxRange": [11, 33],
+          "type": "ShutterStrobe",
+          "shutterEffect": "Pulse",
+          "speedStart": "slow",
+          "speedEnd": "fast",
+          "randomTiming": true,
+		  "spriteName": "OSC_Closed"
+        },
+        {
+          "dmxRange": [34, 56],
+          "type": "ShutterStrobe",
+          "shutterEffect": "RampUp",
+          "speedStart": "slow",
+          "speedEnd": "fast",
+          "randomTiming": true,
+		  "spriteName": "OSC_SStrob3"
+        },
+        {
+          "dmxRange": [57, 79],
+          "type": "ShutterStrobe",
+          "shutterEffect": "RampDown",
+          "randomTiming": true,
+		  "spriteName": "OSC_SStrob2Off"
+        },
+        {
+          "dmxRange": [80, 102],
+          "type": "ShutterStrobe",
+          "shutterEffect": "Strobe",
+          "speedStart": "slow",
+          "speedEnd": "fast",
+          "randomTiming": true,
+		  "spriteName": "OSC_SStrob3"
+        },
+        {
+          "dmxRange": [103, 127],
+          "type": "ShutterStrobe",
+          "shutterEffect": "Strobe",
+          "speedStart": "fast",
+          "speedEnd": "slow",
+		  "spriteName": "OSC_SStrob2Off"
+        },
+        {
+          "dmxRange": [128, 250],
+          "type": "ShutterStrobe",
+          "shutterEffect": "Strobe",
+          "speedStart": "slow",
+          "speedEnd": "fast",
+		  "spriteName": "OSC_SStrob2"
+        },
+        {
+          "dmxRange": [251, 255],
+          "type": "ShutterStrobe",
+          "shutterEffect": "Open",
+		  "spriteName": "OSC_SOpen"
+        }
+      ]
+    }
+  },
+  "modes": [
+    {
+      "name": "Channel1",
+      "shortName": "Channel1",
+      "channels": [
+        "CWDimmer"
+      ]
+    },
+    {
+      "name": "Channel2",
+      "shortName": "Channel2",
+      "channels": [
+        "CWDimmer",
+        "WWDimmer"
+      ]
+    },
+    {
+      "name": "Channel3",
+      "shortName": "Channel3",
+      "channels": [
+        "Dimmer",
+        "Color Wheel",
+        "Strobe"
+      ]
+    },
+	    {
+      "name": "Channel7",
+      "shortName": "Channel7",
+      "channels": [
+        "Dimmer",
+		"CWDimmer",
+        "WWDimmer",
+        "Color Wheel",
+        "Strobe"
+      ]
+    }
+  ],
+    "layouts": [
+    {
+      "shortName": "Channel1",
+	  "sliders":[{"channelIndex":0,"layoutEnumRef":"Slider1"}]
+    },
+    {
+      "shortName": "Channel2",
+	  "sliders":[{"channelIndex":0,"layoutEnumRef":"Slider1"},{"channelIndex":1,"layoutEnumRef":"Slider2"}]
+    },
+    {
+      "shortName": "Channel3",	  
+	  "rotarys":[{"channelIndex":0,"layoutEnumRef":"Rotary1"}],
+	  "buttons":[{"channelIndex":1,"layoutEnumRef":"Button1"}],
+	  "buttonSliders":[{"channelIndex":2,"layoutEnumRef":"ButtonSlider1"}]
+    },
+	{
+      "shortName": "Channel7",
+	  "sliders":[{"channelIndex":1,"layoutEnumRef":"Slider1"},{"channelIndex":2,"layoutEnumRef":"Slider2"}],
+	  "rotarys":[{"channelIndex":0,"layoutEnumRef":"Rotary1"}],
+	  "buttons":[{"channelIndex":3,"layoutEnumRef":"Button1"}],
+	  "buttonSliders":[{"channelIndex":4,"layoutEnumRef":"ButtonSlider1"}]
+    }
+  ],
+  "fixtureKey": "octagon-theater-ot360",
+  "manufacturerKey": "behringer",
+  "oflURL": "https://open-fixture-library.org/behringer/octagon-theater-ot360"
+}

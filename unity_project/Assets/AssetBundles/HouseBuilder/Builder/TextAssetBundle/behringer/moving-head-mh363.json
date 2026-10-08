@@ -1,0 +1,347 @@
+{
+	"$schema": "https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/schema-12.2.1/schemas/fixture.json",
+	"name": "MOVING HEAD MH363",
+	"shortName": "MOVING HEAD MH363",
+	"catalogueLinkageGuid": "d15aed42-e9bf-4452-994c-d25fad91ad42",
+	"categories": ["Moving Head"],
+	"meta": {
+		"authors": ["Anthony Brown"],
+		"createDate": "2021-02-02",
+		"lastModifyDate": "2021-02-02"
+	},
+	"links": {
+		"manual": [
+			"https://mediadl.musictribe.com/download/documents/behringer/EUROLIGHT%20MOVING%20HEAD%20MH710_QSG_WW.pdf"
+		],
+		"productPage": [
+			"https://www.behringer.com/product.html?modelCode=P0E62"
+		],
+		"video": [
+			"https://www.behringer.com/product.html?modelCode=P0E62"
+		]
+	},
+	"rdm": {
+		"modelId": 1,
+		"softwareVersion": "0"
+	},
+  "physical": {
+    "dimensions": [218, 96, 70],
+    "weight": 0.96,
+    "power": 35,
+    "bulb": {
+      "type": "LED"
+    },
+    "lens": {
+      "name": "Prismatic Homogenizing Lense",
+      "degreesMinMax": [15, 15]
+    }
+  },
+	"availableChannels": {
+		"Pan": {
+			"capability": {
+				"type": "Pan",
+				"angleStart": "0deg",
+				"angleEnd": "630deg",
+				"comment": "Horizontal "
+			}
+		},
+		"PanFine": {
+			"capability": {
+				"type": "PanFine",
+				"angleStart": "0deg",
+				"angleEnd": "10deg",
+				"comment": "Horizontal "
+			}
+		},
+		"Shutter / Strobe": {
+			"capabilities": [{
+					"dmxRange": [0, 7],
+					"type": "ShutterStrobe",
+					"shutterEffect": "Closed",
+					"timeStrobeRange": [4, 1],
+					"timeFlashRange": [0.5, 0.5]
+				},
+				{
+					"dmxRange": [8, 15],
+					"type": "ShutterStrobe",
+					"shutterEffect": "Open",
+					"timeStrobeRange": [4, 1],
+					"timeFlashRange": [0.5, 0.5]
+				},
+				{
+					"dmxRange": [16, 131],
+					"type": "ShutterStrobe",
+					"shutterEffect": "Strobe",
+					"speedStart": "slow",
+					"speedEnd": "fast",
+					"timeStrobeRange": [1.3, 0.1],
+					"timeFlashRange": [0.1, 0.1]
+				},
+				{
+					"dmxRange": [132, 139],
+					"type": "ShutterStrobe",
+					"shutterEffect": "Open",
+					"timeStrobeRange": [4, 1],
+					"timeFlashRange": [0.5, 0.5]
+				},
+				{
+					"dmxRange": [140, 181],
+					"type": "ShutterStrobe",
+					"shutterEffect": "RampUp",
+					"speedStart": "slow",
+					"speedEnd": "fast",
+					"timeStrobeRange": [10, 1],
+					"timeFlashRange": [0.5, 0.5],
+					"randomTiming": false
+				},
+				{
+					"dmxRange": [182, 189],
+					"type": "ShutterStrobe",
+					"shutterEffect": "Open",
+					"timeStrobeRange": [4, 1],
+					"timeFlashRange": [0.5, 0.5]
+				},
+				{
+					"dmxRange": [190, 231],
+					"type": "ShutterStrobe",
+					"shutterEffect": "RampDown",
+					"speedStart": "slow",
+					"speedEnd": "fast",
+					"timeStrobeRange": [10, 1.3],
+					"timeFlashRange": [0.5, 0.5],
+					"randomTiming": false
+				},
+				{
+					"dmxRange": [232, 239],
+					"type": "ShutterStrobe",
+					"shutterEffect": "Strobe",
+					"speedStart": "slow",
+					"speedEnd": "fast",
+					"timeStrobeRange": [4, 1],
+					"timeFlashRange": [0.5, 0.5],
+					"randomTiming": false
+				},
+				{
+					"dmxRange": [240, 247],
+					"type": "ShutterStrobe",
+					"shutterEffect": "Strobe",
+					"speedStart": "slow",
+					"speedEnd": "fast",
+					"timeStrobeRange": [4, 1],
+					"timeFlashRange": [0.5, 0.5],
+					"randomTiming": false
+				},
+				{
+					"dmxRange": [248, 255],
+					"type": "ShutterStrobe",
+					"shutterEffect": "Open",
+					"timeStrobeRange": [4, 1],
+					"timeFlashRange": [0.5, 0.5]
+				}
+			]
+		},
+		"Tilt": {
+			"capability": {
+				"type": "Tilt",
+				"angleStart": "0deg",
+				"angleEnd": "220deg"
+			}
+		},
+		"TiltFine": {
+			"capability": {
+				"type": "TiltFine",
+				"angleStart": "0deg",
+				"angleEnd": "10deg"
+			}
+		},
+		"Speed": {
+			"capability": {
+				"type": "Speed",
+				"speedStart": "1",
+				"speedEnd": "0.1"
+			}
+		},
+		"Dimmer": {
+			"capability": {
+				"type": "Intensity",
+				"comment": "Need changing"
+			}
+		},
+		"Red": {
+			"capability": {
+				"type": "ColorIntensity",
+				"color": "Red"
+			}
+		},
+		"Green": {
+			"capability": {
+				"type": "ColorIntensity",
+				"color": "Green"
+			}
+		},
+		"Blue": {
+			"capability": {
+				"type": "ColorIntensity",
+				"color": "Blue"
+			}
+		},
+		"White": {
+			"capability": {
+				"type": "ColorIntensity",
+				"color": "White"
+			}
+		},
+		"Dimmer 2": {
+			"name": "Dimmer",
+			"capability": {
+				"type": "Intensity"
+			}
+		},
+    "ColorPreset": {
+      "capabilities": [
+        {
+          "dmxRange": [0, 9],
+          "type": "NoFunction"
+        },
+        {
+          "dmxRange": [10, 10],
+          "type": "ColorPreset",
+          "comment": "Red",
+          "colors": ["#ff0000"]
+        },
+        {
+          "dmxRange": [11, 11],
+          "type": "ColorPreset",
+          "comment": "Green",
+          "colors": ["#00ff00"]
+        },
+        {
+          "dmxRange": [12, 12],
+          "type": "ColorPreset",
+          "comment": "Blue",
+          "colors": ["#0000ff"]
+        },
+        {
+          "dmxRange": [18, 18],
+          "type": "ColorPreset",
+          "comment": "White",
+          "colors": ["#ffbc6e"],
+        },
+        {
+          "dmxRange": [19, 19],
+          "type": "ColorPreset",
+          "comment": "Black",
+          "colors": ["#000000"]
+        },
+        {
+          "dmxRange": [20, 22],
+          "type": "ColorPreset",
+          "comment": "LEE 10 Medium Yellow",
+          "colors": ["#9c7e00"]
+        },
+        {
+          "dmxRange": [23, 26],
+          "type": "ColorPreset",
+          "comment": "LEE 13 Straw Tint",
+          "colors": ["#987309"]
+        },
+        {
+          "dmxRange": [27, 28],
+          "type": "ColorPreset",
+          "comment": "LEE 17 Surprise Peach",
+          "colors": ["#c67209"]
+        },
+        {
+          "dmxRange": [29, 29],
+          "type": "ColorPreset",
+          "comment": "LEE 19 Fire",
+          "colors": ["#ff3800"]
+        },
+        {
+          "dmxRange": [30, 30],
+          "type": "ColorPreset",
+          "comment": "LEE 20 Medium Amber",
+          "colors": ["#ff8700"]
+        },
+        {
+          "dmxRange": [31, 207],
+          "type": "ColorPreset",
+          "comment": "LEE 21 Gold Amber",
+          "colors": ["#ff6400"]
+        },
+        {
+          "dmxRange": [208, 208],
+          "type": "ColorPreset",
+          "comment": "Dirty White",
+          "colors": ["#ffffbd"]
+        },
+        {
+          "dmxRange": [209, 255],
+          "type": "ColorPreset",
+          "comment": "White",
+          "colors": ["#fff5a1"]
+        }
+      ]
+    },
+		"No function": {
+			"capability": {
+				"type": "NoFunction"
+			}
+		},
+		"Reserved": {
+			"capability": {
+				"type": "NoFunction"
+			}
+		}
+	},
+	"modes": [
+	{
+		"name": "9CH",
+		"shortName": "9ch",
+		"channels": 
+		[
+			"Pan",
+			"Tilt",
+			"Shutter / Strobe",
+			"Red",
+			"Green",
+			"Blue",
+			"White",
+			"Dimmer 2",
+			"Reserved"
+		]
+	},
+		{
+		"name": "13CH",
+		"shortName": "13ch",
+		"channels": 
+		[
+			"Pan",
+			"PanFine",
+			"Tilt",
+			"TiltFine",
+			"Speed",
+			"Dimmer 2",
+			"Shutter / Strobe",
+			"Red",
+			"Green",
+			"Blue",
+			"White",
+			"ColorPreset",
+			"Reserved"
+		]
+	}
+	],
+	"layouts": [
+    {
+      "shortName": "9ch",
+	  "pad":{"channelIndexX":0,"channelIndexY":1},
+	  "sliders":[{"channelIndex":6,"layoutEnumRef":"Slider3"}],
+	  "rotarys":[{"channelIndex":7,"layoutEnumRef":"Rotary1"}],
+	  "colourWheel":{"red":[3],"green":[4],"blue":[5]}
+    }
+  ],
+	"fixtureKey": "moving-head-mh710",
+	"manufacturerKey": "behringer",
+	"oflURL": "https://open-fixture-library.org/behringer/moving-head-mh363"
+}

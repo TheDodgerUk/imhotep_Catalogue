@@ -1,0 +1,1015 @@
+
+D:\Work\ADB>cd d:\Work\ADB\platform-tools
+
+d:\Work\ADB\platform-tools>adb logcat   | findstr -i unity
+adb server version (40) doesn't match this client (41); killing...
+* daemon started successfully
+03-19 09:35:57.932  6332  6355 E AndroidRuntime: FATAL EXCEPTION: UnityMain
+03-19 09:35:57.932  6332  6355 E AndroidRuntime: pid: 6332, tid: 6355, name: UnityMain  >>> com.musictribe.Roomviewer <<<
+03-19 09:35:57.932  6332  6355 E AndroidRuntime:       #00 pc 00ec0d8e  /data/app/com.musictribe.Roomviewer-7gURtuLyj_EuvGWHDqpaTA==/lib/arm/libunity.so (DownloadHandler::InternalGetByteArray(DownloadHandler*, ScriptingExceptionPtr*)+78) (BuildId: 538253d424caeecba5cc9d225ed188f116235c1f)
+03-19 09:35:57.932  6332  6355 E AndroidRuntime:       #01 pc 00ecfeaf  /data/app/com.musictribe.Roomviewer-7gURtuLyj_EuvGWHDqpaTA==/lib/arm/libunity.so (DownloadHandler_CUSTOM_InternalGetByteArray(ScriptingBackendNativeObjectPtrOpaque*)+62) (BuildId: 538253d424caeecba5cc9d225ed188f116235c1f)
+03-19 09:35:57.932  6332  6355 E AndroidRuntime:       #00 (wrapper managed-to-native) UnityEngine.Networking.DownloadHandler:InternalGetByteArray (UnityEngine.Networking.DownloadHandler)
+03-19 09:35:57.932  6332  6355 E AndroidRuntime:       #01 UnityEngine.Networking.DownloadHandlerBuffer:InternalGetData () </Users/builduser/buildslave/unity/build/Modules/UnityWebRequest/Public/DownloadHandler/DownloadHandler.bindings.cs:171>
+03-19 09:35:57.932  6332  6355 E AndroidRuntime:       #02 UnityEngine.Networking.DownloadHandlerBuffer:GetData () </Users/builduser/buildslave/unity/build/Modules/UnityWebRequest/Public/DownloadHandler/DownloadHandler.bindings.cs:166>
+03-19 09:35:57.932  6332  6355 E AndroidRuntime:       #03 UnityEngine.Networking.DownloadHandler:get_data () </Users/builduser/buildslave/unity/build/Modules/UnityWebRequest/Public/DownloadHandler/DownloadHandler.bindings.cs:49>
+03-19 09:35:57.932  6332  6355 E AndroidRuntime:       #04 NetworkingMono/<InternalGetAssetBundle>d__53:MoveNext () <D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Networking.cs:530>
+03-19 09:35:57.932  6332  6355 E AndroidRuntime:       #05 UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) </Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/Coroutines.cs:17>
+03-19 09:35:57.932  6332  6355 E AndroidRuntime:        at libunity.DownloadHandler::InternalGetByteArray(DownloadHandler*, ScriptingExceptionPtr*)(InternalGetByteArray:78)
+03-19 09:35:57.932  6332  6355 E AndroidRuntime:        at libunity.DownloadHandler_CUSTOM_InternalGetByteArray(ScriptingBackendNativeObjectPtrOpaque*)(DownloadHandler_CUSTOM_InternalGetByteArray:62)
+03-19 09:35:57.932  6332  6355 E AndroidRuntime:        at UnityEngine.Networking.DownloadHandler.InternalGetByteArray (UnityEngine.Networking.DownloadHandler)(Native Method)
+03-19 09:35:57.932  6332  6355 E AndroidRuntime:        at UnityEngine.Networking.DownloadHandlerBuffer.InternalGetData ()(/Users/builduser/buildslave/unity/build/Modules/UnityWebRequest/Public/DownloadHandler/DownloadHandler.bindings.cs:171)
+03-19 09:35:57.932  6332  6355 E AndroidRuntime:        at UnityEngine.Networking.DownloadHandlerBuffer.GetData ()(/Users/builduser/buildslave/unity/build/Modules/UnityWebRequest/Public/DownloadHandler/DownloadHandler.bindings.cs:166)
+03-19 09:35:57.932  6332  6355 E AndroidRuntime:        at UnityEngine.Networking.DownloadHandler.get_data ()(/Users/builduser/buildslave/unity/build/Modules/UnityWebRequest/Public/DownloadHandler/DownloadHandler.bindings.cs:49)
+03-19 09:35:57.932  6332  6355 E AndroidRuntime:        at NetworkingMono.<InternalGetAssetBundle>d__53.MoveNext ()(D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Networking.cs:530)
+03-19 09:35:57.932  6332  6355 E AndroidRuntime:        at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator,intptr)(/Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/Coroutines.cs:17)
+03-19 09:38:55.516 14802 14827 E AndroidRuntime: FATAL EXCEPTION: UnityMain
+03-19 09:38:55.516 14802 14827 E AndroidRuntime: pid: 14802, tid: 14827, name: UnityMain  >>> com.musictribe.Roomviewer <<<
+03-19 09:38:55.516 14802 14827 E AndroidRuntime:       #00 pc 00ec0d8e  /data/app/com.musictribe.Roomviewer-7gURtuLyj_EuvGWHDqpaTA==/lib/arm/libunity.so (DownloadHandler::InternalGetByteArray(DownloadHandler*, ScriptingExceptionPtr*)+78) (BuildId: 538253d424caeecba5cc9d225ed188f116235c1f)
+03-19 09:38:55.516 14802 14827 E AndroidRuntime:       #01 pc 00ecfeaf  /data/app/com.musictribe.Roomviewer-7gURtuLyj_EuvGWHDqpaTA==/lib/arm/libunity.so (DownloadHandler_CUSTOM_InternalGetByteArray(ScriptingBackendNativeObjectPtrOpaque*)+62) (BuildId: 538253d424caeecba5cc9d225ed188f116235c1f)
+03-19 09:38:55.516 14802 14827 E AndroidRuntime:       #00 (wrapper managed-to-native) UnityEngine.Networking.DownloadHandler:InternalGetByteArray (UnityEngine.Networking.DownloadHandler)
+03-19 09:38:55.516 14802 14827 E AndroidRuntime:       #01 UnityEngine.Networking.DownloadHandlerBuffer:InternalGetData () </Users/builduser/buildslave/unity/build/Modules/UnityWebRequest/Public/DownloadHandler/DownloadHandler.bindings.cs:171>
+03-19 09:38:55.516 14802 14827 E AndroidRuntime:       #02 UnityEngine.Networking.DownloadHandlerBuffer:GetData () </Users/builduser/buildslave/unity/build/Modules/UnityWebRequest/Public/DownloadHandler/DownloadHandler.bindings.cs:166>
+03-19 09:38:55.516 14802 14827 E AndroidRuntime:       #03 UnityEngine.Networking.DownloadHandler:get_data () </Users/builduser/buildslave/unity/build/Modules/UnityWebRequest/Public/DownloadHandler/DownloadHandler.bindings.cs:49>
+03-19 09:38:55.516 14802 14827 E AndroidRuntime:       #04 NetworkingMono/<InternalGetAssetBundle>d__53:MoveNext () <D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Networking.cs:530>
+03-19 09:38:55.516 14802 14827 E AndroidRuntime:       #05 UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) </Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/Coroutines.cs:17>
+03-19 09:38:55.516 14802 14827 E AndroidRuntime:        at libunity.DownloadHandler::InternalGetByteArray(DownloadHandler*, ScriptingExceptionPtr*)(InternalGetByteArray:78)
+03-19 09:38:55.516 14802 14827 E AndroidRuntime:        at libunity.DownloadHandler_CUSTOM_InternalGetByteArray(ScriptingBackendNativeObjectPtrOpaque*)(DownloadHandler_CUSTOM_InternalGetByteArray:62)
+03-19 09:38:55.516 14802 14827 E AndroidRuntime:        at UnityEngine.Networking.DownloadHandler.InternalGetByteArray (UnityEngine.Networking.DownloadHandler)(Native Method)
+03-19 09:38:55.516 14802 14827 E AndroidRuntime:        at UnityEngine.Networking.DownloadHandlerBuffer.InternalGetData ()(/Users/builduser/buildslave/unity/build/Modules/UnityWebRequest/Public/DownloadHandler/DownloadHandler.bindings.cs:171)
+03-19 09:38:55.516 14802 14827 E AndroidRuntime:        at UnityEngine.Networking.DownloadHandlerBuffer.GetData ()(/Users/builduser/buildslave/unity/build/Modules/UnityWebRequest/Public/DownloadHandler/DownloadHandler.bindings.cs:166)
+03-19 09:38:55.516 14802 14827 E AndroidRuntime:        at UnityEngine.Networking.DownloadHandler.get_data ()(/Users/builduser/buildslave/unity/build/Modules/UnityWebRequest/Public/DownloadHandler/DownloadHandler.bindings.cs:49)
+03-19 09:38:55.516 14802 14827 E AndroidRuntime:        at NetworkingMono.<InternalGetAssetBundle>d__53.MoveNext ()(D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Networking.cs:530)
+03-19 09:38:55.516 14802 14827 E AndroidRuntime:        at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator,intptr)(/Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/Coroutines.cs:17)
+03-19 13:08:06.023 13962 13985 E AndroidRuntime: FATAL EXCEPTION: UnityMain
+03-19 13:08:06.023 13962 13985 E AndroidRuntime: pid: 13962, tid: 13985, name: UnityMain  >>> com.musictribe.Roomviewer <<<
+03-19 13:08:06.023 13962 13985 E AndroidRuntime:       #10 pc 00f1887b  /data/app/com.musictribe.Roomviewer-X_IFR6UcDpQRkIkMVChXAQ==/lib/arm/libunity.so (VRDevice::SendEventCallback(UnityVREventType, unsigned int) const+26) (BuildId: 538253d424caeecba5cc9d225ed188f116235c1f)
+03-19 13:08:06.023 13962 13985 E AndroidRuntime:       #11 pc 00f19787  /data/app/com.musictribe.Roomviewer-X_IFR6UcDpQRkIkMVChXAQ==/lib/arm/libunity.so (VRDevice::Update()+26) (BuildId: 538253d424caeecba5cc9d225ed188f116235c1f)
+03-19 13:08:06.023 13962 13985 E AndroidRuntime:       #12 pc 0024cf45  /data/app/com.musictribe.Roomviewer-X_IFR6UcDpQRkIkMVChXAQ==/lib/arm/libunity.so (CallbackArray::Invoke()+36) (BuildId: 538253d424caeecba5cc9d225ed188f116235c1f)
+03-19 13:08:06.023 13962 13985 E AndroidRuntime:       #13 pc 00d554cf  /data/app/com.musictribe.Roomviewer-X_IFR6UcDpQRkIkMVChXAQ==/lib/arm/libunity.so (XREngineCallbacks::XREngineCallbacks()::EarlyUpdateXRUpdateRegistrator::Forward()+54) (BuildId: 538253d424caeecba5cc9d225ed188f116235c1f)
+03-19 13:08:06.023 13962 13985 E AndroidRuntime:       #14 pc 006ae597  /data/app/com.musictribe.Roomviewer-X_IFR6UcDpQRkIkMVChXAQ==/lib/arm/libunity.so (ExecutePlayerLoop(NativePlayerLoopSystem*)+52) (BuildId: 538253d424caeecba5cc9d225ed188f116235c1f)
+03-19 13:08:06.023 13962 13985 E AndroidRuntime:       #15 pc 006ae5cb  /data/app/com.musictribe.Roomviewer-X_IFR6UcDpQRkIkMVChXAQ==/lib/arm/libunity.so (ExecutePlayerLoop(NativePlayerLoopSystem*)+104) (BuildId: 538253d424caeecba5cc9d225ed188f116235c1f)
+03-19 13:08:06.023 13962 13985 E AndroidRuntime:       #16 pc 006ae76f  /data/app/com.musictribe.Roomviewer-X_IFR6UcDpQRkIkMVChXAQ==/lib/arm/libunity.so (PlayerLoop()+254) (BuildId: 538253d424caeecba5cc9d225ed188f116235c1f)
+03-19 13:08:06.023 13962 13985 E AndroidRuntime:       #17 pc 008b64cf  /data/app/com.musictribe.Roomviewer-X_IFR6UcDpQRkIkMVChXAQ==/lib/arm/libunity.so (UnityPlayerLoop()+490) (BuildId: 538253d424caeecba5cc9d225ed188f116235c1f)
+03-19 13:08:06.034 13962 13985 E AndroidRuntime:       #18 pc 008d817d  /data/app/com.musictribe.Roomviewer-X_IFR6UcDpQRkIkMVChXAQ==/lib/arm/libunity.so (nativeRender(_JNIEnv*, _jobject*)+40) (BuildId: 538253d424caeecba5cc9d225ed188f116235c1f)
+03-19 13:08:06.034 13962 13985 E AndroidRuntime:        at libunity.VRDevice::SendEventCallback(UnityVREventType, unsigned int) const(SendEventCallback:26)
+03-19 13:08:06.034 13962 13985 E AndroidRuntime:        at libunity.VRDevice::Update()(Update:26)
+03-19 13:08:06.034 13962 13985 E AndroidRuntime:        at libunity.CallbackArray::Invoke()(Invoke:36)
+03-19 13:08:06.034 13962 13985 E AndroidRuntime:        at libunity.XREngineCallbacks::XREngineCallbacks()::EarlyUpdateXRUpdateRegistrator::Forward()(XREngineCallbacks:54)
+03-19 13:08:06.034 13962 13985 E AndroidRuntime:        at libunity.ExecutePlayerLoop(NativePlayerLoopSystem*)(ExecutePlayerLoop:52)
+03-19 13:08:06.034 13962 13985 E AndroidRuntime:        at libunity.ExecutePlayerLoop(NativePlayerLoopSystem*)(ExecutePlayerLoop:104)
+03-19 13:08:06.034 13962 13985 E AndroidRuntime:        at libunity.PlayerLoop()(PlayerLoop:254)
+03-19 13:08:06.034 13962 13985 E AndroidRuntime:        at libunity.UnityPlayerLoop()(UnityPlayerLoop:490)
+03-19 13:08:06.034 13962 13985 E AndroidRuntime:        at libunity.nativeRender(_JNIEnv*, _jobject*)(nativeRender:40)
+03-19 14:40:39.466  8499  8522 I Unity   : [OVRManager] InputFocusLost event
+03-19 14:40:39.466  8499  8522 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:40:39.466  8499  8522 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:40:39.466  8499  8522 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:40:39.466  8499  8522 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:40:39.466  8499  8522 I Unity   : OVRManager:Update() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1585)
+03-19 14:40:39.466  8499  8522 I Unity   :
+03-19 14:40:39.466  8499  8522 I Unity   : (Filename: D Line: 0)
+03-19 14:40:39.466  8499  8522 I Unity   :
+03-19 14:40:39.467  8499  8522 I Unity   : [OVRManager] TrackingLost event
+03-19 14:40:39.467  8499  8522 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:40:39.467  8499  8522 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:40:39.467  8499  8522 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:40:39.467  8499  8522 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:40:39.467  8499  8522 I Unity   : OVRManager:Update() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1705)
+03-19 14:40:39.467  8499  8522 I Unity   :
+03-19 14:40:39.467  8499  8522 I Unity   : (Filename: D Line: 0)
+03-19 14:40:39.467  8499  8522 I Unity   :
+03-19 14:40:39.485  8499  8548 I VrRuntimeClient: APP ACTIVITY CLASS = com.unity3d.player.UnityPlayerActivity
+03-19 14:40:39.552  8499  8548 D UnityVolumeReceiver: Registering volume receiver
+03-19 14:40:39.615  8499  8548 D UnityVolumeReceiver: startVolumeReceiver: 14
+03-19 14:40:39.617  8499  8548 D UnityBatteryReceiver: Registering battery receiver
+03-19 14:40:40.029  8499  8522 I Unity   : [OVRManager] InputFocusAcquired event
+03-19 14:40:40.029  8499  8522 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:40:40.029  8499  8522 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:40:40.029  8499  8522 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:40:40.029  8499  8522 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:40:40.029  8499  8522 I Unity   : OVRManager:Update() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1599)
+03-19 14:40:40.029  8499  8522 I Unity   :
+03-19 14:40:40.029  8499  8522 I Unity   : (Filename: D Line: 0)
+03-19 14:40:40.029  8499  8522 I Unity   :
+03-19 14:40:40.030  8499  8522 I Unity   : [OVRManager] TrackingAcquired event
+03-19 14:40:40.030  8499  8522 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:40:40.030  8499  8522 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:40:40.030  8499  8522 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:40:40.030  8499  8522 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:40:40.030  8499  8522 I Unity   : OVRManager:Update() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1719)
+03-19 14:40:40.030  8499  8522 I Unity   :
+03-19 14:40:40.030  8499  8522 I Unity   : (Filename: D Line: 0)
+03-19 14:40:40.030  8499  8522 I Unity   :
+03-19 14:40:42.396  8499  8522 I Unity   : [OVRManager] InputFocusLost event
+03-19 14:40:42.396  8499  8522 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:40:42.396  8499  8522 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:40:42.396  8499  8522 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:40:42.396  8499  8522 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:40:42.396  8499  8522 I Unity   : OVRManager:Update() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1585)
+03-19 14:40:42.396  8499  8522 I Unity   :
+03-19 14:40:42.396  8499  8522 I Unity   : (Filename: D Line: 0)
+03-19 14:40:42.396  8499  8522 I Unity   :
+03-19 14:40:42.432  8499  8499 I Unity   : windowFocusChanged: false
+03-19 14:40:42.453  8499  8522 I Unity   : [OVRManager] OnApplicationFocus(false)
+03-19 14:40:42.453  8499  8522 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:40:42.453  8499  8522 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:40:42.453  8499  8522 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:40:42.453  8499  8522 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:40:42.453  8499  8522 I Unity   : OVRManager:OnApplicationFocus(Boolean) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1843)
+03-19 14:40:42.453  8499  8522 I Unity   :
+03-19 14:40:42.453  8499  8522 I Unity   : (Filename: D Line: 0)
+03-19 14:40:42.453  8499  8522 I Unity   :
+03-19 14:40:44.425  8499  8499 I Unity   : onPause
+03-19 14:40:44.444  8499  8522 I Unity   : [OVRManager] OnApplicationPause(true)
+03-19 14:40:44.444  8499  8522 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:40:44.444  8499  8522 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:40:44.444  8499  8522 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:40:44.444  8499  8522 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:40:44.444  8499  8522 I Unity   : OVRManager:OnApplicationPause(Boolean) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1825)
+03-19 14:40:44.444  8499  8522 I Unity   :
+03-19 14:40:44.444  8499  8522 I Unity   : (Filename: D Line: 0)
+03-19 14:40:44.444  8499  8522 I Unity   :
+03-19 14:40:44.486  8499  8548 I VrRuntimeClient: APP ACTIVITY CLASS = com.unity3d.player.UnityPlayerActivity
+03-19 14:40:44.582  8499  8548 D UnityVolumeReceiver: Unregistering volume receiver
+03-19 14:40:44.586  8499  8548 D UnityBatteryReceiver: Unregistering battery receiver
+03-19 14:40:44.780  8499  8499 D ContextHelper: shouldSkipFinish: activity=com.unity3d.player.UnityPlayerActivity@e2fa0db
+03-19 14:40:44.804  8499  8499 D ContextHelper: activity=com.unity3d.player.UnityPlayerActivity@e2fa0db, resumed=false
+03-19 14:40:44.813  8499  8499 D ContextHelper: Calling finish() on com.unity3d.player.UnityPlayerActivity@e2fa0db
+03-19 14:40:45.472  8499  8522 D Unity   : SetWindow 0 0x0
+03-19 14:40:46.068  8499  8499 I Unity   : onDestroy
+03-19 14:40:48.295  1029  1125 W InputDispatcher: channel '2e41b8c com.musictribe.Roomviewer/com.unity3d.player.UnityPlayerActivity (server)' ~ Consumer closed input channel or an error occurred.  events=0x9
+03-19 14:40:48.295  1029  1125 E InputDispatcher: channel '2e41b8c com.musictribe.Roomviewer/com.unity3d.player.UnityPlayerActivity (server)' ~ Channel is unrecoverably broken and will be disposed!
+03-19 14:40:48.299  1029  6387 I WindowManager: WIN DEATH: Window{2e41b8c u0 com.musictribe.Roomviewer/com.unity3d.player.UnityPlayerActivity}
+03-19 14:40:48.300  1029  6387 W InputDispatcher: Attempted to unregister already unregistered input channel '2e41b8c com.musictribe.Roomviewer/com.unity3d.player.UnityPlayerActivity (server)'
+03-19 14:40:59.712  2702  2757 D [SEO] ShellApplication: startActivityFromRecents: Intent { act=android.intent.action.MAIN cat=[android.intent.category.INFO] flg=0x10010000 pkg=com.musictribe.Roomviewer cmp=com.musictribe.Roomviewer/com.unity3d.player.UnityPlayerActivity (has extras) }
+03-19 14:40:59.713  2702  2757 D [SEO] ShellApplication: startActivity Intent { act=android.intent.action.MAIN cat=[android.intent.category.INFO] flg=0x10010000 pkg=com.musictribe.Roomviewer cmp=com.musictribe.Roomviewer/com.unity3d.player.UnityPlayerActivity (has extras) }
+03-19 14:40:59.714  1029  6387 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.INFO] flg=0x10010000 pkg=com.musictribe.Roomviewer cmp=com.musictribe.Roomviewer/com.unity3d.player.UnityPlayerActivity (has extras)} from uid 10020
+03-19 14:40:59.823  1029  1063 I ActivityManager: Start proc 16603:com.musictribe.Roomviewer/u0a115 for activity {com.musictribe.Roomviewer/com.unity3d.player.UnityPlayerActivity}
+03-19 14:41:00.045 16603 16603 D Unity   : CommandLine:
+03-19 14:41:00.056 16603 16603 I Unity   : onResume
+03-19 14:41:00.080 16603 16645 D Unity   : SetWindow 0 0xd7eee008
+03-19 14:41:00.080 16603 16645 D Unity   : SetWindow 0 0xd7eee008
+03-19 14:41:00.086  1029  1061 I ActivityTaskManager: Displayed com.musictribe.Roomviewer/com.unity3d.player.UnityPlayerActivity: +367ms
+03-19 14:41:00.578 16603 16603 I Unity   : windowFocusChanged: true
+03-19 14:41:00.609 16603 16645 D Unity   : Enabling Unity systrace
+03-19 14:41:00.624 16603 16645 D Unity   : [VFS] Mount /data/app/com.musictribe.Roomviewer-wKH3UtCz6mAqX1K204iH-w==/base.apk
+03-19 14:41:00.627 16603 16645 D Unity   : Loading player data from /data/app/com.musictribe.Roomviewer-wKH3UtCz6mAqX1K204iH-w==/base.apk/assets/bin/Data/data.unity3d
+03-19 14:41:00.638 16603 16645 I Unity   : SystemInfo CPU = ARM64 FP ASIMD AES, Cores = 3, Memory = 5842mb
+03-19 14:41:00.638 16603 16645 I Unity   : SystemInfo ARM big.LITTLE configuration: 3 big (mask: 0x70), 0 little (mask: 0x0)
+03-19 14:41:00.638 16603 16645 I Unity   : XR UsableCoreMask: 0x70
+03-19 14:41:00.639 16603 16645 I Unity   : ApplicationInfo com.musictribe.Roomviewer version 2.1 build f95d78dc-aea5-4aaa-883a-ef0ed7bc4cdb
+03-19 14:41:00.639 16603 16645 I Unity   : Built from '2019.3/staging' branch, Version '2019.3.6f1 (5c3fb0a11183)', Build type 'Development', Scripting Backend 'mono', CPU 'armeabi-v7a', Stripping 'Disabled'
+03-19 14:41:00.644 16603 16645 D Unity   : Mono path[0] = '/data/app/com.musictribe.Roomviewer-wKH3UtCz6mAqX1K204iH-w==/base.apk/assets/bin/Data/Managed'
+03-19 14:41:00.644 16603 16645 D Unity   : Mono config path = 'assets/bin/Data/Managed/etc'
+03-19 14:41:00.644 16603 16645 D Unity   : PlayerConnection initialized from /data/app/com.musictribe.Roomviewer-wKH3UtCz6mAqX1K204iH-w==/base.apk/assets/bin/Data (debug = 0)
+03-19 14:41:00.645 16603 16645 D Unity   : PlayerConnection initialized network socket : 0.0.0.0 55076
+03-19 14:41:00.645 16603 16645 D Unity   : PlayerConnection initialized unix socket : Unity-com.musictribe.Roomviewer
+03-19 14:41:00.646 16603 16645 D Unity   : Multi-casting "[IP] 192.168.0.199 [Port] 55076 [Flags] 2 [Guid] 3169980258 [EditorId] 3969928282 [Version] 1048832 [Id] AndroidPlayer(Oculus_Quest@192.168.0.199) [Debug] 0 [PackageName] AndroidPlayer [ProjectName] Projects" to [225.0.0.222:54997]...
+03-19 14:41:00.646 16603 16645 D Unity   : Started listening to [0.0.0.0:55076]
+03-19 14:41:00.749 16603 16645 D Unity   : [EGL] Attaching window :0xd7eee008
+03-19 14:41:00.750 16603 16645 D Unity   : InitializeScriptEngine OK (0xdc651f00)
+03-19 14:41:00.750 16603 16645 D Unity   : PlayerConnection already initialized - listening to [0.0.0.0:55076]
+03-19 14:41:00.759 16603 16645 I chatty  : uid=10115(com.musictribe.Roomviewer) UnityMain identical 14 lines
+03-19 14:41:00.767 16603 16645 D Unity   : Loading player data from assets/bin/Data/data.unity3d
+03-19 14:41:00.772 16603 16645 D Unity   : Unable to lookup library path for 'libaudioplugin_phonon', native render plugin support disabled.
+03-19 14:41:00.773 16603 16645 E Unity   : Unable to find libaudioplugin_phonon
+03-19 14:41:00.778 16603 16645 D Unity   : Unable to lookup library path for 'libAudioPluginOculusSpatializer', native render plugin support disabled.
+03-19 14:41:00.779 16603 16645 E Unity   : Unable to find libAudioPluginOculusSpatializer
+03-19 14:41:00.781 16603 16645 D Unity   : Unable to lookup library path for 'libphonon', native render plugin support disabled.
+03-19 14:41:00.782 16603 16645 E Unity   : Unable to find libphonon
+03-19 14:41:00.784 16603 16645 D Unity   : Unable to lookup library path for 'android-support-v4', native render plugin support disabled.
+03-19 14:41:00.785 16603 16645 E Unity   : Unable to find android-support-v4
+03-19 14:41:00.791 16603 16645 D Unity   : Unable to lookup library path for 'com.android.support.support-v4-26.1.0', native render plugin support disabled.
+03-19 14:41:00.792 16603 16645 E Unity   : Unable to find com.android.support.support-v4-26.1.0
+03-19 14:41:00.793 16603 16645 D Unity   : PlayerInitEngineNoGraphics OK
+03-19 14:41:00.793 16603 16645 D Unity   : AndroidGraphics::Startup window =  0xd7eee008
+03-19 14:41:00.793 16603 16645 D Unity   : [EGL] Attaching window :0xd7eee008
+03-19 14:41:00.796 16603 16645 D Unity   : [Subsystems] Discovering subsystems at path assets/bin/Data/UnitySubsystems
+03-19 14:41:00.807 16603 16645 D Unity   : [EGL] Request: ES 3.2 RGB0 000 0/0
+03-19 14:41:00.807 16603 16645 D Unity   : [EGL] Checking ES 3.2 support...
+03-19 14:41:00.808 16603 16645 D Unity   : [EGL] ES 3.2 support detected
+03-19 14:41:00.808 16603 16645 D Unity   : [EGL] Found: ID[1] ES 3.2 RGB16 565 0/0
+03-19 14:41:00.808 16603 16645 D Unity   : GfxDevice: creating device client; threaded=1
+03-19 14:41:00.808 16603 16645 D Unity   : [EGL] Request: ES 3.2 RGB0 000 0/0
+03-19 14:41:00.809 16603 16645 D Unity   : [EGL] Found: ID[1] ES 3.2 RGB16 565 0/0
+03-19 14:41:00.809 16603 16645 D Unity   : [EGL] Request: ES 3.0 RGB16 565 0/0
+03-19 14:41:00.810 16603 16645 D Unity   : [EGL] Found: ID[1] ES 3.0 RGB16 565 0/0
+03-19 14:41:00.812 16603 16645 D Unity   : ANativeWindow: (3664/1920) RequestedResolution: (0/0) RenderingResolution: (0/0) EGLSurface: (3664/1920)
+03-19 14:41:00.817 16603 16645 D Unity   : Renderer: Adreno (TM) 650
+03-19 14:41:00.817 16603 16645 D Unity   : Vendor:   Qualcomm
+03-19 14:41:00.817 16603 16645 D Unity   : Version:  OpenGL ES 3.2 V@0529.0 (GIT@09c6a36, I5e696c022b, 1607413933) (Date:12/07/20)
+03-19 14:41:00.817 16603 16645 D Unity   : GLES:     3
+03-19 14:41:00.817 16603 16645 D Unity   :  GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_EGL_sync GL_OES_vertex_half_float GL_OES_framebuffer_object GL_OES_rgb8_rgba8 GL_OES_compressed_ETC1_RGB8_texture GL_AMD_compressed_ATC_texture GL_KHR_texture_compression_astc_ldr GL_KHR_texture_compression_astc_hdr GL_OES_texture_compression_astc GL_OES_texture_npot GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_read_format_bgra GL_OES_texture_3D GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_QCOM_alpha_test GL_OES_depth24 GL_OES_packed_depth_stencil GL_OES_depth_texture GL_OES_depth_texture_cube_map GL_EXT_sRGB GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_EXT_texture_type_2_10_10_10_REV GL_EXT_texture_sRGB_decode GL_EXT_texture_format_sRGB_override GL_OES_element_index_uint GL_EXT_copy_image GL_EXT_geometry_shader GL_EXT_tessellation_shader GL_OES_texture_stencil8 GL_EXT_shader_io_blocks GL_OES_shader_image_atomic GL_OES_sample_variables GL_EXT_texture_b
+03-19 14:41:00.817 16603 16645 D Unity   : order_clamp GL_EXT_EGL_image_external_wrap_modes GL_EXT_multisampled_render_to_texture GL_EXT_multisampled_render_to_texture2 GL_OES_shader_multisample_interpolation GL_EXT_texture_cube_map_array GL_EXT_draw_buffers_indexed GL_EXT_gpu_shader5 GL_EXT_robustness GL_EXT_texture_buffer GL_EXT_shader_framebuffer_fetch GL_ARM_shader_framebuffer_fetch_depth_stencil GL_OES_texture_storage_multisample_2d_array GL_OES_sample_shading GL_OES_get_program_binary GL_EXT_debug_label GL_KHR_blend_equation_advanced GL_KHR_blend_equation_advanced_coherent GL_QCOM_tiled_rendering GL_ANDROID_extension_pack_es31a GL_EXT_primitive_bounding_box GL_OES_standard_derivatives GL_OES_vertex_array_object GL_EXT_disjoint_timer_query GL_KHR_debug GL_EXT_YUV_target GL_EXT_sRGB_write_control GL_EXT_texture_norm16 GL_EXT_discard_framebuffer GL_OES_surfaceless_context GL_OVR_multiview GL_OVR_multiview2 GL_EXT_texture_sRGB_R8 GL_KHR_no_error GL_EXT_debug_marker GL_OES_EGL_image_external_essl3 GL_OVR_multiview_multisampled_render_to_texture GL_E
+03-19 14:41:00.817 16603 16645 D Unity   : XT_buffer_storage GL_EXT_external_buffer GL_EXT_blit_framebuffer_params GL_EXT_clip_cull_distance GL_EXT_protected_textures GL_EXT_shader_non_constant_global_initializers GL_QCOM_texture_foveated GL_QCOM_texture_foveated_subsampled_layout GL_QCOM_shader_framebuffer_fetch_noncoherent GL_QCOM_shader_framebuffer_fetch_rate GL_EXT_memory_object GL_EXT_memory_object_fd GL_EXT_EGL_image_array GL_NV_shader_noperspective_interpolation GL_KHR_robust_buffer_access_behavior GL_EXT_EGL_image_storage GL_EXT_blend_func_extended GL_EXT_clip_control GL_OES_texture_view GL_EXT_fragment_invocation_density GL_QCOM_motion_estimation GL_QCOM_validate_shader_binary GL_QCOM_YUV_texture_gather
+03-19 14:41:00.823 16603 16645 D Unity   : OPENGL LOG: Creating OpenGL ES 3.2 graphics device ; Context level  <OpenGL ES 3.2> ; Context handle -1009790656
+03-19 14:41:00.823 16603 16645 D Unity   : [EGL] Attaching window :0xd7eee008
+03-19 14:41:00.824 16603 16645 D Unity   : Requested framebuffer: resolution[3664x1920], rgba[5/6/5/0], depth+stencil[on], samples[1]
+03-19 14:41:00.824 16603 16645 D Unity   : Created framebuffer: resolution[3664x1920], rgba[5/6/5/0], depth+stencil[24/8], samples[0]
+03-19 14:41:00.824 16603 16645 D Unity   : [EGL] Attaching window :0xd7eee008
+03-19 14:41:00.824 16603 16645 D Unity   : Initialize engine version: 2019.3.6f1 (5c3fb0a11183)
+03-19 14:41:00.877 16603 16645 D Unity   : Begin MonoManager ReloadAssembly
+03-19 14:41:00.880 16603 16645 D Unity   : Script Patching: Patch files are not available, '/storage/emulated/0/Android/data/com.musictribe.Roomviewer/cache/ScriptOnly/2019.3.6f1/mono/patch.config' is missing.
+03-19 14:41:01.484 16603 16645 D Unity   : - Completed reload, in  0.606 seconds
+03-19 14:41:02.034 16603 16645 I Unity   : XRGeneral Settings awakening...
+03-19 14:41:02.034 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:02.034 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:02.034 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:02.034 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:02.034 16603 16645 I Unity   : UnityEngine.XR.Management.XRGeneralSettings:Awake() (at D:\Work\Android_Quest_Imhotep\unity_main\Library\PackageCache\com.unity.xr.management@3.2.15\Runtime\XRGeneralSettings.cs:91)
+03-19 14:41:02.034 16603 16645 I Unity   :
+03-19 14:41:02.034 16603 16645 I Unity   : (Filename: D Line: 0)
+03-19 14:41:02.034 16603 16645 I Unity   :
+03-19 14:41:02.039 16603 16645 D Unity   : PlayerInitEngineGraphics OK
+03-19 14:41:02.041 16603 16645 D Unity   : Found 1 native sensors
+03-19 14:41:02.070 16603 16645 I OVRPlugin: CompositorVRAPI::PreInitialize: use default UnityPlayer activity
+03-19 14:41:02.127 16603 16645 D VrApi   : isActivityFocusAware context = com.unity3d.player.UnityPlayerActivity@e2fa0db
+03-19 14:41:02.128 16603 16645 D FocusAwarenessUtil: componentName non null : com.musictribe.Roomviewer/com.unity3d.player.UnityPlayerActivity
+03-19 14:41:02.164 16603 16645 D VrRuntimeClient: VrRuntimeClient: initialize. inContext: com.unity3d.player.UnityPlayerActivity@e2fa0db
+03-19 14:41:02.174 16603 16645 D RuntimeIPCServiceClient: initialize. inContext: com.unity3d.player.UnityPlayerActivity@e2fa0dbprocessName: com.musictribe.Roomviewer
+03-19 14:41:02.701 16603 16645 D VrApi   : isActivityFocusAware context = com.unity3d.player.UnityPlayerActivity@e2fa0db
+03-19 14:41:02.703 16603 16645 D FocusAwarenessUtil: componentName non null : com.musictribe.Roomviewer/com.unity3d.player.UnityPlayerActivity
+03-19 14:41:02.729 16603 16645 D VrRuntimeClient: VrRuntimeClient: initialize. inContext: com.unity3d.player.UnityPlayerActivity@e2fa0db
+03-19 14:41:02.737 16603 16645 D RuntimeIPCServiceClient: initialize. inContext: com.unity3d.player.UnityPlayerActivity@e2fa0dbprocessName: com.musictribe.Roomviewer
+03-19 14:41:03.528 16603 16672 I VrRuntimeClient: APP ACTIVITY CLASS = com.unity3d.player.UnityPlayerActivity
+03-19 14:41:03.556 16603 16672 D UnityVolumeReceiver: Registering volume receiver
+03-19 14:41:03.559 16603 16672 D UnityVolumeReceiver: startVolumeReceiver: 14
+03-19 14:41:03.561 16603 16672 D UnityBatteryReceiver: Registering battery receiver
+03-19 14:41:03.564 16603 16672 W Unity   : Oculus Patched Thread Core Affinity on threads: 16645 and 16672
+03-19 14:41:03.564 16603 16672 W Unity   : (Filename: ./Modules/VR/Oculus/VROculus.cpp Line: 1026)
+03-19 14:41:03.564 16603 16672 W Unity   :
+03-19 14:41:03.567 16603 16645 I Unity   : Created eye textures with a "separate" layout.  The "multi-pass" stereo mode will be used.
+03-19 14:41:03.567 16603 16645 I Unity   :
+03-19 14:41:03.664 16603 16645 D Unity   : Choreographer available: Enabling VSYNC timing
+03-19 14:41:08.216 16603 16645 D Unity   : UnloadTime: 1.676407 ms
+03-19 14:41:08.221 16603 16645 D Unity   : UUID: baeb0b675b499175 => faa00c1c161404881c78631582c7f880
+03-19 14:41:08.803 16603 16645 I Unity   : 404 Not Found
+03-19 14:41:08.803 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:08.803 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:08.803 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:08.803 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:08.803 16603 16645 I Unity   : SteamAudio.Scene:SceneFileName(String) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\Scene.cs:402)
+03-19 14:41:08.803 16603 16645 I Unity   : SteamAudio.Scene:Create(ComputeDevice, SimulationSettings, IntPtr) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\Scene.cs:226)
+03-19 14:41:08.803 16603 16645 I Unity   : SteamAudio.GameEngineState:Initialize(SimulationSettingsValue, ComponentCache, GameEngineStateInitReason) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\GameEngineState.cs:169)
+03-19 14:41:08.803 16603 16645 I Unity   : SteamAudio.ManagerData:Initialize(GameEngineStateInitReason, AudioEngine, SimulationSettingsValue, String[]) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\ManagerData.cs:25)
+03-19 14:41:08.803 16603 16645 I Unity   : SteamAudio.SteamAudioManager:Initialize(GameEngineStateInitReason) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\SteamAudioManag
+03-19 14:41:08.805 16603 16645 E Unity   : Could not load Audio scene file  /storage/emulated/0/Android/data/com.musictribe.Roomviewer/cache/Logic.phononscene, IGNORE THIS
+03-19 14:41:08.805 16603 16645 E Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:08.805 16603 16645 E Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:08.805 16603 16645 E Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:08.805 16603 16645 E Unity   : UnityEngine.Debug:LogError(Object)
+03-19 14:41:08.805 16603 16645 E Unity   : SteamAudio.Scene:Create(ComputeDevice, SimulationSettings, IntPtr) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\Scene.cs:234)
+03-19 14:41:08.805 16603 16645 E Unity   : SteamAudio.GameEngineState:Initialize(SimulationSettingsValue, ComponentCache, GameEngineStateInitReason) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\GameEngineState.cs:169)
+03-19 14:41:08.805 16603 16645 E Unity   : SteamAudio.ManagerData:Initialize(GameEngineStateInitReason, AudioEngine, SimulationSettingsValue, String[]) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\ManagerData.cs:25)
+03-19 14:41:08.805 16603 16645 E Unity   : SteamAudio.SteamAudioManager:Initialize(GameEngineStateInitReason) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\SteamAudioM
+03-19 14:41:09.461 16603 16645 E Unity   : Fail to open Noise 3D Data
+03-19 14:41:09.461 16603 16645 E Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:09.461 16603 16645 E Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:09.461 16603 16645 E Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:09.461 16603 16645 E Unity   : UnityEngine.Debug:LogError(Object)
+03-19 14:41:09.461 16603 16645 E Unity   : VLB.Noise3D:LoadTexture3D(TextAsset, Int32) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Plugins\VolumetricLightBeam\Scripts\Noise3D.cs:92)
+03-19 14:41:09.461 16603 16645 E Unity   : VLB.Noise3D:LoadIfNeeded() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Plugins\VolumetricLightBeam\Scripts\Noise3D.cs:79)
+03-19 14:41:09.461 16603 16645 E Unity   : VLB.Noise3D:OnStartUp() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Plugins\VolumetricLightBeam\Scripts\Noise3D.cs:57)
+03-19 14:41:09.461 16603 16645 E Unity   :
+03-19 14:41:09.461 16603 16645 E Unity   : (Filename: D Line: 0)
+03-19 14:41:09.461 16603 16645 E Unity   :
+03-19 14:41:09.495 16603 16603 I Unity   : onPause
+03-19 14:41:09.602 16603 16742 D Unity   : Setting up 1 worker threads for Enlighten.
+03-19 14:41:09.602 16603 16743 D Unity   :   Thread -> id: ffffffff9c1a9230 -> priority: 1
+03-19 14:41:09.606 16603 16672 I VrRuntimeClient: APP ACTIVITY CLASS = com.unity3d.player.UnityPlayerActivity
+03-19 14:41:09.636 16603 16672 D UnityVolumeReceiver: Unregistering volume receiver
+03-19 14:41:09.637 16603 16672 D UnityBatteryReceiver: Unregistering battery receiver
+03-19 14:41:09.666 16603 16603 I Unity   : windowFocusChanged: false
+03-19 14:41:10.044 16603 16603 I Unity   : android.permission.ACCESS_FINE_LOCATION denied.
+03-19 14:41:10.046 16603 16603 I Unity   : onResume
+03-19 14:41:10.055 16603 16603 I Unity   : windowFocusChanged: true
+03-19 14:41:10.055 16603 16645 D Unity   : Error setting CPU thread affinity, errno=22, tid=16672
+03-19 14:41:10.091 16603 16645 D Unity   : Choreographer available: Enabling VSYNC timing
+03-19 14:41:10.112 16603 16672 I VrRuntimeClient: APP ACTIVITY CLASS = com.unity3d.player.UnityPlayerActivity
+03-19 14:41:10.206 16603 16672 D UnityVolumeReceiver: Registering volume receiver
+03-19 14:41:10.211 16603 16672 D UnityVolumeReceiver: startVolumeReceiver: 14
+03-19 14:41:10.212 16603 16672 D UnityBatteryReceiver: Registering battery receiver
+03-19 14:41:10.502 16603 16645 I Unity   : StreamingAssetsContents loaded in :100 files
+03-19 14:41:10.502 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:10.502 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:10.502 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:10.502 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:10.502 16603 16645 I Unity   : StreamingAssetsContents:<.ctor>b__7_0(List`1) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\StreamingAssetsContents.cs:38)
+03-19 14:41:10.502 16603 16645 I Unity   : JsonPlugin.<GetRequest>d__2`1:MoveNext() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Json\Libraries\AndroidLibrary.cs:55)
+03-19 14:41:10.502 16603 16645 I Unity   : UnityEngine.SetupCoroutine:InvokeMoveNext(IEnumerator, IntPtr) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/Coroutines.cs:17)
+03-19 14:41:10.502 16603 16645 I Unity   :
+03-19 14:41:10.502 16603 16645 I Unity   : (Filename: D Line: 0)
+03-19 14:41:10.502 16603 16645 I Unity   :
+03-19 14:41:10.908 16603 16645 I Unity   : GetFile http://ec2-3-8-209-49.eu-west-2.compute.amazonaws.com/builder/v1/manifest/Users_NetworkingUsers
+03-19 14:41:10.908 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:10.908 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:10.908 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:10.908 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:10.908 16603 16645 I Unity   : <InternalLoadManifestJsonFile>d__51:MoveNext() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Networking.cs:429)
+03-19 14:41:10.908 16603 16645 I Unity   : UnityEngine.SetupCoroutine:InvokeMoveNext(IEnumerator, IntPtr) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/Coroutines.cs:17)
+03-19 14:41:10.908 16603 16645 I Unity   :
+03-19 14:41:10.908 16603 16645 I Unity   : (Filename: D Line: 0)
+03-19 14:41:10.908 16603 16645 I Unity   :
+03-19 14:41:10.944 16603 16645 E Unity   : CurrentUser  Fred, IGNORE THIS
+03-19 14:41:10.944 16603 16645 E Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:10.944 16603 16645 E Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:10.944 16603 16645 E Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:10.944 16603 16645 E Unity   : UnityEngine.Debug:LogError(Object)
+03-19 14:41:10.944 16603 16645 E Unity   : NetworkingUsers:DebugCurrentUser() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\NetworkingUsers.cs:131)
+03-19 14:41:10.944 16603 16645 E Unity   : NetworkingUsers:SetCurrentUserFromSystem() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\NetworkingUsers.cs:100)
+03-19 14:41:10.944 16603 16645 E Unity   : NetworkingUsers:<.ctor>b__8_0(NetworkingUserList) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\NetworkingUsers.cs:42)
+03-19 14:41:10.944 16603 16645 E Unity   : <>c__DisplayClass41_0`1:<LoadManifestJsonFile>b__1(NetworkingUserList) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Networking.cs:219)
+03-19 14:41:10.944 16603 16645 E Unity   : <>c__DisplayClass6_0`1:<CreateJobWithResult>b__1() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Threading\Arbiter.cs:83)
+03-19 14:41:10.944 16603 16645 E Unity   : Arbiter:CreateJob(Action, Action, String) (at D:\Work\Android_Quest_Imhotep
+03-19 14:41:11.251 16603 16645 I Unity   : GetJsonFile  http://ec2-3-8-209-49.eu-west-2.compute.amazonaws.com/builder/v1/asset/bundles/android/master.json
+03-19 14:41:11.251 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:11.251 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:11.251 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:11.251 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:11.251 16603 16645 I Unity   : <InternalLoadJsonFile>d__54:MoveNext() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Networking.cs:580)
+03-19 14:41:11.251 16603 16645 I Unity   : UnityEngine.SetupCoroutine:InvokeMoveNext(IEnumerator, IntPtr) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/Coroutines.cs:17)
+03-19 14:41:11.251 16603 16645 I Unity   :
+03-19 14:41:11.251 16603 16645 I Unity   : (Filename: D Line: 0)
+03-19 14:41:11.251 16603 16645 I Unity   :
+03-19 14:41:11.891 16603 16645 W Unity   : VRDevice Oculus cannot be disabled on this platform.
+03-19 14:41:11.891 16603 16645 W Unity   : UnityEngine.XR.XRSettings:set_enabled(Boolean)
+03-19 14:41:11.891 16603 16645 W Unity   : Device:EnableVr(MonoBehaviour, Action) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Device.cs:39)
+03-19 14:41:11.891 16603 16645 W Unity   : Core:<LoadLanguages>b__71_1() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Core.cs:289)
+03-19 14:41:11.891 16603 16645 W Unity   : <WaitForYield>d__15:MoveNext() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Extensions\WaitExtensions.cs:96)
+03-19 14:41:11.891 16603 16645 W Unity   : UnityEngine.SetupCoroutine:InvokeMoveNext(IEnumerator, IntPtr) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/Coroutines.cs:17)
+03-19 14:41:11.891 16603 16645 W Unity   :
+03-19 14:41:11.891 16603 16645 W Unity   : [./Modules/VR/VRModule.cpp line 595]
+03-19 14:41:11.891 16603 16645 W Unity   : (Filename: D Line: 0)
+03-19 14:41:11.891 16603 16645 W Unity   :
+03-19 14:41:11.894 16603 16645 W Unity   : VRDevice Oculus cannot be unloaded on this platform. Requested VRDevice Oculus will not be loaded.
+03-19 14:41:11.894 16603 16645 W Unity   : UnityEngine.XR.XRSettings:LoadDeviceByName(String[])
+03-19 14:41:11.894 16603 16645 W Unity   : UnityEngine.XR.XRSettings:LoadDeviceByName(String) (at /Users/builduser/buildslave/unity/build/Modules/VR/ScriptBindings/XR.bindings.cs:105)
+03-19 14:41:11.894 16603 16645 W Unity   : <>c__DisplayClass8_0:<EnableVr>b__0(String, Action) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Device.cs:47)
+03-19 14:41:11.894 16603 16645 W Unity   : <>c__DisplayClass8_0`1:<List>b__0(Int32, Action) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Action\SequentialAction.cs:56)
+03-19 14:41:11.894 16603 16645 W Unity   : SequentialAction:Tick() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Action\SequentialAction.cs:23)
+03-19 14:41:11.894 16603 16645 W Unity   : SequentialAction:.ctor(Int32, Action`2, Action) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Action\SequentialAction.cs:18)
+03-19 14:41:11.894 16603 16645 W Unity   : SequentialAction:Count(Int32, Action`2, Action) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Action\SequentialAction.cs:44)
+03-19 14:41:11.894 16603 16645 W Unity   : SequentialAction:List(IList`1, Action`
+03-19 14:41:11.897 16603 16645 E Unity   : XRSettings.loadedDeviceName  Oculus, IGNORE THIS
+03-19 14:41:11.897 16603 16645 E Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:11.897 16603 16645 E Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:11.897 16603 16645 E Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:11.897 16603 16645 E Unity   : UnityEngine.Debug:LogError(Object)
+03-19 14:41:11.897 16603 16645 E Unity   : <>c__DisplayClass8_1:<EnableVr>b__1() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Device.cs:50)
+03-19 14:41:11.897 16603 16645 E Unity   : <WaitForYield>d__15:MoveNext() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Extensions\WaitExtensions.cs:96)
+03-19 14:41:11.897 16603 16645 E Unity   : UnityEngine.SetupCoroutine:InvokeMoveNext(IEnumerator, IntPtr) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/Coroutines.cs:17)
+03-19 14:41:11.897 16603 16645 E Unity   :
+03-19 14:41:11.897 16603 16645 E Unity   : (Filename: D Line: 0)
+03-19 14:41:11.897 16603 16645 E Unity   :
+03-19 14:41:11.904 16603 16645 W Unity   : VRDevice Oculus cannot be disabled on this platform.
+03-19 14:41:11.904 16603 16645 W Unity   : UnityEngine.XR.XRSettings:set_enabled(Boolean)
+03-19 14:41:11.904 16603 16645 W Unity   : <>c__DisplayClass8_1:<EnableVr>b__1() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Device.cs:55)
+03-19 14:41:11.904 16603 16645 W Unity   : <WaitForYield>d__15:MoveNext() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Extensions\WaitExtensions.cs:96)
+03-19 14:41:11.904 16603 16645 W Unity   : UnityEngine.SetupCoroutine:InvokeMoveNext(IEnumerator, IntPtr) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/Coroutines.cs:17)
+03-19 14:41:11.904 16603 16645 W Unity   :
+03-19 14:41:11.904 16603 16645 W Unity   : [./Modules/VR/VRModule.cpp line 595]
+03-19 14:41:11.904 16603 16645 W Unity   : (Filename: D Line: 0)
+03-19 14:41:11.904 16603 16645 W Unity   :
+03-19 14:41:11.909 16603 16645 W Unity   : CreateInputType Quest
+03-19 14:41:11.909 16603 16645 W Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:11.909 16603 16645 W Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:11.909 16603 16645 W Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:11.909 16603 16645 W Unity   : UnityEngine.Debug:LogWarning(Object)
+03-19 14:41:11.909 16603 16645 W Unity   : InputManagerVR:CreateInputType(PlatformType) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Input\InputManagerVR.cs:360)
+03-19 14:41:11.909 16603 16645 W Unity   : InputManagerVR:Initialise(Action) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Input\InputManagerVR.cs:34)
+03-19 14:41:11.909 16603 16645 W Unity   : Core:InitialiseInputSystems() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Core.cs:303)
+03-19 14:41:11.909 16603 16645 W Unity   : <>c__DisplayClass8_1:<EnableVr>b__1() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Device.cs:56)
+03-19 14:41:11.909 16603 16645 W Unity   : <WaitForYield>d__15:MoveNext() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Extensions\WaitExtensions.cs:96)
+03-19 14:41:11.909 16603 16645 W Unity   : UnityEngine.SetupCoroutine:InvokeMoveNext(IEnumerator, IntPtr) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/Coroutines.cs:17)
+03-19 14:41:11.909 16603 16645 W Unity   :
+03-19 14:41:11.909 16603 16645 W Unity   : (Filename:
+03-19 14:41:11.918 16603 16645 I Unity   : OculusInput
+03-19 14:41:11.918 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:11.918 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:11.918 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:11.918 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:11.918 16603 16645 I Unity   : OculusInput:Initialise(Action) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Input\InputSystems\Oculus\OculusInput.cs:9)
+03-19 14:41:11.918 16603 16645 I Unity   : InputManagerVR:Initialise(Action) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Input\InputManagerVR.cs:51)
+03-19 14:41:11.918 16603 16645 I Unity   : Core:InitialiseInputSystems() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Core.cs:303)
+03-19 14:41:11.918 16603 16645 I Unity   : <>c__DisplayClass8_1:<EnableVr>b__1() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Device.cs:56)
+03-19 14:41:11.918 16603 16645 I Unity   : <WaitForYield>d__15:MoveNext() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Extensions\WaitExtensions.cs:96)
+03-19 14:41:11.918 16603 16645 I Unity   : UnityEngine.SetupCoroutine:InvokeMoveNext(IEnumerator, IntPtr) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/Coroutines.cs:17)
+03-19 14:41:11.918 16603 16645 I Unity   :
+03-19 14:41:11.918 16603 16645 I Unity   : (Filename: D Line: 0)
+03-19 14:41:11.918 16603 16645 I Unity   :
+03-19 14:41:12.424 16603 16645 I Unity   : Unity v2019.3.6f1, Oculus Utilities v1.45.0, OVRPlugin v1.45.0, SDK v1.1.30.0.
+03-19 14:41:12.424 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:12.424 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:12.424 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:12.424 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:12.424 16603 16645 I Unity   : OVRManager:InitOVRManager() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1166)
+03-19 14:41:12.424 16603 16645 I Unity   : OVRManager:Awake() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1307)
+03-19 14:41:12.424 16603 16645 I Unity   : UnityEngine.Object:Internal_CloneSingle(Object)
+03-19 14:41:12.424 16603 16645 I Unity   : UnityEngine.Object:Instantiate(Object) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/UnityEngineObject.bindings.cs:232)
+03-19 14:41:12.424 16603 16645 I Unity   : UnityEngine.Object:Instantiate(Object, Transform, Boolean) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/UnityEngineObject.bindings.cs:251)
+03-19 14:41:12.424 16603 16645 I Unity   : UnityEngine.Object:Instantiate(GameObject, Transform, Boolean) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/UnityEngine
+03-19 14:41:12.440 16603 16645 I Unity   : OVRPlugin.Media initialized
+03-19 14:41:12.440 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:12.440 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:12.440 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:12.440 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:12.440 16603 16645 I Unity   : OVRManager:StaticInitializeMixedRealityCapture(OVRManager) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1886)
+03-19 14:41:12.440 16603 16645 I Unity   : OVRManager:InitOVRManager() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1261)
+03-19 14:41:12.440 16603 16645 I Unity   : OVRManager:Awake() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1307)
+03-19 14:41:12.440 16603 16645 I Unity   : UnityEngine.Object:Internal_CloneSingle(Object)
+03-19 14:41:12.440 16603 16645 I Unity   : UnityEngine.Object:Instantiate(Object) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/UnityEngineObject.bindings.cs:232)
+03-19 14:41:12.440 16603 16645 I Unity   : UnityEngine.Object:Instantiate(Object, Transform, Boolean) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/UnityEngineObject.bindings.cs:251)
+03-19 14:41:12.440 16603 16645 I Unity   : UnityEngine.Object:Instantiate(GameObject, Tr
+03-19 14:41:12.444 16603 16645 I Unity   : [MRC] SetMrcAudioSampleRate(48000)
+03-19 14:41:12.444 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:12.444 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:12.444 16603 16645 I Unity   : UnityEngine.Logger:LogFormat(LogType, String, Object[])
+03-19 14:41:12.444 16603 16645 I Unity   : UnityEngine.Debug:LogFormat(String, Object[])
+03-19 14:41:12.444 16603 16645 I Unity   : OVRManager:StaticInitializeMixedRealityCapture(OVRManager) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1890)
+03-19 14:41:12.444 16603 16645 I Unity   : OVRManager:InitOVRManager() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1261)
+03-19 14:41:12.444 16603 16645 I Unity   : OVRManager:Awake() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1307)
+03-19 14:41:12.444 16603 16645 I Unity   : UnityEngine.Object:Internal_CloneSingle(Object)
+03-19 14:41:12.444 16603 16645 I Unity   : UnityEngine.Object:Instantiate(Object) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/UnityEngineObject.bindings.cs:232)
+03-19 14:41:12.444 16603 16645 I Unity   : UnityEngine.Object:Instantiate(Object, Transform, Boolean) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/UnityEngineObject.bindings.cs:251)
+03-19 14:41:12.444 16603 16645 I Unity   : UnityE
+03-19 14:41:12.449 16603 16645 I Unity   : [MRC] Active InputVideoBufferType:TextureHandle
+03-19 14:41:12.449 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:12.449 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:12.449 16603 16645 I Unity   : UnityEngine.Logger:LogFormat(LogType, String, Object[])
+03-19 14:41:12.449 16603 16645 I Unity   : UnityEngine.Debug:LogFormat(String, Object[])
+03-19 14:41:12.449 16603 16645 I Unity   : OVRManager:StaticInitializeMixedRealityCapture(OVRManager) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1892)
+03-19 14:41:12.449 16603 16645 I Unity   : OVRManager:InitOVRManager() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1261)
+03-19 14:41:12.449 16603 16645 I Unity   : OVRManager:Awake() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1307)
+03-19 14:41:12.449 16603 16645 I Unity   : UnityEngine.Object:Internal_CloneSingle(Object)
+03-19 14:41:12.449 16603 16645 I Unity   : UnityEngine.Object:Instantiate(Object) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/UnityEngineObject.bindings.cs:232)
+03-19 14:41:12.449 16603 16645 I Unity   : UnityEngine.Object:Instantiate(Object, Transform, Boolean) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/UnityEngineObject.bindings.c
+03-19 14:41:12.453 16603 16645 I Unity   : [MRC] ActivateMode: Automatic
+03-19 14:41:12.453 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:12.453 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:12.453 16603 16645 I Unity   : UnityEngine.Logger:LogFormat(LogType, String, Object[])
+03-19 14:41:12.453 16603 16645 I Unity   : UnityEngine.Debug:LogFormat(String, Object[])
+03-19 14:41:12.453 16603 16645 I Unity   : OVRManager:StaticInitializeMixedRealityCapture(OVRManager) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1896)
+03-19 14:41:12.453 16603 16645 I Unity   : OVRManager:InitOVRManager() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1261)
+03-19 14:41:12.453 16603 16645 I Unity   : OVRManager:Awake() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1307)
+03-19 14:41:12.453 16603 16645 I Unity   : UnityEngine.Object:Internal_CloneSingle(Object)
+03-19 14:41:12.453 16603 16645 I Unity   : UnityEngine.Object:Instantiate(Object) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/UnityEngineObject.bindings.cs:232)
+03-19 14:41:12.453 16603 16645 I Unity   : UnityEngine.Object:Instantiate(Object, Transform, Boolean) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/UnityEngineObject.bindings.cs:251)
+03-19 14:41:12.453 16603 16645 I Unity   : UnityEngine
+03-19 14:41:12.514 16603 16645 I Unity   : TcpListener started. Local endpoint: 0.0.0.0:32419
+03-19 14:41:12.514 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:12.514 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:12.514 16603 16645 I Unity   : UnityEngine.Logger:LogFormat(LogType, String, Object[])
+03-19 14:41:12.514 16603 16645 I Unity   : UnityEngine.Debug:LogFormat(String, Object[])
+03-19 14:41:12.514 16603 16645 I Unity   : OVRNetworkTcpServer:StartListening(Int32) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\Util\OVRNetwork.cs:99)
+03-19 14:41:12.514 16603 16645 I Unity   : OVRSystemPerfMetricsTcpServer:OnEnable() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\Util\OVRSystemPerfMetrics.cs:190)
+03-19 14:41:12.514 16603 16645 I Unity   : UnityEngine.GameObject:Internal_AddComponentWithType(Type)
+03-19 14:41:12.514 16603 16645 I Unity   : UnityEngine.GameObject:AddComponent(Type) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/GameObject.bindings.cs:222)
+03-19 14:41:12.514 16603 16645 I Unity   : UnityEngine.GameObject:AddComponent() (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/GameObject.bindings.cs:227)
+03-19 14:41:12.514 16603 16645 I Unity   : OVRManager:InitOVRManager() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManage
+03-19 14:41:12.517 16603 16645 I Unity   : [OVRNetworkTcpServer] Start Listening on port 32419
+03-19 14:41:12.517 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:12.517 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:12.517 16603 16645 I Unity   : UnityEngine.Logger:LogFormat(LogType, String, Object[])
+03-19 14:41:12.517 16603 16645 I Unity   : UnityEngine.Debug:LogFormat(String, Object[])
+03-19 14:41:12.517 16603 16645 I Unity   : OVRNetworkTcpServer:StartListening(Int32) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\Util\OVRNetwork.cs:111)
+03-19 14:41:12.517 16603 16645 I Unity   : OVRSystemPerfMetricsTcpServer:OnEnable() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\Util\OVRSystemPerfMetrics.cs:190)
+03-19 14:41:12.517 16603 16645 I Unity   : UnityEngine.GameObject:Internal_AddComponentWithType(Type)
+03-19 14:41:12.517 16603 16645 I Unity   : UnityEngine.GameObject:AddComponent(Type) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/GameObject.bindings.cs:222)
+03-19 14:41:12.517 16603 16645 I Unity   : UnityEngine.GameObject:AddComponent() (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/GameObject.bindings.cs:227)
+03-19 14:41:12.517 16603 16645 I Unity   : OVRManager:InitOVRManager() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRMana
+03-19 14:41:12.582 16603 16645 W Unity   : Expected 3 blink materials. Found only 0
+03-19 14:41:12.582 16603 16645 W Unity   :
+03-19 14:41:12.582 16603 16645 W Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:12.582 16603 16645 W Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:12.582 16603 16645 W Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:12.582 16603 16645 W Unity   : UnityEngine.Debug:LogWarning(Object)
+03-19 14:41:12.582 16603 16645 W Unity   : CameraOverlay:Awake() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Input\CameraController\CameraOverlay.cs:54)
+03-19 14:41:12.582 16603 16645 W Unity   : UnityEngine.GameObject:Internal_AddComponentWithType(Type)
+03-19 14:41:12.582 16603 16645 W Unity   : UnityEngine.GameObject:AddComponent(Type) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/GameObject.bindings.cs:222)
+03-19 14:41:12.582 16603 16645 W Unity   : UnityEngine.GameObject:AddComponent() (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/GameObject.bindings.cs:227)
+03-19 14:41:12.582 16603 16645 W Unity   : ComponentExtensions:ForceComponent(GameObject) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Extensions\ComponentExtensions.cs:377)
+03-19 14:41:12.582 16603 16645 W Unity   : CameraControllerVR:SetCamera(Camera, Transform) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Input\CameraController\CameraContr
+03-19 14:41:12.666 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:12.666 16603 16645 D Unity   : Unsupported: 'Unlit/Transparent Colour' - Pass '' has no vertex shader
+03-19 14:41:12.666 16603 16645 D Unity   : ERROR: Shader
+03-19 14:41:12.666 16603 16645 D Unity   : Shader is not supported on this GPU (none of subshaders/fallbacks are suitable)
+03-19 14:41:12.666 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:12.666 16603 16645 D Unity   : Unsupported: 'Unlit/Transparent Colour' - Setting to default shader.
+03-19 14:41:12.678 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:12.678 16603 16645 D Unity   : Unsupported: 'Shader Forge/Controller' - Pass 'FORWARD' has no vertex shader
+03-19 14:41:12.678 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:12.678 16603 16645 D Unity   : Unsupported: 'Shader Forge/Controller' - Pass 'FORWARD_DELTA' has no vertex shader
+03-19 14:41:12.678 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:12.678 16603 16645 D Unity   : Unsupported: 'Shader Forge/Controller' - Pass 'ShadowCaster' has no vertex shader
+03-19 14:41:12.678 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:12.678 16603 16645 D Unity   : Unsupported: 'Shader Forge/Controller' - All passes removed
+03-19 14:41:12.678 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:12.678 16603 16645 D Unity   : Did you use #pragma only_renderers and omit this platform?
+03-19 14:41:12.695 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:12.695 16603 16645 D Unity   : Unsupported: 'Shader Forge/GhostHands' - Pass 'FORWARD' has no vertex shader
+03-19 14:41:12.695 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:12.695 16603 16645 D Unity   : Unsupported: 'Shader Forge/GhostHands' - All passes removed
+03-19 14:41:12.695 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:12.695 16603 16645 D Unity   : Did you use #pragma only_renderers and omit this platform?
+03-19 14:41:12.712 16603 16645 I Unity   : Controller model being added LeftTeleporter
+03-19 14:41:12.712 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:12.712 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:12.712 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:12.712 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:12.712 16603 16645 I Unity   : VRControllerGraphics:CreateAttachments(Handedness) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Input\ControllerVisuals\VRControllerGraphics.cs:145)
+03-19 14:41:12.712 16603 16645 I Unity   : VRControllerGraphics:Initialise(Handedness) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Input\ControllerVisuals\VRControllerGraphics.cs:33)
+03-19 14:41:12.712 16603 16645 I Unity   : ControllerData:.ctor(String, Transform, Transform, Type, Handedness) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Input\InputSystems\ControllerData.cs:86)
+03-19 14:41:12.712 16603 16645 I Unity   : TrackedControllerData:.ctor(String, Transform, Transform, Type, Handedness) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Input\InputSystems\TrackedControllerData.cs:9)
+03-19 14:41:12.712 16603 16645 I Unity   : OculusControllerData:.ctor(Transform, Transform, Controller, String) (at D:\Work\Andro
+03-19 14:41:12.719 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:12.719 16603 16645 D Unity   : Unsupported: 'Unlit/Transparent Texture Colour' - Pass '' has no vertex shader
+03-19 14:41:12.719 16603 16645 D Unity   : ERROR: Shader
+03-19 14:41:12.719 16603 16645 D Unity   : Shader is not supported on this GPU (none of subshaders/fallbacks are suitable)
+03-19 14:41:12.719 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:12.719 16603 16645 D Unity   : Unsupported: 'Unlit/Transparent Texture Colour' - Setting to default shader.
+03-19 14:41:12.780 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:12.780 16603 16645 D Unity   : Unsupported: 'Shader Forge/HandShader' - Pass 'FORWARD' has no vertex shader
+03-19 14:41:12.780 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:12.780 16603 16645 D Unity   : Unsupported: 'Shader Forge/HandShader' - Pass 'FORWARD_DELTA' has no vertex shader
+03-19 14:41:12.780 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:12.780 16603 16645 D Unity   : Unsupported: 'Shader Forge/HandShader' - All passes removed
+03-19 14:41:12.780 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:12.780 16603 16645 D Unity   : Did you use #pragma only_renderers and omit this platform?
+03-19 14:41:12.803 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:12.803 16603 16645 D Unity   : Unsupported: 'Shader Forge/UILaserFX' - Pass 'FORWARD' has no vertex shader
+03-19 14:41:12.803 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:12.803 16603 16645 D Unity   : Unsupported: 'Shader Forge/UILaserFX' - All passes removed
+03-19 14:41:12.803 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:12.803 16603 16645 D Unity   : Did you use #pragma only_renderers and omit this platform?
+03-19 14:41:12.803 16603 16645 D Unity   : ERROR: Shader
+03-19 14:41:12.803 16603 16645 D Unity   : Shader is not supported on this GPU (none of subshaders/fallbacks are suitable)
+03-19 14:41:12.803 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:12.803 16603 16645 D Unity   : Unsupported: 'Shader Forge/UILaserFX' - Setting to default shader.
+03-19 14:41:12.810 16603 16645 I Unity   : Controller model being added LeftHand
+03-19 14:41:12.810 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:12.810 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:12.810 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:12.810 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:12.810 16603 16645 I Unity   : VRControllerGraphics:CreateAttachments(Handedness) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Input\ControllerVisuals\VRControllerGraphics.cs:145)
+03-19 14:41:12.810 16603 16645 I Unity   : VRControllerGraphics:Initialise(Handedness) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Input\ControllerVisuals\VRControllerGraphics.cs:33)
+03-19 14:41:12.810 16603 16645 I Unity   : ControllerData:.ctor(String, Transform, Transform, Type, Handedness) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Input\InputSystems\ControllerData.cs:86)
+03-19 14:41:12.810 16603 16645 I Unity   : TrackedControllerData:.ctor(String, Transform, Transform, Type, Handedness) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Input\InputSystems\TrackedControllerData.cs:9)
+03-19 14:41:12.810 16603 16645 I Unity   : OculusControllerData:.ctor(Transform, Transform, Controller, String) (at D:\Work\Android_Que
+03-19 14:41:12.850 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:12.850 16603 16645 D Unity   : Unsupported: 'Shader Forge/SonarPulse' - Pass '' has no vertex shader
+03-19 14:41:13.121 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:13.121 16603 16645 D Unity   : Unsupported: 'Teleport/Man' - Pass '' has no vertex shader
+03-19 14:41:13.121 16603 16645 D Unity   : ERROR: Shader
+03-19 14:41:13.121 16603 16645 D Unity   : Shader is not supported on this GPU (none of subshaders/fallbacks are suitable)
+03-19 14:41:13.121 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:13.121 16603 16645 D Unity   : Unsupported: 'Teleport/Man' - Setting to default shader.
+03-19 14:41:13.125 16603 16645 I Unity   : Controller model being added RightTeleporter
+03-19 14:41:13.125 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:13.125 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:13.125 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:13.125 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:13.125 16603 16645 I Unity   : VRControllerGraphics:CreateAttachments(Handedness) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Input\ControllerVisuals\VRControllerGraphics.cs:145)
+03-19 14:41:13.125 16603 16645 I Unity   : VRControllerGraphics:Initialise(Handedness) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Input\ControllerVisuals\VRControllerGraphics.cs:33)
+03-19 14:41:13.125 16603 16645 I Unity   : ControllerData:.ctor(String, Transform, Transform, Type, Handedness) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Input\InputSystems\ControllerData.cs:86)
+03-19 14:41:13.125 16603 16645 I Unity   : TrackedControllerData:.ctor(String, Transform, Transform, Type, Handedness) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Input\InputSystems\TrackedControllerData.cs:9)
+03-19 14:41:13.125 16603 16645 I Unity   : OculusControllerData:.ctor(Transform, Transform, Controller, String) (at D:\Work\Andr
+03-19 14:41:13.137 16603 16645 I Unity   : Controller model being added RightHand
+03-19 14:41:13.137 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:13.137 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:13.137 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:13.137 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:13.137 16603 16645 I Unity   : VRControllerGraphics:CreateAttachments(Handedness) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Input\ControllerVisuals\VRControllerGraphics.cs:145)
+03-19 14:41:13.137 16603 16645 I Unity   : VRControllerGraphics:Initialise(Handedness) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Input\ControllerVisuals\VRControllerGraphics.cs:33)
+03-19 14:41:13.137 16603 16645 I Unity   : ControllerData:.ctor(String, Transform, Transform, Type, Handedness) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Input\InputSystems\ControllerData.cs:86)
+03-19 14:41:13.137 16603 16645 I Unity   : TrackedControllerData:.ctor(String, Transform, Transform, Type, Handedness) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Input\InputSystems\TrackedControllerData.cs:9)
+03-19 14:41:13.137 16603 16645 I Unity   : OculusControllerData:.ctor(Transform, Transform, Controller, String) (at D:\Work\Android_Qu
+03-19 14:41:15.396 16603 16645 W System.err:    at com.unity3d.player.UnityPlayer.nativeRender(Native Method)
+03-19 14:41:15.396 16603 16645 W System.err:    at com.unity3d.player.UnityPlayer.access$300(Unknown Source:0)
+03-19 14:41:15.396 16603 16645 W System.err:    at com.unity3d.player.UnityPlayer$e$1.handleMessage(Unknown Source:95)
+03-19 14:41:15.396 16603 16645 W System.err:    at com.unity3d.player.UnityPlayer$e.run(Unknown Source:20)
+03-19 14:41:15.634 16603 16645 I Unity   : The current MSAA level is 0, but the recommended MSAA level is 4. Switching to the recommended level.
+03-19 14:41:15.634 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:15.634 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:15.634 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:15.634 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:15.634 16603 16645 I Unity   : OVRManager:Update() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1457)
+03-19 14:41:15.634 16603 16645 I Unity   :
+03-19 14:41:15.634 16603 16645 I Unity   : (Filename: D Line: 0)
+03-19 14:41:15.634 16603 16645 I Unity   :
+03-19 14:41:15.634 16603 16645 I Unity   : [OVRManager] HMDAcquired event
+03-19 14:41:15.634 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:15.634 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:15.634 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:15.634 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:15.634 16603 16645 I Unity   : OVRManager:Update() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1497)
+03-19 14:41:15.634 16603 16645 I Unity   :
+03-19 14:41:15.634 16603 16645 I Unity   : (Filename: D Line: 0)
+03-19 14:41:15.634 16603 16645 I Unity   :
+03-19 14:41:15.637 16603 16645 I Unity   : [OVRManager] HMDMounted event
+03-19 14:41:15.637 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:15.637 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:15.637 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:15.637 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:15.637 16603 16645 I Unity   : OVRManager:Update() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1531)
+03-19 14:41:15.637 16603 16645 I Unity   :
+03-19 14:41:15.637 16603 16645 I Unity   : (Filename: D Line: 0)
+03-19 14:41:15.637 16603 16645 I Unity   :
+03-19 14:41:15.638 16603 16645 I Unity   : [OVRManager] VrFocusAcquired event
+03-19 14:41:15.638 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:15.638 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:15.638 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:15.638 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:15.638 16603 16645 I Unity   : OVRManager:Update() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1565)
+03-19 14:41:15.638 16603 16645 I Unity   :
+03-19 14:41:15.638 16603 16645 I Unity   : (Filename: D Line: 0)
+03-19 14:41:15.638 16603 16645 I Unity   :
+03-19 14:41:15.646 16603 16645 I Unity   : [OVRManager] TrackingAcquired event
+03-19 14:41:15.646 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:15.646 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:15.646 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:15.646 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:15.646 16603 16645 I Unity   : OVRManager:Update() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\VR\Scripts\OVRManager.cs:1719)
+03-19 14:41:15.646 16603 16645 I Unity   :
+03-19 14:41:15.646 16603 16645 I Unity   : (Filename: D Line: 0)
+03-19 14:41:15.646 16603 16645 I Unity   :
+03-19 14:41:15.851 16603 16645 I Unity   : 404 Not Found
+03-19 14:41:15.851 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:15.851 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:15.851 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:15.851 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:15.851 16603 16645 I Unity   : SteamAudio.Scene:SceneFileName(String) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\Scene.cs:402)
+03-19 14:41:15.851 16603 16645 I Unity   : SteamAudio.SteamAudioManager:AddAdditiveScene(Scene) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\SteamAudioManager.cs:306)
+03-19 14:41:15.851 16603 16645 I Unity   : SteamAudio.SteamAudioManager:OnSceneLoaded(Scene, LoadSceneMode) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\SteamAudioManager.cs:438)
+03-19 14:41:15.851 16603 16645 I Unity   : UnityEngine.SceneManagement.SceneManager:Internal_SceneLoaded(Scene, LoadSceneMode) (at /Users/builduser/buildslave/unity/build/Runtime/Export/SceneManager/SceneManager.cs:244)
+03-19 14:41:15.851 16603 16645 I Unity   :
+03-19 14:41:15.851 16603 16645 I Unity   : (Filename: D Line: 0)
+03-19 14:41:15.851 16603 16645 I Unity   :
+03-19 14:41:15.987 16603 16645 I Unity   : Environment Json now loading file:  jar:file:///data/app/com.musictribe.Roomviewer-wKH3UtCz6mAqX1K204iH-w==/base.apk!/assets/BundleStreamingAssets/EnvironmentData/index
+03-19 14:41:15.987 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:15.987 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:15.987 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:15.987 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:15.987 16603 16645 I Unity   : EnvironmentManager:LoadEnvironmentData(Action, Action`1) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentManager.cs:120)
+03-19 14:41:15.987 16603 16645 I Unity   : Core:LoadEnvironment() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Core.cs:334)
+03-19 14:41:15.987 16603 16645 I Unity   : Core:<InitialiseCamera>b__73_0() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Core.cs:325)
+03-19 14:41:15.987 16603 16645 I Unity   : Tween:End() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Animation\Tweens\Tween.cs:84)
+03-19 14:41:15.987 16603 16645 I Unity   : ValueTween:Initialise(Single, Single, Action`1) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Animation\Tweens\ValueTween.cs:30)
+03-19 14:41:15.987 16603 16645 I Unity   : Camer
+03-19 14:41:16.136 16603 16645 I Unity   : m_Environments contains only 1 == 1, so menu has been disabled
+03-19 14:41:16.136 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:16.136 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:16.136 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:16.136 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:16.136 16603 16645 I Unity   : EnvironmentLoader:SetState(Boolean) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentLoader.cs:105)
+03-19 14:41:16.136 16603 16645 I Unity   : EnvironmentLoader:Init(List`1, Camera) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentLoader.cs:45)
+03-19 14:41:16.136 16603 16645 I Unity   : Core:<LoadEnvironment>b__74_0() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Core.cs:337)
+03-19 14:41:16.136 16603 16645 I Unity   : <>c__DisplayClass63_0:<LoadEnvironmentData>b__1() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentManager.cs:130)
+03-19 14:41:16.136 16603 16645 I Unity   : TaskAction:Increment() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Action\TaskAction.cs:40)
+03-19 14:41:16.136 16603 16645 I Unity   : <>c__DisplayClass63_2:<LoadEnvironmentData>b__2(
+03-19 14:41:16.145 16603 16645 I Unity   :  Confined  visible:True
+03-19 14:41:16.145 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:16.145 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:16.145 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:16.145 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:16.145 16603 16645 I Unity   : EnvironmentLoader:MouseLockVisible(Boolean, Boolean) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentLoader.cs:96)
+03-19 14:41:16.145 16603 16645 I Unity   : EnvironmentLoader:SetMouseLockVisible(Boolean, Boolean) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentLoader.cs:89)
+03-19 14:41:16.145 16603 16645 I Unity   : EnvironmentLoader:Init(List`1, Camera) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentLoader.cs:51)
+03-19 14:41:16.145 16603 16645 I Unity   : Core:<LoadEnvironment>b__74_0() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Core.cs:337)
+03-19 14:41:16.145 16603 16645 I Unity   : <>c__DisplayClass63_0:<LoadEnvironmentData>b__1() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentManager.cs:130)
+03-19 14:41:16.145 16603 16645 I Unity   : TaskAction:Increm
+03-19 14:41:16.146 16603 16645 I Unity   : m_Environments contains only 1 == 1, so menu has been disabled
+03-19 14:41:16.146 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:16.146 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:16.146 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:16.146 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:16.146 16603 16645 I Unity   : EnvironmentLoader:SetState(Boolean) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentLoader.cs:105)
+03-19 14:41:16.146 16603 16645 I Unity   : EnvironmentLoader:ToggleMenu() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentLoader.cs:81)
+03-19 14:41:16.146 16603 16645 I Unity   : EnvironmentLoader:Init(List`1, Camera) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentLoader.cs:52)
+03-19 14:41:16.146 16603 16645 I Unity   : Core:<LoadEnvironment>b__74_0() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Core.cs:337)
+03-19 14:41:16.146 16603 16645 I Unity   : <>c__DisplayClass63_0:<LoadEnvironmentData>b__1() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentManager.cs:130)
+03-19 14:41:16.146 16603 16645 I Unity   : TaskAction:Incremen
+03-19 14:41:16.156 16603 16645 I Unity   : Loading environment: HouseBuilder - Viewer, naming HouseBuilder/Builder
+03-19 14:41:16.156 16603 16645 I Unity   :
+03-19 14:41:16.156 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:16.156 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:16.156 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:16.156 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:16.156 16603 16645 I Unity   : <>c__DisplayClass65_0:<LoadEnvironment>b__0() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentManager.cs:200)
+03-19 14:41:16.156 16603 16645 I Unity   : EnvironmentManager:UnloadAllLoadedScenes(Action) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentManager.cs:329)
+03-19 14:41:16.156 16603 16645 I Unity   : EnvironmentManager:LoadEnvironment(EnvironmentData, Action, Action`1, Action) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentManager.cs:195)
+03-19 14:41:16.156 16603 16645 I Unity   : Core:<LoadEnvironment>b__74_0() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Core.cs:359)
+03-19 14:41:16.156 16603 16645 I Unity   : <>c__DisplayClass63_0:<LoadEnvironmentData>b__1() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\
+03-19 14:41:16.161 16603 16645 I Unity   : LoadCatalogueData jar:file:///data/app/com.musictribe.Roomviewer-wKH3UtCz6mAqX1K204iH-w==/base.apk!/assets/BundleStreamingAssets/HouseBuilder/Builder/Data/CatalogueData
+03-19 14:41:16.161 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:16.161 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:16.161 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:16.161 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:16.161 16603 16645 I Unity   : SceneDataManager:LoadCatalogueData(TaskAction) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Data\SceneDataManager.cs:74)
+03-19 14:41:16.161 16603 16645 I Unity   : SceneDataManager:LoadDataForEnvironment(Action) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Data\SceneDataManager.cs:58)
+03-19 14:41:16.161 16603 16645 I Unity   : Catalogue:LoadFromFile(String, Action, Action`1) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Data\Catalogue\Catalogue.cs:65)
+03-19 14:41:16.161 16603 16645 I Unity   : <>c__DisplayClass65_0:<LoadEnvironment>b__0() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentManager.cs:205)
+03-19 14:41:16.161 16603 16645 I Unity   : EnvironmentManager:UnloadAllLoadedScenes(Action) (at D:\Wor
+03-19 14:41:16.164 16603 16645 I Unity   : LoadModuleData jar:file:///data/app/com.musictribe.Roomviewer-wKH3UtCz6mAqX1K204iH-w==/base.apk!/assets/BundleStreamingAssets/HouseBuilder/Builder/Data/ModuleData
+03-19 14:41:16.164 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:16.164 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:16.164 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:16.164 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:16.164 16603 16645 I Unity   : SceneDataManager:LoadModuleData(TaskAction) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Data\SceneDataManager.cs:145)
+03-19 14:41:16.164 16603 16645 I Unity   : SceneDataManager:LoadDataForEnvironment(Action) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Data\SceneDataManager.cs:59)
+03-19 14:41:16.164 16603 16645 I Unity   : Catalogue:LoadFromFile(String, Action, Action`1) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Data\Catalogue\Catalogue.cs:65)
+03-19 14:41:16.164 16603 16645 I Unity   : <>c__DisplayClass65_0:<LoadEnvironment>b__0() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentManager.cs:205)
+03-19 14:41:16.164 16603 16645 I Unity   : EnvironmentManager:UnloadAllLoadedScenes(Action) (at D:\Work\Androi
+03-19 14:41:16.169 16603 16645 I Unity   : LoadAttributesData jar:file:///data/app/com.musictribe.Roomviewer-wKH3UtCz6mAqX1K204iH-w==/base.apk!/assets/BundleStreamingAssets/HouseBuilder/Builder/Data/AttributeData
+03-19 14:41:16.169 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:16.169 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:16.169 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:16.169 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:16.169 16603 16645 I Unity   : SceneDataManager:LoadAttributesData(TaskAction) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Data\SceneDataManager.cs:186)
+03-19 14:41:16.169 16603 16645 I Unity   : SceneDataManager:LoadDataForEnvironment(Action) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Data\SceneDataManager.cs:60)
+03-19 14:41:16.169 16603 16645 I Unity   : Catalogue:LoadFromFile(String, Action, Action`1) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Data\Catalogue\Catalogue.cs:65)
+03-19 14:41:16.169 16603 16645 I Unity   : <>c__DisplayClass65_0:<LoadEnvironment>b__0() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentManager.cs:205)
+03-19 14:41:16.169 16603 16645 I Unity   : EnvironmentManager:UnloadAllLoadedScenes(Action) (at D:\
+03-19 14:41:16.193 16603 16645 I Unity   : not found jar:file:///data/app/com.musictribe.Roomviewer-wKH3UtCz6mAqX1K204iH-w==/base.apk!/assets/BundleStreamingAssets/HouseBuilder/Builder/Data/VideoSequenceData
+03-19 14:41:16.193 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:16.193 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:16.193 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:16.193 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:16.193 16603 16645 I Unity   : VideoLoader:LoadVideoData() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\EnvironmentProcessing\VideoScreens\VideoLoader.cs:92)
+03-19 14:41:16.193 16603 16645 I Unity   : SceneDataManager:LoadDataForEnvironment(Action) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Data\SceneDataManager.cs:63)
+03-19 14:41:16.193 16603 16645 I Unity   : Catalogue:LoadFromFile(String, Action, Action`1) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Data\Catalogue\Catalogue.cs:65)
+03-19 14:41:16.193 16603 16645 I Unity   : <>c__DisplayClass65_0:<LoadEnvironment>b__0() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentManager.cs:205)
+03-19 14:41:16.193 16603 16645 I Unity   : EnvironmentManager:UnloadAllLoadedScenes(Action) (at D:\W
+03-19 14:41:16.195 16603 16645 I Unity   : not found jar:file:///data/app/com.musictribe.Roomviewer-wKH3UtCz6mAqX1K204iH-w==/base.apk!/assets/BundleStreamingAssets/HouseBuilder/Builder/Data/VideoData
+03-19 14:41:16.195 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:16.195 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:16.195 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:16.195 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:16.195 16603 16645 I Unity   : VideoLoader:LoadVideoData() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\EnvironmentProcessing\VideoScreens\VideoLoader.cs:119)
+03-19 14:41:16.195 16603 16645 I Unity   : SceneDataManager:LoadDataForEnvironment(Action) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Data\SceneDataManager.cs:63)
+03-19 14:41:16.195 16603 16645 I Unity   : Catalogue:LoadFromFile(String, Action, Action`1) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Data\Catalogue\Catalogue.cs:65)
+03-19 14:41:16.195 16603 16645 I Unity   : <>c__DisplayClass65_0:<LoadEnvironment>b__0() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentManager.cs:205)
+03-19 14:41:16.195 16603 16645 I Unity   : EnvironmentManager:UnloadAllLoadedScenes(Action) (at D:\Work\And
+03-19 14:41:16.218 16603 16645 W Unity   : VideoLoader Message: Could not find a part of the path '/jar:file:/data/app/com.musictribe.Roomviewer-wKH3UtCz6mAqX1K204iH-w==/base.apk!/assets/BundleStreamingAssets/HouseBuilder/Builder/VideoClipStreamingAsset'.
+03-19 14:41:16.218 16603 16645 W Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:16.218 16603 16645 W Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:16.218 16603 16645 W Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:16.218 16603 16645 W Unity   : UnityEngine.Debug:LogWarning(Object)
+03-19 14:41:16.218 16603 16645 W Unity   : VideoLoader:DirSearch(String, List`1) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\EnvironmentProcessing\VideoScreens\VideoLoader.cs:208)
+03-19 14:41:16.218 16603 16645 W Unity   : VideoLoader:OnVideoSequenceLoaded(Action) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\EnvironmentProcessing\VideoScreens\VideoLoader.cs:162)
+03-19 14:41:16.218 16603 16645 W Unity   : VideoLoader:LoadVideoData() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\EnvironmentProcessing\VideoScreens\VideoLoader.cs:122)
+03-19 14:41:16.218 16603 16645 W Unity   : SceneDataManager:LoadDataForEnvironment(Action) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Data\SceneDataManager.
+03-19 14:41:16.316 16603 16645 I Unity   : GetJsonFile  http://ec2-3-8-209-49.eu-west-2.compute.amazonaws.com/builder/v1/asset/bundlestreamingassets/housebuilder/builder/data/cataloguedata_version.json
+03-19 14:41:16.316 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:16.316 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:16.316 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:16.316 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:16.316 16603 16645 I Unity   : <InternalLoadJsonFile>d__54:MoveNext() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Networking.cs:580)
+03-19 14:41:16.316 16603 16645 I Unity   : UnityEngine.SetupCoroutine:InvokeMoveNext(IEnumerator, IntPtr) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/Coroutines.cs:17)
+03-19 14:41:16.316 16603 16645 I Unity   :
+03-19 14:41:16.316 16603 16645 I Unity   : (Filename: D Line: 0)
+03-19 14:41:16.316 16603 16645 I Unity   :
+03-19 14:41:16.322 16603 16645 E Unity   : 0
+03-19 14:41:16.322 16603 16645 E Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:16.322 16603 16645 E Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:16.322 16603 16645 E Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:16.322 16603 16645 E Unity   : UnityEngine.Debug:LogError(Object)
+03-19 14:41:16.322 16603 16645 E Unity   : <>c__DisplayClass23_0:<LoadCatalogueData>b__0(AssetBundleVersion) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Data\SceneDataManager.cs:84)
+03-19 14:41:16.322 16603 16645 E Unity   : <>c__DisplayClass43_0`1:<LoadAssetJsonFile>b__0(JsonData) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Networking.cs:257)
+03-19 14:41:16.322 16603 16645 E Unity   : <InternalLoadJsonFile>d__54:MoveNext() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Networking.cs:584)
+03-19 14:41:16.322 16603 16645 E Unity   : UnityEngine.SetupCoroutine:InvokeMoveNext(IEnumerator, IntPtr) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/Coroutines.cs:17)
+03-19 14:41:16.322 16603 16645 E Unity   :
+03-19 14:41:16.322 16603 16645 E Unity   : (Filename: D Line: 0)
+03-19 14:41:16.322 16603 16645 E Unity   :
+03-19 14:41:16.338 16603 16645 I Unity   : GetJsonFile  http://ec2-3-8-209-49.eu-west-2.compute.amazonaws.com/builder/v1/asset/bundlestreamingassets/housebuilder/builder/data/attributedata.json
+03-19 14:41:16.338 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:16.338 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:16.338 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:16.338 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:16.338 16603 16645 I Unity   : <InternalLoadJsonFile>d__54:MoveNext() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Networking.cs:580)
+03-19 14:41:16.338 16603 16645 I Unity   : UnityEngine.SetupCoroutine:InvokeMoveNext(IEnumerator, IntPtr) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/Coroutines.cs:17)
+03-19 14:41:16.338 16603 16645 I Unity   :
+03-19 14:41:16.338 16603 16645 I Unity   : (Filename: D Line: 0)
+03-19 14:41:16.338 16603 16645 I Unity   :
+03-19 14:41:16.345 16603 16645 I Unity   : GetJsonFile  http://ec2-3-8-209-49.eu-west-2.compute.amazonaws.com/builder/v1/asset/bundlestreamingassets/housebuilder/builder/data/moduledata.json
+03-19 14:41:16.345 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:16.345 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:16.345 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:16.345 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:16.345 16603 16645 I Unity   : <InternalLoadJsonFile>d__54:MoveNext() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Networking.cs:580)
+03-19 14:41:16.345 16603 16645 I Unity   : UnityEngine.SetupCoroutine:InvokeMoveNext(IEnumerator, IntPtr) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/Coroutines.cs:17)
+03-19 14:41:16.345 16603 16645 I Unity   :
+03-19 14:41:16.345 16603 16645 I Unity   : (Filename: D Line: 0)
+03-19 14:41:16.345 16603 16645 I Unity   :
+03-19 14:41:17.615 16603 16645 W Unity   : OvrLipSync Awake: Queried SampleRate: 48000 BufferSize: 1024
+03-19 14:41:17.615 16603 16645 W Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:17.615 16603 16645 W Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:17.615 16603 16645 W Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:17.615 16603 16645 W Unity   : UnityEngine.Debug:LogWarning(Object)
+03-19 14:41:17.615 16603 16645 W Unity   : OVRLipSync:Initialize() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\LipSync\Scripts\OVRLipSync.cs:265)
+03-19 14:41:17.615 16603 16645 W Unity   : OVRLipSync:CreateContext(UInt32&, ContextProviders, Int32, Boolean) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\LipSync\Scripts\OVRLipSync.cs:309)
+03-19 14:41:17.615 16603 16645 W Unity   : OVRLipSyncContextBase:Awake() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\LipSync\Scripts\OVRLipSyncContextBase.cs:113)
+03-19 14:41:17.615 16603 16645 W Unity   : UnityEngine.GameObject:SetActive(Boolean)
+03-19 14:41:17.615 16603 16645 W Unity   : OvrAvatarRenderComponent:UpdateActive(OvrAvatar, ovrAvatarVisibilityFlags) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Oculus\Avatar\Scripts\OvrAvatarRenderComponent.cs:21)
+03-19 14:41:17.615 16603 16645 W Unity   : OvrAvatarRenderComponent:UpdateSkinnedMesh(OvrAvatar, Transform[], ovrAvatarTransform, ovrAvatarV
+03-19 14:41:35.710 16603 16645 I Unity   : List single  19.225
+03-19 14:41:35.710 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:35.710 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:35.710 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:35.710 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:35.710 16603 16645 I Unity   : <>c__DisplayClass25_1:<LoadFromFile>b__2(List`1) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Data\Catalogue\Catalogue.cs:116)
+03-19 14:41:35.710 16603 16645 I Unity   : <>c__DisplayClass9_0`2:<WithResult>b__1() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Action\SequentialAction.cs:74)
+03-19 14:41:35.710 16603 16645 I Unity   : SequentialAction:Increment() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Action\SequentialAction.cs:32)
+03-19 14:41:35.710 16603 16645 I Unity   : <>c__DisplayClass9_1`2:<WithResult>b__2(CatalogueEntry) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Action\SequentialAction.cs:72)
+03-19 14:41:35.710 16603 16645 I Unity   : <>c__DisplayClass27_1`1:<LoadFromIndex>b__2(CatalogueEntry) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Data\Catalogue\Catalogue.cs:168)
+03-19 14:41:35.710 16603 16645 I Unity   : JsonPlugin.<>c__DisplayClass2_0`1:<GetRequest>b__1(CatalogueEntry)
+03-19 14:41:35.776 16603 16645 I Unity   : 404 Not Found
+03-19 14:41:35.776 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:35.776 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:35.776 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:35.776 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:35.776 16603 16645 I Unity   : SteamAudio.Scene:SceneFileName(String) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\Scene.cs:402)
+03-19 14:41:35.776 16603 16645 I Unity   : SteamAudio.SteamAudioManager:AddAdditiveScene(Scene) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\SteamAudioManager.cs:306)
+03-19 14:41:35.776 16603 16645 I Unity   : SteamAudio.SteamAudioManager:OnSceneLoaded(Scene, LoadSceneMode) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\SteamAudioManager.cs:438)
+03-19 14:41:35.776 16603 16645 I Unity   : UnityEngine.SceneManagement.SceneManager:Internal_SceneLoaded(Scene, LoadSceneMode) (at /Users/builduser/buildslave/unity/build/Runtime/Export/SceneManager/SceneManager.cs:244)
+03-19 14:41:35.776 16603 16645 I Unity   :
+03-19 14:41:35.776 16603 16645 I Unity   : (Filename: D Line: 0)
+03-19 14:41:35.776 16603 16645 I Unity   :
+03-19 14:41:35.905 16603 16645 I Unity   : 404 Not Found
+03-19 14:41:35.905 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:35.905 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:35.905 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:35.905 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:35.905 16603 16645 I Unity   : SteamAudio.Scene:SceneFileName(String) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\Scene.cs:402)
+03-19 14:41:35.905 16603 16645 I Unity   : SteamAudio.SteamAudioManager:AddAdditiveScene(Scene) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\SteamAudioManager.cs:306)
+03-19 14:41:35.905 16603 16645 I Unity   : SteamAudio.SteamAudioManager:OnSceneLoaded(Scene, LoadSceneMode) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\SteamAudioManager.cs:438)
+03-19 14:41:35.905 16603 16645 I Unity   : UnityEngine.SceneManagement.SceneManager:Internal_SceneLoaded(Scene, LoadSceneMode) (at /Users/builduser/buildslave/unity/build/Runtime/Export/SceneManager/SceneManager.cs:244)
+03-19 14:41:35.905 16603 16645 I Unity   :
+03-19 14:41:35.905 16603 16645 I Unity   : (Filename: D Line: 0)
+03-19 14:41:35.905 16603 16645 I Unity   :
+03-19 14:41:36.056 16603 16645 I Unity   : 404 Not Found
+03-19 14:41:36.056 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:36.056 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:36.056 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:36.056 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:36.056 16603 16645 I Unity   : SteamAudio.Scene:SceneFileName(String) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\Scene.cs:402)
+03-19 14:41:36.056 16603 16645 I Unity   : SteamAudio.SteamAudioManager:AddAdditiveScene(Scene) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\SteamAudioManager.cs:306)
+03-19 14:41:36.056 16603 16645 I Unity   : SteamAudio.SteamAudioManager:OnSceneLoaded(Scene, LoadSceneMode) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\SteamAudioManager.cs:438)
+03-19 14:41:36.056 16603 16645 I Unity   : UnityEngine.SceneManagement.SceneManager:Internal_SceneLoaded(Scene, LoadSceneMode) (at /Users/builduser/buildslave/unity/build/Runtime/Export/SceneManager/SceneManager.cs:244)
+03-19 14:41:36.056 16603 16645 I Unity   :
+03-19 14:41:36.056 16603 16645 I Unity   : (Filename: D Line: 0)
+03-19 14:41:36.056 16603 16645 I Unity   :
+03-19 14:41:36.291 16603 16645 I Unity   : 404 Not Found
+03-19 14:41:36.291 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:36.291 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:36.291 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:36.291 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:36.291 16603 16645 I Unity   : SteamAudio.Scene:SceneFileName(String) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\Scene.cs:402)
+03-19 14:41:36.291 16603 16645 I Unity   : SteamAudio.SteamAudioManager:AddAdditiveScene(Scene) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\SteamAudioManager.cs:306)
+03-19 14:41:36.291 16603 16645 I Unity   : SteamAudio.SteamAudioManager:OnSceneLoaded(Scene, LoadSceneMode) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\SteamAudioManager.cs:438)
+03-19 14:41:36.291 16603 16645 I Unity   : UnityEngine.SceneManagement.SceneManager:Internal_SceneLoaded(Scene, LoadSceneMode) (at /Users/builduser/buildslave/unity/build/Runtime/Export/SceneManager/SceneManager.cs:244)
+03-19 14:41:36.291 16603 16645 I Unity   :
+03-19 14:41:36.291 16603 16645 I Unity   : (Filename: D Line: 0)
+03-19 14:41:36.291 16603 16645 I Unity   :
+03-19 14:41:36.326 16603 16645 W Unity   : A Canvas named "Canvas" with a render mode of ScreenSpaceOverlay is being used while VR is also enabled. This Canvas will continue to incur a rendering cost, but will not be visible while in VR. Is this intentional?
+03-19 14:41:36.326 16603 16645 W Unity   : (Filename: ./Modules/UI/CanvasManager.cpp Line: 929)
+03-19 14:41:36.326 16603 16645 W Unity   :
+03-19 14:41:36.466 16603 16645 I Unity   : 404 Not Found
+03-19 14:41:36.466 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:36.466 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:36.466 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:36.466 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:36.466 16603 16645 I Unity   : SteamAudio.Scene:SceneFileName(String) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\Scene.cs:402)
+03-19 14:41:36.466 16603 16645 I Unity   : SteamAudio.SteamAudioManager:AddAdditiveScene(Scene) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\SteamAudioManager.cs:306)
+03-19 14:41:36.466 16603 16645 I Unity   : SteamAudio.SteamAudioManager:OnSceneLoaded(Scene, LoadSceneMode) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\SteamAudio\SteamAudioManager.cs:438)
+03-19 14:41:36.466 16603 16645 I Unity   : UnityEngine.SceneManagement.SceneManager:Internal_SceneLoaded(Scene, LoadSceneMode) (at /Users/builduser/buildslave/unity/build/Runtime/Export/SceneManager/SceneManager.cs:244)
+03-19 14:41:36.466 16603 16645 I Unity   :
+03-19 14:41:36.466 16603 16645 I Unity   : (Filename: D Line: 0)
+03-19 14:41:36.466 16603 16645 I Unity   :
+03-19 14:41:36.593 16603 16645 E Unity   : UserSelectionMenu
+03-19 14:41:36.593 16603 16645 E Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:36.593 16603 16645 E Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:36.593 16603 16645 E Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:36.593 16603 16645 E Unity   : UnityEngine.Debug:LogError(Object)
+03-19 14:41:36.593 16603 16645 E Unity   : HouseViewer.UserSelectionMenu:<Initialise>b__12_0(AudioClip) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\HouseViewer\UserSelectionMenu.cs:34)
+03-19 14:41:36.593 16603 16645 E Unity   : <>c__DisplayClass17_0:<GetItem>b__0(AudioClip) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\EnvironmentProcessing\GenericAssetBundleStreaming\GenericAssetBundle.cs:121)
+03-19 14:41:36.593 16603 16645 E Unity   : <>c__DisplayClass20_0`1:<LoadAsset>b__1(AssetBundleRequest) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\AssetBundles\AssetLoader.cs:413)
+03-19 14:41:36.593 16603 16645 E Unity   : <>c__DisplayClass8_0`1:<WaitForOp>b__1() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Extensions\WaitExtensions.cs:59)
+03-19 14:41:36.593 16603 16645 E Unity   : <WaitForHandler>d__17:MoveNext() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Extensions\WaitExtensions.cs:118)
+03-19 14:41:36.593 16603 16645 E Unity   : Uni
+03-19 14:41:36.594 16603 16645 E Unity   : FileLoaderMenu
+03-19 14:41:36.594 16603 16645 E Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:36.594 16603 16645 E Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:36.594 16603 16645 E Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:36.594 16603 16645 E Unity   : UnityEngine.Debug:LogError(Object)
+03-19 14:41:36.594 16603 16645 E Unity   : HouseViewer.FileLoaderMenu:<Initialise>b__8_0(AudioClip) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\HouseViewer\FIleLoaderMenu.cs:33)
+03-19 14:41:36.594 16603 16645 E Unity   : <>c__DisplayClass17_0:<GetItem>b__0(AudioClip) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\EnvironmentProcessing\GenericAssetBundleStreaming\GenericAssetBundle.cs:121)
+03-19 14:41:36.594 16603 16645 E Unity   : <>c__DisplayClass20_0`1:<LoadAsset>b__1(AssetBundleRequest) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\AssetBundles\AssetLoader.cs:413)
+03-19 14:41:36.594 16603 16645 E Unity   : <>c__DisplayClass8_0`1:<WaitForOp>b__1() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Extensions\WaitExtensions.cs:59)
+03-19 14:41:36.594 16603 16645 E Unity   : <WaitForHandler>d__17:MoveNext() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Extensions\WaitExtensions.cs:118)
+03-19 14:41:36.594 16603 16645 E Unity   : UnityEngine.S
+03-19 14:41:36.634 16603 16645 D Unity   : Shader 'Time of Day/Halo': fallback shader 'None' not found
+03-19 14:41:36.635 16603 16645 D Unity   : Shader 'Time of Day/Cloud Layer (Mobile)': fallback shader 'None' not found
+03-19 14:41:36.636 16603 16645 D Unity   : Shader 'Time of Day/Atmosphere': fallback shader 'None' not found
+03-19 14:41:36.636 16603 16645 D Unity   : Shader 'Time of Day/Sun': fallback shader 'None' not found
+03-19 14:41:36.637 16603 16645 D Unity   : Shader 'Time of Day/Space': fallback shader 'None' not found
+03-19 14:41:36.670 16603 16645 I Unity   : changed compass rect to  (0.5, 0.5)
+03-19 14:41:36.670 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:36.670 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:36.670 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:36.670 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:36.670 16603 16645 I Unity   : HouseBuilder.FloorAndSkyboxManager:Awake() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\HouseBuilder\Interactions\FloorAndSkyboxManager.cs:59)
+03-19 14:41:36.670 16603 16645 I Unity   : UnityEngine.GameObject:Internal_AddComponentWithType(Type)
+03-19 14:41:36.670 16603 16645 I Unity   : UnityEngine.GameObject:AddComponent(Type) (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/GameObject.bindings.cs:222)
+03-19 14:41:36.670 16603 16645 I Unity   : UnityEngine.GameObject:AddComponent() (at /Users/builduser/buildslave/unity/build/Runtime/Export/Scripting/GameObject.bindings.cs:227)
+03-19 14:41:36.670 16603 16645 I Unity   : ComponentExtensions:ForceComponent(GameObject) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Extensions\ComponentExtensions.cs:377)
+03-19 14:41:36.670 16603 16645 I Unity   : EnvironmentManager:ProcessHouseBuilder(Scene, GameObject, ChunkType) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Sc
+03-19 14:41:36.747 16603 16645 I Unity   : Environment loaded
+03-19 14:41:36.747 16603 16645 I Unity   :
+03-19 14:41:36.747 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:36.747 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:36.747 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:36.747 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:36.747 16603 16645 I Unity   : Core:OnEnvironmentLoaded() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Core.cs:379)
+03-19 14:41:36.747 16603 16645 I Unity   : <>c__DisplayClass78_0:<OnEnvironmentLoaded>b__4() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentManager.cs:587)
+03-19 14:41:36.747 16603 16645 I Unity   : SequentialAction:Count(Int32, Action`2, Action) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Action\SequentialAction.cs:48)
+03-19 14:41:36.747 16603 16645 I Unity   : SequentialAction:List(IList`1, Action`2, Action) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\System\Action\SequentialAction.cs:56)
+03-19 14:41:36.747 16603 16645 I Unity   : <>c__DisplayClass78_0:<OnEnvironmentLoaded>b__1() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentManager.cs:579)
+03-19 14:41:36.747 16603 16645 I Unity   : SequentialAction:Increment() (at D:\Work\Android_Quest_
+03-19 14:41:36.779 16603 16645 I Unity   : Loading scene: HouseBuilder-Builder
+03-19 14:41:36.779 16603 16645 I Unity   :
+03-19 14:41:36.779 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:36.779 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:36.779 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:36.779 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:36.779 16603 16645 I Unity   : SaveableScene:LoadSaveScene(String, Action`1) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Scenery\SaveableScene.cs:299)
+03-19 14:41:36.779 16603 16645 I Unity   : SaveableScene:Load(String, Action, Action`1) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Scenery\SaveableScene.cs:206)
+03-19 14:41:36.779 16603 16645 I Unity   : SaveableScene:LoadDefaultScene(Action, Action`1) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Scenery\SaveableScene.cs:182)
+03-19 14:41:36.779 16603 16645 I Unity   : Core:OnEnvironmentLoaded() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Core.cs:387)
+03-19 14:41:36.779 16603 16645 I Unity   : <>c__DisplayClass78_0:<OnEnvironmentLoaded>b__4() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Environment\EnvironmentManager.cs:587)
+03-19 14:41:36.779 16603 16645 I Unity   : SequentialAction:Count(Int32, Action`2
+03-19 14:41:36.784 16603 16645 I Unity   : Loaded scene HouseBuilder is not compatible with any scene data
+03-19 14:41:36.784 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:36.784 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:36.784 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:36.784 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:36.784 16603 16645 I Unity   : <>c__DisplayClass31_0:<Load>b__1(SaveScene) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Scenery\SaveableScene.cs:235)
+03-19 14:41:36.784 16603 16645 I Unity   : SaveableScene:LoadSaveScene(String, Action`1) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Scenery\SaveableScene.cs:324)
+03-19 14:41:36.784 16603 16645 I Unity   : SaveableScene:Load(String, Action, Action`1) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Scenery\SaveableScene.cs:206)
+03-19 14:41:36.784 16603 16645 I Unity   : SaveableScene:LoadDefaultScene(Action, Action`1) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\SceneManagement\Scenery\SaveableScene.cs:182)
+03-19 14:41:36.784 16603 16645 I Unity   : Core:OnEnvironmentLoaded() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\Core\Core.cs:387)
+03-19 14:41:36.784 16603 16645 I Unity   : <>c__DisplayClass78_0:<OnE
+03-19 14:41:37.191 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:37.191 16603 16645 D Unity   : Unsupported: 'Hidden/PostProcessing/Debug/Waveform' - Pass '' has no vertex shader
+03-19 14:41:37.191 16603 16645 D Unity   : ERROR: Shader
+03-19 14:41:37.191 16603 16645 D Unity   : Shader is not supported on this GPU (none of subshaders/fallbacks are suitable)
+03-19 14:41:37.191 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:37.191 16603 16645 D Unity   : Unsupported: 'Hidden/PostProcessing/Debug/Waveform' - Setting to default shader.
+03-19 14:41:37.193 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:37.193 16603 16645 D Unity   : Unsupported: 'Hidden/PostProcessing/Debug/LightMeter' - Pass '' has no vertex shader
+03-19 14:41:37.193 16603 16645 D Unity   : ERROR: Shader
+03-19 14:41:37.193 16603 16645 D Unity   : Shader is not supported on this GPU (none of subshaders/fallbacks are suitable)
+03-19 14:41:37.193 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:37.193 16603 16645 D Unity   : Unsupported: 'Hidden/PostProcessing/Debug/LightMeter' - Setting to default shader.
+03-19 14:41:37.193 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:37.193 16603 16645 D Unity   : Unsupported: 'Hidden/PostProcessing/MultiScaleVO' - Pass '' has no vertex shader
+03-19 14:41:37.193 16603 16645 D Unity   : ERROR: Shader
+03-19 14:41:37.193 16603 16645 D Unity   : Shader is not supported on this GPU (none of subshaders/fallbacks are suitable)
+03-19 14:41:37.193 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:37.193 16603 16645 D Unity   : Unsupported: 'Hidden/PostProcessing/MultiScaleVO' - Setting to default shader.
+03-19 14:41:37.193 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:37.193 16603 16645 D Unity   : Unsupported: 'Hidden/PostProcessing/Debug/Vectorscope' - Pass '' has no vertex shader
+03-19 14:41:37.193 16603 16645 D Unity   : ERROR: Shader
+03-19 14:41:37.193 16603 16645 D Unity   : Shader is not supported on this GPU (none of subshaders/fallbacks are suitable)
+03-19 14:41:37.193 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:37.193 16603 16645 D Unity   : Unsupported: 'Hidden/PostProcessing/Debug/Vectorscope' - Setting to default shader.
+03-19 14:41:37.196 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:37.196 16603 16645 D Unity   : Unsupported: 'Hidden/PostProcessing/FinalPass' - Pass '' has no vertex shader
+03-19 14:41:37.196 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:37.196 16603 16645 D Unity   : Unsupported: 'Hidden/PostProcessing/FinalPass' - Pass '' has no vertex shader
+03-19 14:41:37.197 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:37.197 16603 16645 D Unity   : Unsupported: 'Hidden/PostProcessing/Debug/Histogram' - Pass '' has no vertex shader
+03-19 14:41:37.197 16603 16645 D Unity   : ERROR: Shader
+03-19 14:41:37.197 16603 16645 D Unity   : Shader is not supported on this GPU (none of subshaders/fallbacks are suitable)
+03-19 14:41:37.197 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:37.197 16603 16645 D Unity   : Unsupported: 'Hidden/PostProcessing/Debug/Histogram' - Setting to default shader.
+03-19 14:41:37.316 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:37.316 16603 16645 D Unity   : Unsupported: 'Hidden/PostProcessing/Uber' - Pass '' has no vertex shader
+03-19 14:41:37.316 16603 16645 D Unity   : WARNING: Shader
+03-19 14:41:37.316 16603 16645 D Unity   : Unsupported: 'Hidden/PostProcessing/Uber' - Pass '' has no vertex shader
+03-19 14:41:37.532 16603 16645 I Unity   : com.rio3dstudios.basicwifilocalmultiplayerplugin.IPManager.GetServerIP Exception:UnityEngine.AndroidJavaException: java.lang.ClassNotFoundException: com.rio3dstudios.basicwifilocalmultiplayerplugin.IPManager
+03-19 14:41:37.532 16603 16645 I Unity   :   at UnityEngine.AndroidJNISafe.CheckException () [0x0008d] in /Users/builduser/buildslave/unity/build/Modules/AndroidJNI/AndroidJNISafe.cs:24
+03-19 14:41:37.532 16603 16645 I Unity   :   at UnityEngine.AndroidJNISafe.FindClass (System.String name) [0x0000c] in /Users/builduser/buildslave/unity/build/Modules/AndroidJNI/AndroidJNISafe.cs:107
+03-19 14:41:37.532 16603 16645 I Unity   :   at UnityEngine.AndroidJavaClass._AndroidJavaClass (System.String className) [0x00013] in /Users/builduser/buildslave/unity/build/Modules/AndroidJNI/AndroidJava.cs:789
+03-19 14:41:37.532 16603 16645 I Unity   :   at UnityEngine.AndroidJavaClass..ctor (System.String className) [0x00008] in /Users/builduser/buildslave/unity/build/Modules/AndroidJNI/AndroidJava.cs:783
+03-19 14:41:37.532 16603 16645 I Unity   :   at CaptiveReality.Jni.Util.StaticCall[T] (System.String methodName, T defaultValue, System.String androidJavaClass) [0x00018] in D:\Work\Android_Quest_Imhotep\unity_main\Assets\Basic
+03-19 14:41:37.535 16603 16645 I Unity   : System.ArgumentOutOfRangeException: StartIndex cannot be less than zero.
+03-19 14:41:37.535 16603 16645 I Unity   : Parameter name: startIndex
+03-19 14:41:37.535 16603 16645 I Unity   :   at System.String.Remove (System.Int32 startIndex) [0x00013] in <437ba245d8404784b9fbab9b439ac908>:0
+03-19 14:41:37.535 16603 16645 I Unity   :   at UDPCore.UDPComponent.EmitToServer (System.String callbackID, System.String _pack) [0x000c8] in D:\Work\Android_Quest_Imhotep\unity_main\Assets\Basic WiFi Local Multiplayer\UDPCoreModule\UDPComponent.cs:298
+03-19 14:41:37.535 16603 16645 I Unity   : UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+03-19 14:41:37.535 16603 16645 I Unity   : UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+03-19 14:41:37.535 16603 16645 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+03-19 14:41:37.535 16603 16645 I Unity   : UnityEngine.Debug:Log(Object)
+03-19 14:41:37.535 16603 16645 I Unity   : UDPCore.UDPComponent:EmitToServer(String, String) (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Basic WiFi Local Multiplayer\UDPCoreModule\UDPComponent.cs:327)
+03-19 14:41:37.535 16603 16645 I Unity   : OscController.<ContactServer>d__6:MoveNext() (at D:\Work\Android_Quest_Imhotep\unity_main\Assets\Scripts\OscController\TCP\DmxTCPClientMono.cs:72)
+03-19 14:41:37.535 16603 16645 I Unity   : UnityEngine.SetupCoroutine:InvokeMoveNext(IEnumerator, IntPtr) (at /Users/b
