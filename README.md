@@ -76,3 +76,11 @@ Example:
 <repo-root>/Catalogue/Turbosound_TLX212L/TLX212L_MetallicSmoothness.png
 ```
 
+----
+###To Build
+ - Find the Vareient you want 
+ - View Original
+ - Generate Scene
+###Bundle Builder
+ - Build Bundle
+ - Copy to
