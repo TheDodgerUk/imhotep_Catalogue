@@ -40,15 +40,17 @@ public class OVRDeviceSelector
 		get
 		{
 #if PRIORITIZE_OCULUS_XR_SETTINGS
-			OculusSettings settings;
-			UnityEditor.EditorBuildSettings.TryGetConfigObject<OculusSettings>("Unity.XR.Oculus.Settings", out settings);
-			return settings.TargetQuest;
+            OVRProjectConfig projectConfig = OVRProjectConfig.GetProjectConfig();
+
+            return projectConfig != null &&
+                   projectConfig.targetDeviceTypes.Contains(
+                       OVRProjectConfig.DeviceType.Quest);
 #else
 			OVRProjectConfig projectConfig = OVRProjectConfig.GetProjectConfig();
 			return projectConfig.targetDeviceTypes.Contains(OVRProjectConfig.DeviceType.Quest);
 #endif
 
-		}
+        }
 	}
 
 	public static bool isTargetDeviceQuest2

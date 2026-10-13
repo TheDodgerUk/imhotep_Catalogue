@@ -90,3 +90,6 @@ Example:
 ###How to clear the Catalogue
 - D:\imhotep_Catalogue_Android\unity_project\Assets\Artwork\CatalogueThumbnails // 100MB
 - D:\imhotep_Catalogue_Android\unity_project\Assets\Artwork\Models\Catalogue
+
+###Add to Catalogue
+- 

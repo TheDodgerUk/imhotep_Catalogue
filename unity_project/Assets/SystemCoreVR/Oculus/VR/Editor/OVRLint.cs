@@ -836,7 +836,7 @@ public class OVRLint : EditorWindow
 
 		var textures = Resources.FindObjectsOfTypeAll<Texture2D>();
 
-		int maxTextureSize = 1024 * (1 << QualitySettings.masterTextureLimit);
+		int maxTextureSize = 1024 * (1 << QualitySettings.globalTextureMipmapLimit);
 		maxTextureSize = maxTextureSize * maxTextureSize;
 
 		for (int i = 0; i < textures.Length; ++i)
@@ -937,29 +937,36 @@ public class OVRLint : EditorWindow
 		return light.lightmapBakeType == LightmapBakeType.Baked;
 	}
 
-	static void SetAudioPreload(AudioClip clip, bool preload, bool refreshImmediately)
-	{
-		if (clip != null)
-		{
-			string assetPath = AssetDatabase.GetAssetPath(clip);
-			AudioImporter importer = AssetImporter.GetAtPath(assetPath) as AudioImporter;
-			if (importer != null)
-			{
-				if (preload != importer.preloadAudioData)
-				{
-					importer.preloadAudioData = preload;
 
-					AssetDatabase.ImportAsset(assetPath);
-					if (refreshImmediately)
-					{
-						AssetDatabase.Refresh();
-					}
-				}
-			}
-		}
-	}
+    static void SetAudioPreload(AudioClip clip, bool preload, bool refreshImmediately)
+    {
+        if (clip != null)
+        {
+            string assetPath = AssetDatabase.GetAssetPath(clip);
+            AudioImporter importer = AssetImporter.GetAtPath(assetPath) as AudioImporter;
 
-	static void SetAudioLoadType(AudioClip clip, AudioClipLoadType loadType, bool refreshImmediately)
+            if (importer != null)
+            {
+                AudioImporterSampleSettings settings = importer.defaultSampleSettings;
+
+                if (settings.preloadAudioData != preload)
+                {
+                    settings.preloadAudioData = preload;
+                    importer.defaultSampleSettings = settings;
+
+                    AssetDatabase.ImportAsset(assetPath);
+
+                    if (refreshImmediately)
+                    {
+                        AssetDatabase.Refresh();
+                    }
+                }
+            }
+        }
+    }
+
+
+    static void SetAudioLoadType(AudioClip clip, AudioClipLoadType loadType, bool refreshImmediately)
 	{
 		if (clip != null)
 		{

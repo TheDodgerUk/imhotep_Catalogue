@@ -20,8 +20,25 @@ public static class EditorHelper
         {
             var searchStyle = GUI.skin.FindStyle("ToolbarSeachTextField");
             var btnStyle = GUI.skin.FindStyle("ToolbarSeachCancelButton");
-            searchPattern = EditorGUILayout.TextField(searchPattern, searchStyle);
-            if (GUILayout.Button(GUIContent.none, btnStyle) == true)
+
+
+            searchPattern = string.Empty;
+            GUI.FocusControl(null);
+
+            if (searchPattern != null && btnStyle != null)
+            {
+                searchPattern = EditorGUILayout.TextField(searchPattern, searchStyle);
+            }
+
+            if(btnStyle != null)
+            {
+                if (GUILayout.Button(GUIContent.none, btnStyle) == true)
+                {
+                    searchPattern = string.Empty;
+                    GUI.FocusControl(null);
+                }
+            }
+            if(searchPattern != null && searchPattern.Length > 0)
             {
                 searchPattern = string.Empty;
                 GUI.FocusControl(null);

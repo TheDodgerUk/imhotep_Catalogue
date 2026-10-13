@@ -488,7 +488,7 @@ namespace EditorTools.Environments
 
         private static void ProcessGameObjectsInScene(Action<GameObject> process)
         {
-            for (int i = 0; i < EditorSceneManager.loadedSceneCount; ++i)
+            for (int i = 0; i < SceneManager.loadedSceneCount; ++i)
             {
                 foreach (var root in SceneManager.GetSceneAt(i).GetRootGameObjects())
                 {

@@ -6,7 +6,6 @@ using UnityEngine.Playables;
 namespace AB
 {
     [TrackColor(41f / 255f, 149f / 255f, 256f / 255f)]
-    [TrackBindingType(typeof(FaceUI))]
     [TrackClipType(typeof(HeadEyeClip))]
     public class HeadEyeControlTrack : TrackAsset
     {
