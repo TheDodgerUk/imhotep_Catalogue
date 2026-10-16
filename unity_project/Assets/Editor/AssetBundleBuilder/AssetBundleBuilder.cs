@@ -72,9 +72,11 @@ namespace EditorTools.Bundles
 
                 var options = GetOptions(cleanBuild);
 
+                Debug.LogError($"currentTarget  {currentTarget}    activeBuildTarget {EditorUserBuildSettings.activeBuildTarget}".ToUpper());
+
                 if (onlyManifest == false)
                 {
-                    Debug.Log($"currentTarget  {currentTarget}    activeBuildTarget {EditorUserBuildSettings.activeBuildTarget}".ToUpper());
+                    
                     m_Manifest = BuildPipeline.BuildAssetBundles(StagingFolder(currentTarget).Relative, options, EditorUserBuildSettings.activeBuildTarget);
                 }
 

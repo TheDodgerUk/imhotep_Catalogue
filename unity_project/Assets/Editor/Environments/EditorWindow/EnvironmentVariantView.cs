@@ -385,6 +385,10 @@ namespace EditorTools.Environments
                 for (int i = 0; i < variant.GeneratedScenes.Count; i++)
                 {
                     string[] nameSplit = variant.GeneratedScenes[i].name.Split('_');
+                    if(nameSplit == null)
+                    {
+                        Debug.LogError("weird error");
+                    }
                     string endPartOfName = nameSplit[nameSplit.Length - 1];
                     if (false == optionalScenesName.Exists(e => e == endPartOfName))
                     {
