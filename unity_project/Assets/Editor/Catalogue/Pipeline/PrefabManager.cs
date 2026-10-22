@@ -133,6 +133,7 @@ namespace EditorTools.CatalogueViewer
             {
                 prefab = model;
             }
+            prefab.AddComponent<ObjectSize>();
             var renderItem = CreateRenderItem(prefab);
 
             if (string.IsNullOrEmpty(renderItem.Bundle) == true)
