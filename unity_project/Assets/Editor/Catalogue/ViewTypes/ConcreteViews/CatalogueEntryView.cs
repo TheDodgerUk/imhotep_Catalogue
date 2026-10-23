@@ -330,7 +330,7 @@ namespace EditorTools.CatalogueViewer
                 using (var s = new EditorGUILayout.ScrollViewScope(m_ScrollPos, GUIStyle.none, GUI.skin.verticalScrollbar))
                 {
                     // weird errorss
-                    if(m_MetaAttributeView == null)
+                    if (m_MetaAttributeView == null)
                     {
                         SetSelected(null);
                     }

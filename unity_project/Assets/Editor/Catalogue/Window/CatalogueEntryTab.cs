@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEditor;
+using UnityEngine;
 
 namespace EditorTools.CatalogueViewer
 {
@@ -44,7 +45,18 @@ namespace EditorTools.CatalogueViewer
 
             using (new EditorGUILayout.HorizontalScope())
             {
+
+                int keyboardFocus = GUIUtility.keyboardControl;
+                bool editingText = EditorGUIUtility.editingTextField;
+
                 m_SearchView.OnGUI();
+
+                // Preserve an entry field's focus if the search view clears it.
+                if (editingText && GUIUtility.keyboardControl == 0)
+                {
+                    GUIUtility.keyboardControl = keyboardFocus;
+                    EditorGUIUtility.editingTextField = true;
+                }
 
                 using (new EditorGUILayout.VerticalScope())
                 {

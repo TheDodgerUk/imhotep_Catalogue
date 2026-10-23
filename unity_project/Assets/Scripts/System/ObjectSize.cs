@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
+[DisallowMultipleComponent]
 [ExecuteAlways]
 public class ObjectSize : MonoBehaviour
 {
