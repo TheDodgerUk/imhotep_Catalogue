@@ -33,31 +33,48 @@ namespace EditorTools.Environments
 
         public static List<Scene> OpenScenes(List<SceneAsset> sceneAssets)
         {
-            if (sceneAssets.Contains(null) == true)
-            {
+            if (sceneAssets == null || sceneAssets.Contains(null))
                 return null;
-            }
-            var scenes = GetOpenScenes(sceneAssets);
-            if (scenes != null)
-            {
-                return scenes;
-            }
 
-            if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo() == true)
+            var scenes = GetOpenScenes(sceneAssets);
+
+            if (scenes == null)
             {
+                if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+                    return null;
+
                 using (var progress = new ProgressBar("Loading scenes...", sceneAssets.Count))
                 {
                     scenes = new List<Scene>();
                     var mode = OpenSceneMode.Single;
+
                     foreach (var asset in sceneAssets)
                     {
                         progress.UpdateIncrement(asset.name);
+
                         string path = asset.GetAssetPath().Relative;
                         scenes.Add(EditorSceneManager.OpenScene(path, mode));
+
                         mode = OpenSceneMode.Additive;
                     }
                 }
             }
+
+            foreach (var scene in scenes)
+            {
+                foreach (var root in scene.GetRootGameObjects())
+                {
+                    if (string.Equals(
+                        root.name,
+                        "New Game Object",
+                        StringComparison.OrdinalIgnoreCase))
+                    {
+                        Undo.DestroyObjectImmediate(root);
+                        EditorSceneManager.MarkSceneDirty(scene);
+                    }
+                }
+            }
+
             return scenes;
         }
 
