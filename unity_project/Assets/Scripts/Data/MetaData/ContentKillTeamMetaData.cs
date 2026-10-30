@@ -19,6 +19,7 @@ public class ContentKillTeamMetaData : MetaData
         Melee,
         Ranged
     }
+    [System.Serializable]
     public class OperativeStats
     {
         [SerializeField]
@@ -41,12 +42,13 @@ public class ContentKillTeamMetaData : MetaData
 
 
         [SerializeField]
-        public bool rotateX = false;
+        public bool rotateX = true;
 
         [TextArea]
         public string abilities;
     }
 
+    [System.Serializable]
     public class WeaponStats
     {
         [SerializeField]
