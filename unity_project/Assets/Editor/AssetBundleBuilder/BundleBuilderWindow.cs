@@ -46,14 +46,15 @@ namespace EditorTools.Bundles
 
         private void Awake()
         {
-            if (Catalogue.Instance == null)
-            {
-                Catalogue.CreateInstance();
-                using (var progress = new ProgressBar("Loading Catalogue For All"))
-                {
-                    Catalogue.Instance.LoadFromFile(str => progress.UpdateIncrement(str), c => progress.SetMaxIncrement(c), null);
-                }
-            }
+            // auto does it each time, but this is a bit slow, so only do it when the window is opened
+            ////if (Catalogue.Instance == null)
+            ////{
+            ////    Catalogue.CreateInstance();
+            ////    using (var progress = new ProgressBar("Loading Catalogue For All"))
+            ////    {
+            ////        Catalogue.Instance.LoadFromFile(str => progress.UpdateIncrement(str), c => progress.SetMaxIncrement(c), null);
+            ////    }
+            ////}
             BuildTargetGroup buildTargetGroup = BuildTargetGroup.Standalone;
             m_Platform = BuildTarget.StandaloneWindows64;
 
