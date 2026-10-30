@@ -6,6 +6,14 @@ using UnityEngine;
 public class ContentKillTeamMetaData : MetaData
 {
 
+    public enum TeamType
+    {
+        Kommandos,
+        WolfScouts,
+        Deathwatch,
+        PlagueMarines,
+        AngelsOfDeath,
+    }
     public enum WeaponType
     {
         Melee,
@@ -14,19 +22,26 @@ public class ContentKillTeamMetaData : MetaData
     public class OperativeStats
     {
         [SerializeField]
+        public TeamType teamType;
+        [SerializeField]
         public string operativeName;
-        [SerializeField]
-        public int actionPointLimit;
-        [SerializeField]
-        public float moveInches;
-        [SerializeField]
-        public int save;             // 3 means 3+
-        [SerializeField]
-        public int maxWounds;
-        [SerializeField]
-        public int currentWounds;
 
-       
+        [SerializeField]
+        public int numberToGenerate = 1;
+        [SerializeField]
+        public int actionPointLimit = 3;
+        [SerializeField]
+        public float moveInches =4;
+        [SerializeField]
+        public int save = 3;             // 3 means 3+
+        [SerializeField]
+        public int maxWounds = 13;
+        [SerializeField]
+        public int currentWounds = 13;
+
+
+        [SerializeField]
+        public bool rotateX = false;
 
         [TextArea]
         public string abilities;

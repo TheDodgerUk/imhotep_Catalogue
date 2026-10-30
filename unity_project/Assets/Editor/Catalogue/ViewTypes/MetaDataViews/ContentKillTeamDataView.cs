@@ -25,13 +25,15 @@ namespace EditorTools.CatalogueViewer
         }
         protected override void OnMetaDataGUI()
         {
+            m_MetaData.m_OperativeStats.teamType = (ContentKillTeamMetaData.TeamType)EditorGUILayout.EnumFlagsField("teamType", m_MetaData.m_OperativeStats.teamType);
             m_MetaData.m_OperativeStats.operativeName = EditorGUILayout.TextField("Name", m_MetaData.m_OperativeStats.operativeName);
+            m_MetaData.m_OperativeStats.numberToGenerate = EditorGUILayout.IntField("numberToGenerate", m_MetaData.m_OperativeStats.numberToGenerate);
             m_MetaData.m_OperativeStats.actionPointLimit = EditorGUILayout.IntField("actionPointLimit", m_MetaData.m_OperativeStats.actionPointLimit);
             m_MetaData.m_OperativeStats.moveInches = EditorGUILayout.FloatField("moveInches", m_MetaData.m_OperativeStats.moveInches);
             m_MetaData.m_OperativeStats.save = EditorGUILayout.IntField("save", m_MetaData.m_OperativeStats.save);
             m_MetaData.m_OperativeStats.maxWounds = EditorGUILayout.IntField("maxWounds", m_MetaData.m_OperativeStats.maxWounds);
             m_MetaData.m_OperativeStats.currentWounds = EditorGUILayout.IntField("currentWounds", m_MetaData.m_OperativeStats.currentWounds);
-
+            m_MetaData.m_OperativeStats.rotateX = EditorGUILayout.Toggle("rotateX", m_MetaData.m_OperativeStats.rotateX);
             m_WeaponItemView.OnGUI();
         }
 

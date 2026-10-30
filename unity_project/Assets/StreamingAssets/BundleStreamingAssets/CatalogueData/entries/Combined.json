@@ -60260,7 +60260,7 @@
     "m_SubItems": []
   },
   {
-    "Guid": "47151b53-eb92-41a3-b4dd-744ab2f1a805",
+    "Guid": "4af751a9-4004-41be-bf0e-1c77c756ea84",
     "Attributes": [
       "Moveable"
     ],
@@ -60268,14 +60268,101 @@
       "Render": {
         "Main": {
           "Bundle": "catalogue/prefabs/killteam.unity3d",
-          "Prefab": "TestTerrain_Prefab"
+          "Prefab": "Crimson_Eyed_Sentinel_Prefab"
         },
         "Parts": [],
         "Variants": [],
         "Version": 0,
         "SizeOfFileMB": [
           0.0,
-          1.38795,
+          2.2759037,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "ContentPlacement": {
+        "Placement": "Stackable",
+        "Method": "Gravity",
+        "m_MainColliderEnabledInVR": true,
+        "m_UseAllMainColliders": true,
+        "m_SnapToOthers": true,
+        "m_SnapToOnlyTheseOthers": false,
+        "m_SnappingItemData": [],
+        "m_SnappingDistance": 0.1,
+        "m_SnappingPointEnumField": 1,
+        "m_ExtraPivotPoint": "",
+        "m_ExtraPivotPointAxis": "X"
+      },
+      "ContentSteamAudio": {
+        "m_SoundEnumType": "None",
+        "m_SoundGameObjectName": "RootModel",
+        "m_SplGameObjectName": "",
+        "m_MaterialPreset": "Generic",
+        "m_MaterialValue": {
+          "LowFreqAbsorption": 0.0,
+          "MidFreqAbsorption": 0.0,
+          "HighFreqAbsorption": 0.0,
+          "Scattering": 0.0,
+          "LowFreqTransmission": 0.0,
+          "MidFreqTransmission": 0.0,
+          "HighFreqTransmission": 0.0
+        },
+        "m_ExportAllChildren": true
+      },
+      "ContentKillTeam": {
+        "m_OperativeStats": {
+          "teamType": "Kommandos",
+          "operativeName": "Disruptor",
+          "numberToGenerate": 1,
+          "actionPointLimit": 3,
+          "moveInches": 7.0,
+          "save": 3,
+          "maxWounds": 13,
+          "currentWounds": 13,
+          "rotateX": true
+        },
+        "m_Weapons": [
+          {
+            "weaponType": "Ranged",
+            "weaponName": "Bolt carbine",
+            "attacks": 4,
+            "hit": 3,
+            "normalDamage": 3,
+            "criticalDamage": 4
+          }
+        ]
+      }
+    },
+    "Version": 0,
+    "HasVideo": false,
+    "FlipThumbnail": false,
+    "IncludeInUnitTests": true,
+    "EnvironmentsAvailable": [
+      "MyStuff/KillTeam"
+    ],
+    "CatalogueFilters": [
+      "KillTeam/Player"
+    ],
+    "m_SubItems": []
+  },
+  {
+    "Guid": "bbf58252-5d29-4f3f-ab2e-20cb88dc0ba8",
+    "Attributes": [
+      "Moveable"
+    ],
+    "MetaData": {
+      "Render": {
+        "Main": {
+          "Bundle": "catalogue/prefabs/killteam.unity3d",
+          "Prefab": "Emerald_Flame_Vanguar_Prefab"
+        },
+        "Parts": [],
+        "Variants": [],
+        "Version": 0,
+        "SizeOfFileMB": [
+          0.0,
+          2.2759037,
           0.0,
           0.0,
           0.0
@@ -60316,96 +60403,6 @@
     "FlipThumbnail": false,
     "IncludeInUnitTests": true,
     "EnvironmentsAvailable": [],
-    "CatalogueFilters": [],
-    "m_SubItems": []
-  },
-  {
-    "Guid": "45b5adb4-2da6-4351-be15-b00eb9171ee2",
-    "Attributes": [
-      "Moveable"
-    ],
-    "MetaData": {
-      "Render": {
-        "Main": {
-          "Bundle": "catalogue/prefabs/killteam.unity3d",
-          "Prefab": "creature_Prefab"
-        },
-        "Parts": [],
-        "Variants": [],
-        "Version": 0,
-        "SizeOfFileMB": [
-          0.0,
-          1.38826752,
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "ContentPlacement": {
-        "Placement": "Stackable",
-        "Method": "Gravity",
-        "m_MainColliderEnabledInVR": true,
-        "m_UseAllMainColliders": true,
-        "m_SnapToOthers": true,
-        "m_SnapToOnlyTheseOthers": false,
-        "m_SnappingItemData": [],
-        "m_SnappingDistance": 0.1,
-        "m_SnappingPointEnumField": 1,
-        "m_ExtraPivotPoint": "",
-        "m_ExtraPivotPointAxis": "X"
-      },
-      "ContentSteamAudio": {
-        "m_SoundEnumType": "None",
-        "m_SoundGameObjectName": "RootModel",
-        "m_SplGameObjectName": "",
-        "m_MaterialPreset": "Generic",
-        "m_MaterialValue": {
-          "LowFreqAbsorption": 0.0,
-          "MidFreqAbsorption": 0.0,
-          "HighFreqAbsorption": 0.0,
-          "Scattering": 0.0,
-          "LowFreqTransmission": 0.0,
-          "MidFreqTransmission": 0.0,
-          "HighFreqTransmission": 0.0
-        },
-        "m_ExportAllChildren": true
-      },
-      "ContentKillTeam": {
-        "m_OperativeStats": {
-          "operativeName": "Ork Kommando Boy",
-          "actionPointLimit": 2,
-          "moveInches": 6.0,
-          "save": 5,
-          "maxWounds": 10,
-          "currentWounds": 10
-        },
-        "m_Weapons": [
-          {
-            "weaponType": "Ranged",
-            "weaponName": "Slugga",
-            "attacks": 4,
-            "hit": 4,
-            "normalDamage": 3,
-            "criticalDamage": 4
-          },
-          {
-            "weaponType": "Melee",
-            "weaponName": "Choppa",
-            "attacks": 4,
-            "hit": 3,
-            "normalDamage": 4,
-            "criticalDamage": 5
-          }
-        ]
-      }
-    },
-    "Version": 0,
-    "HasVideo": false,
-    "FlipThumbnail": false,
-    "IncludeInUnitTests": true,
-    "EnvironmentsAvailable": [
-      "MyStuff/KillTeam"
-    ],
     "CatalogueFilters": [],
     "m_SubItems": []
   }
