@@ -19,14 +19,14 @@ namespace EditorTools.Environments
 
         public EnvironmentDataManager()
         {
-            //if (Catalogue.Instance == null)
-            //{
-            //    Catalogue.CreateInstance();
-            //    using (var progress = new ProgressBar("Loading Catalogue For All"))
-            //    {
-            //        Catalogue.Instance.LoadFromFile(str => progress.UpdateIncrement(str), c => progress.SetMaxIncrement(c), null);
-            //    }
-            //}
+            if (Catalogue.Instance == null)
+            {
+                Catalogue.CreateInstance();
+                using (var progress = new ProgressBar("Loading Catalogue For All"))
+                {
+                    Catalogue.Instance.LoadFromFile(str => progress.UpdateIncrement(str), c => progress.SetMaxIncrement(c), null);
+                }
+            }
 
             if (Localisation.Instance == null)
             {
