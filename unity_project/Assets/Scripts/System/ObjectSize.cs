@@ -29,6 +29,13 @@ public class ObjectSize : MonoBehaviour
         UpdateSize();
     }
 
+    public void UpdateRotation(bool badXRotation)
+    {
+        this.transform.Find("PlacementCollision").localRotation = Quaternion.Euler(badXRotation ? -90f : 0f, 0f, 0f);
+        this.transform.Find("RootModel").localRotation = Quaternion.Euler(badXRotation ? -90f : 0f, 0f, 0f);
+    }
+
+
     public void UpdateSize()
     {
         Renderer[] renderers =
@@ -120,6 +127,24 @@ public class ObjectSizeEditor : Editor
 
             SaveChanges(item);
             SaveChanges(item.transform);
+        }
+
+        if (GUILayout.Button("Bad Rotation"))
+        {
+            Undo.RecordObject(item, "Update Rotation");
+
+            item.UpdateRotation(true);
+
+            SaveChanges(item);
+        }
+
+        if (GUILayout.Button("Normal Rotation"))
+        {
+            Undo.RecordObject(item, "Update Rotation");
+
+            item.UpdateRotation(false);
+
+            SaveChanges(item);
         }
     }
 

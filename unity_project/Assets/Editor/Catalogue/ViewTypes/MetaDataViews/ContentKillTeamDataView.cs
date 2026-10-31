@@ -33,7 +33,7 @@ namespace EditorTools.CatalogueViewer
             m_MetaData.m_OperativeStats.save = EditorGUILayout.IntField("save", m_MetaData.m_OperativeStats.save);
             m_MetaData.m_OperativeStats.maxWounds = EditorGUILayout.IntField("maxWounds", m_MetaData.m_OperativeStats.maxWounds);
             m_MetaData.m_OperativeStats.currentWounds = EditorGUILayout.IntField("currentWounds", m_MetaData.m_OperativeStats.currentWounds);
-            m_MetaData.m_OperativeStats.rotateX = EditorGUILayout.Toggle("rotateX", m_MetaData.m_OperativeStats.rotateX);
+            m_MetaData.m_OperativeStats.rotateX = false;
             m_WeaponItemView.OnGUI();
         }
 
