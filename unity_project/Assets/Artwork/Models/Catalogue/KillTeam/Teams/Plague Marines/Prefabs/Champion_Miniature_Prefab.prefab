@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9132007885378696400}
   - component: {fileID: 4150897161400571127}
   - component: {fileID: 8155336747976531921}
+  - component: {fileID: 1639458119093793333}
   m_Layer: 0
   m_Name: Champion_Miniature
   m_TagString: Untagged
@@ -83,6 +84,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &1639458119093793333
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589947675992806302}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.005
+  m_Height: 0.02
+  m_Direction: 2
+  m_Center: {x: 0.000016464852, y: 0.0000045248316, z: -0.000010360035}
 --- !u!1 &684793643611939089
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f656ba065a4dfbe4aa5a4639870d8361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0.01689019, y: 0.01058629, z: 0.0190179}
+  size: {x: 0.01689019, y: 0.019017903, z: 0.0105862925}
   resizeBy: 1
   targetSize: 0.035
 --- !u!1 &7540435814979770434

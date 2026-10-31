@@ -128,6 +128,7 @@ GameObject:
   - component: {fileID: 3131656602867973353}
   - component: {fileID: 2509807663266697621}
   - component: {fileID: 3128216272566537552}
+  - component: {fileID: 3078864702440734554}
   m_Layer: 0
   m_Name: Blighted_Alchemist
   m_TagString: Untagged
@@ -200,6 +201,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &3078864702440734554
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5741021516849368310}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.005
+  m_Height: 0.02
+  m_Direction: 2
+  m_Center: {x: 0.000017310027, y: 0.0000059499885, z: -0.0000050850226}
 --- !u!1 &6377964381679667012
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,6 +270,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f656ba065a4dfbe4aa5a4639870d8361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0.0180143, y: 0.012604561, z: 0.01903065}
+  size: {x: 0.0180143, y: 0.019030653, z: 0.012604564}
   resizeBy: 1
   targetSize: 0.035

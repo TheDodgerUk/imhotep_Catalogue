@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 5917599617602194619}
   - component: {fileID: 63331279450586064}
   - component: {fileID: 2353288053422391550}
+  - component: {fileID: 207296336756600220}
   m_Layer: 0
   m_Name: Herald_of_theRusted_Spear
   m_TagString: Untagged
@@ -168,6 +169,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &207296336756600220
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7338607829546100802}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.005
+  m_Height: 0.02
+  m_Direction: 2
+  m_Center: {x: -0.00001219986, y: 0.000007164899, z: -0.0000041499743}
 --- !u!1 &7507631113729126536
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,7 +238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f656ba065a4dfbe4aa5a4639870d8361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0.01245406, y: 0.008418709, z: 0.0190345}
+  size: {x: 0.01245406, y: 0.019034503, z: 0.008418712}
   resizeBy: 1
   targetSize: 0.035
 --- !u!1 &8306886944269074231

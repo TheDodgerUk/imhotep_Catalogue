@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f656ba065a4dfbe4aa5a4639870d8361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0.01903424, y: 0.011651009, z: 0.01601163}
+  size: {x: 0.01903424, y: 0.016011633, z: 0.011651012}
   resizeBy: 1
   targetSize: 0.035
 --- !u!1 &988292608529025329
@@ -113,6 +113,7 @@ GameObject:
   - component: {fileID: 2974236805225869475}
   - component: {fileID: 5506746285669580495}
   - component: {fileID: 4338844508124096346}
+  - component: {fileID: 2580576631393210052}
   m_Layer: 0
   m_Name: Champion_with_Flail
   m_TagString: Untagged
@@ -185,6 +186,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &2580576631393210052
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4033202600775871580}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.005
+  m_Height: 0.02
+  m_Direction: 2
+  m_Center: {x: 0.0000013397075, y: 0.000014675086, z: 0.00004466531}
 --- !u!1 &5155141562381147959
 GameObject:
   m_ObjectHideFlags: 0

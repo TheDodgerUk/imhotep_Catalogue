@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 5613020298661439336}
   - component: {fileID: 1090947016450342407}
   - component: {fileID: 7992076803223096272}
+  - component: {fileID: 6062676343353787171}
   m_Layer: 0
   m_Name: Wasteland_Marauder
   m_TagString: Untagged
@@ -115,6 +116,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &6062676343353787171
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4186642592026237497}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.005
+  m_Height: 0.02
+  m_Direction: 2
+  m_Center: {x: 0, y: 0.002, z: 0.002}
 --- !u!1 &5525795073278068726
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,7 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f656ba065a4dfbe4aa5a4639870d8361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0.014295809, y: 0.019019939, z: 0.01461288}
+  size: {x: 0.014295809, y: 0.014612883, z: 0.019019943}
   resizeBy: 1
   targetSize: 0.035
 --- !u!1 &8359008169374623309
