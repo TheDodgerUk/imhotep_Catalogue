@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 3956414003876077783}
   - component: {fileID: 6654651447952419967}
   - component: {fileID: 2102138767761783800}
+  - component: {fileID: 3150481618487300508}
   m_Layer: 0
   m_Name: Wolf_Vanguard
   m_TagString: Untagged
@@ -115,6 +116,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &3150481618487300508
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4697545819017096745}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.005
+  m_Height: 0.02
+  m_Direction: 2
+  m_Center: {x: 0.0000071150716, y: 0.0000040496243, z: -0.000007155353}
 --- !u!1 &7529836232833201471
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,6 +270,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f656ba065a4dfbe4aa5a4639870d8361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0.013114549, y: 0.01307996, z: 0.01902525}
+  size: {x: 0.013114549, y: 0.019025253, z: 0.013079964}
   resizeBy: 1
   targetSize: 0.035

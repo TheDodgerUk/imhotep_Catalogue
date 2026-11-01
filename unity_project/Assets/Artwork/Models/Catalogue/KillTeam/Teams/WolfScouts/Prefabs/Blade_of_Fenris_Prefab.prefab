@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7741367273631912526}
   - component: {fileID: 7974629443004632389}
   - component: {fileID: 53744685717568186}
+  - component: {fileID: 863576322435904063}
   m_Layer: 0
   m_Name: Blade_of_Fenris
   m_TagString: Untagged
@@ -83,6 +84,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &863576322435904063
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540344655416603224}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.005
+  m_Height: 0.02
+  m_Direction: 2
+  m_Center: {x: 0.00001039519, y: -0.0000014950059, z: -0.000004050323}
 --- !u!1 &2288517199952113806
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,7 +202,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5404419303274705455}
   - component: {fileID: -5982648539967889701}
-  - component: {fileID: 3042674643515964818}
   m_Layer: 8
   m_Name: Blade_of_Fenris_Prefab
   m_TagString: RootCatalogueItem
@@ -215,21 +238,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f656ba065a4dfbe4aa5a4639870d8361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0.01454111, y: 0.012017669, z: 0.01903118}
+  size: {x: 0.01454111, y: 0.019031184, z: 0.012017673}
   resizeBy: 1
   targetSize: 0.035
---- !u!114 &3042674643515964818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7314361296841791776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0369b97e382021468ce0ede4b84d119, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7412397971447026276
 GameObject:
   m_ObjectHideFlags: 0

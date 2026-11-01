@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f656ba065a4dfbe4aa5a4639870d8361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0.01292086, y: 0.014026409, z: 0.01902585}
+  size: {x: 0.01292086, y: 0.019025853, z: 0.014026413}
   resizeBy: 1
   targetSize: 0.035
 --- !u!1 &4449489767479673044
@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 52967991560900806}
   - component: {fileID: 58963554321636290}
   - component: {fileID: 3432913819140620284}
+  - component: {fileID: 4746908742236500238}
   m_Layer: 0
   m_Name: Azure_Sentinel
   m_TagString: Untagged
@@ -196,6 +197,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &4746908742236500238
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8943503651987769012}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.005
+  m_Height: 0.02
+  m_Direction: 2
+  m_Center: {x: 0.00000009010546, y: 0.000042634794, z: -0.0000076247397}
 --- !u!1 &9012537744227145082
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1674165899163482344}
   - component: {fileID: 5398232866279099908}
   - component: {fileID: 1170315668015267953}
+  - component: {fileID: 6361795037640781703}
   m_Layer: 0
   m_Name: Blue_Wolf_Vanguard
   m_TagString: Untagged
@@ -83,6 +84,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &6361795037640781703
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213147192415910288}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.005
+  m_Height: 0.02
+  m_Direction: 2
+  m_Center: {x: 0.0000071150716, y: 0.0000040496243, z: -0.000007155353}
 --- !u!1 &2287792866916287091
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,7 +117,6 @@ GameObject:
   m_Component:
   - component: {fileID: 696814772055862471}
   - component: {fileID: 4238643050636437928}
-  - component: {fileID: -5777002635554988503}
   m_Layer: 8
   m_Name: Blue_Wolf_Vanguard_Prefab
   m_TagString: RootCatalogueItem
@@ -130,21 +153,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f656ba065a4dfbe4aa5a4639870d8361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0.013114549, y: 0.01307996, z: 0.01902525}
+  size: {x: 0.013114549, y: 0.019025253, z: 0.013079964}
   resizeBy: 1
   targetSize: 0.035
---- !u!114 &-5777002635554988503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2287792866916287091}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0369b97e382021468ce0ede4b84d119, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3462780837455886290
 GameObject:
   m_ObjectHideFlags: 0
