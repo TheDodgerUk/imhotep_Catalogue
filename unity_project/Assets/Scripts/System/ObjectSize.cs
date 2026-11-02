@@ -19,17 +19,18 @@ public class ObjectSize : MonoBehaviour
     [Header("Current size in metres")]
     public Vector3 size;
 
+    [Header("Current size in cm")]
+    public Vector3 sizeCm;
+
+
     [Header("Resize Settings")]
     public Dimension resizeBy = Dimension.Height;
 
     [Min(0.0001f)]
     public float targetSize = 0.035f;
 
-    [Header("Child Names")]
-    [SerializeField]
-    private string rootModelName = "RootModel";
 
-    [SerializeField]
+    private string rootModelName = "RootModel";
     private string collisionName = "PlacementCollision";
 
     private Transform rootModel;
@@ -131,6 +132,11 @@ public class ObjectSize : MonoBehaviour
         }
 
         size = found ? bounds.size : Vector3.zero;
+        sizeCm = new Vector3(
+            Mathf.Round(size.x * 1000f) / 10f,
+            Mathf.Round(size.y * 1000f) / 10f,
+            Mathf.Round(size.z * 1000f) / 10f
+        );
     }
 
     // --------------------------------------------------
