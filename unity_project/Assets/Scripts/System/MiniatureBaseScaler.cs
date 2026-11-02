@@ -1,9 +1,9 @@
 
-using UnityEditor;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
-
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 [DisallowMultipleComponent]
 public class MiniatureBaseScaler : MonoBehaviour
@@ -52,6 +52,61 @@ public class MiniatureBaseScaler : MonoBehaviour
 
 #if UNITY_EDITOR
 
+    private void OnDrawGizmosSelected()
+    {
+        if (rootModel == null)
+            return;
+
+        Renderer[] renderers =
+            rootModel.GetComponentsInChildren<Renderer>(true);
+
+        if (renderers.Length == 0)
+            return;
+
+        Bounds bounds = renderers[0].bounds;
+
+        for (int i = 1; i < renderers.Length; i++)
+            bounds.Encapsulate(renderers[i].bounds);
+
+        float scanY =
+            bounds.min.y + scanHeightMM / 1000f;
+
+        float lineLength =
+            Mathf.Max(bounds.size.x, bounds.size.z) * 1.5f;
+
+        float half = lineLength * 0.5f;
+
+        Vector3 centre = new Vector3(
+            bounds.center.x,
+            scanY,
+            bounds.center.z
+        );
+
+        // X-axis horizontal line
+        Vector3 xStart =
+            centre + Vector3.left * half;
+
+        Vector3 xEnd =
+            centre + Vector3.right * half;
+
+        // Z-axis horizontal line (90 degrees to X)
+        Vector3 zStart =
+            centre + Vector3.back * half;
+
+        Vector3 zEnd =
+            centre + Vector3.forward * half;
+
+        Gizmos.color = Color.yellow;
+
+        Gizmos.DrawLine(xStart, xEnd);
+        Gizmos.DrawLine(zStart, zEnd);
+
+        Handles.Label(
+            centre + Vector3.up * 0.005f,
+            $"Scan Height: {scanHeightMM:F1} mm"
+        );
+    }
+
     private bool TryMeasure(
         out float diameter,
         out float bottomY,
@@ -72,16 +127,17 @@ public class MiniatureBaseScaler : MonoBehaviour
         MeshFilter[] filters =
             rootModel.GetComponentsInChildren<MeshFilter>(true);
 
-        // Convert vertices to parent-local coordinates.
-        Matrix4x4 worldToParent = transform.worldToLocalMatrix;
+        Matrix4x4 worldToParent =
+            transform.worldToLocalMatrix;
 
         float minY = float.PositiveInfinity;
         bool found = false;
 
-        // First pass: find the lowest vertex.
+        // First pass: find lowest mesh vertex.
         foreach (MeshFilter filter in filters)
         {
             Mesh mesh = filter.sharedMesh;
+
             if (mesh == null)
                 continue;
 
@@ -100,11 +156,14 @@ public class MiniatureBaseScaler : MonoBehaviour
             }
 
             Matrix4x4 matrix =
-                worldToParent * filter.transform.localToWorldMatrix;
+                worldToParent *
+                filter.transform.localToWorldMatrix;
 
             foreach (Vector3 vertex in vertices)
             {
-                Vector3 p = matrix.MultiplyPoint3x4(vertex);
+                Vector3 p =
+                    matrix.MultiplyPoint3x4(vertex);
+
                 minY = Mathf.Min(minY, p.y);
                 found = true;
             }
@@ -115,17 +174,19 @@ public class MiniatureBaseScaler : MonoBehaviour
 
         bottomY = minY;
 
-        float maxScanY = minY + scanHeightMM / 1000f;
+        float maxScanY =
+            minY + scanHeightMM / 1000f;
 
         float minX = float.PositiveInfinity;
         float maxX = float.NegativeInfinity;
         float minZ = float.PositiveInfinity;
         float maxZ = float.NegativeInfinity;
 
-        // Second pass: examine only bottom vertices.
+        // Second pass: sample vertices below scan height.
         foreach (MeshFilter filter in filters)
         {
             Mesh mesh = filter.sharedMesh;
+
             if (mesh == null)
                 continue;
 
@@ -141,11 +202,13 @@ public class MiniatureBaseScaler : MonoBehaviour
             }
 
             Matrix4x4 matrix =
-                worldToParent * filter.transform.localToWorldMatrix;
+                worldToParent *
+                filter.transform.localToWorldMatrix;
 
             foreach (Vector3 vertex in vertices)
             {
-                Vector3 p = matrix.MultiplyPoint3x4(vertex);
+                Vector3 p =
+                    matrix.MultiplyPoint3x4(vertex);
 
                 if (p.y > maxScanY)
                     continue;
@@ -184,14 +247,16 @@ public class MiniatureBaseScaler : MonoBehaviour
             out float bottom,
             out int count))
         {
-            Debug.LogWarning("Unable to measure base.", this);
+            Debug.LogWarning(
+                "Unable to measure base.",
+                this);
             return;
         }
 
         measuredDiameterMM = diameter * 1000f;
         sampledVertices = count;
 
-        UnityEditor.EditorUtility.SetDirty(this);
+        EditorUtility.SetDirty(this);
 
         Debug.Log(
             $"Base diameter: {measuredDiameterMM:F2} mm\n" +
@@ -202,35 +267,54 @@ public class MiniatureBaseScaler : MonoBehaviour
 
     public void ScaleToTarget()
     {
+        FindChildren();
+
+        if (rootModel == null)
+        {
+            Debug.LogError("RootModel missing.", this);
+            return;
+        }
+
+        if (transform.localScale != Vector3.one)
+        {
+            Debug.LogError(
+                "Parent scale must be (1,1,1) before scaling.",
+                this);
+            return;
+        }
+
         if (!TryMeasure(
             out float diameter,
             out float bottom,
             out int count))
         {
-            Debug.LogWarning("Unable to scale base.", this);
+            Debug.LogWarning(
+                "Unable to scale base.",
+                this);
             return;
         }
 
         float target = targetDiameterMM / 1000f;
         float factor = target / diameter;
 
-        if (!float.IsFinite(factor) || factor <= 0f)
+        if (float.IsNaN(factor) ||
+            float.IsInfinity(factor) ||
+            factor <= 0f)
             return;
 
-        UnityEditor.Undo.RecordObject(
-            transform, "Scale Miniature Parent");
-
-        UnityEditor.Undo.RecordObject(
+        Undo.RecordObject(
             rootModel, "Scale RootModel");
 
         if (placementCollision != null)
-            UnityEditor.Undo.RecordObject(
-                placementCollision, "Scale PlacementCollision");
+        {
+            Undo.RecordObject(
+                placementCollision,
+                "Scale PlacementCollision");
+        }
 
-        // Keep the prefab parent at scale 1.
-        // This assumes it is not already carrying a custom scale.
-        transform.localScale = Vector3.one;
+        Undo.RecordObject(this, "Scale Miniature Base");
 
+        // Parent scale remains (1,1,1).
         rootModel.localScale *= factor;
         rootModel.localPosition *= factor;
 
@@ -240,7 +324,6 @@ public class MiniatureBaseScaler : MonoBehaviour
             placementCollision.localPosition *= factor;
         }
 
-        // Measure again after scaling.
         if (TryMeasure(
             out float newDiameter,
             out float newBottom,
@@ -248,7 +331,8 @@ public class MiniatureBaseScaler : MonoBehaviour
         {
             if (alignBottomToZero)
             {
-                Vector3 offset = Vector3.up * -newBottom;
+                Vector3 offset =
+                    Vector3.up * -newBottom;
 
                 rootModel.localPosition += offset;
 
@@ -262,11 +346,17 @@ public class MiniatureBaseScaler : MonoBehaviour
 
         lastScaleFactor = factor;
 
-        UnityEditor.EditorUtility.SetDirty(this);
+        EditorUtility.SetDirty(rootModel);
+
+        if (placementCollision != null)
+            EditorUtility.SetDirty(placementCollision);
+
+        EditorUtility.SetDirty(this);
 
         Debug.Log(
             $"Scaled miniature base to {targetDiameterMM:F2} mm\n" +
             $"Scale factor: {factor:F5}\n" +
+            $"Measured diameter: {measuredDiameterMM:F2} mm\n" +
             $"Parent scale: {transform.localScale}",
             this);
     }
@@ -274,19 +364,51 @@ public class MiniatureBaseScaler : MonoBehaviour
 #endif
 }
 
-
-/////////////////////////////////////////////////////////////////
-///
 #if UNITY_EDITOR
-
-
 
 [CustomEditor(typeof(MiniatureBaseScaler))]
 public class MiniatureBaseScalerEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        DrawDefaultInspector();
+        serializedObject.Update();
+
+        // Editable fields
+        DrawPropertiesExcluding(
+            serializedObject,
+            "m_Script",
+            "measuredDiameterMM",
+            "lastScaleFactor",
+            "sampledVertices"
+        );
+
+        EditorGUILayout.Space(10);
+
+        // Read-only measured results
+        EditorGUILayout.LabelField(
+            "Measured Results",
+            EditorStyles.boldLabel
+        );
+
+        using (new EditorGUI.DisabledScope(true))
+        {
+            EditorGUILayout.PropertyField(
+                serializedObject.FindProperty(
+                    "measuredDiameterMM")
+            );
+
+            EditorGUILayout.PropertyField(
+                serializedObject.FindProperty(
+                    "lastScaleFactor")
+            );
+
+            EditorGUILayout.PropertyField(
+                serializedObject.FindProperty(
+                    "sampledVertices")
+            );
+        }
+
+        serializedObject.ApplyModifiedProperties();
 
         MiniatureBaseScaler scaler =
             (MiniatureBaseScaler)target;
@@ -317,11 +439,14 @@ public class MiniatureBaseScalerEditor : Editor
             scaler.ScaleToTarget();
         }
 
+        EditorGUILayout.Space(8);
+
         EditorGUILayout.HelpBox(
-            "Measures mesh vertices near the bottom of RootModel. " +
-            "Supports models rotated 0 or -90 degrees on X, " +
-            "provided the base is horizontal in the scene.",
-            MessageType.Info);
+            "Two yellow lines cross at 90 degrees at the " +
+            "scan height. Measured results are read-only. " +
+            "RootModel and PlacementCollision are scaled together.",
+            MessageType.Info
+        );
     }
 }
 
