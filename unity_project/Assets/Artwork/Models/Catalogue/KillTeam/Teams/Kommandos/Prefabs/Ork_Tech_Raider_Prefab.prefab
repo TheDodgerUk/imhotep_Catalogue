@@ -234,6 +234,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1847210802266307356}
   - component: {fileID: 1358203744298938475}
+  - component: {fileID: 3895278227493114961}
   m_Layer: 8
   m_Name: Ork_Tech_Raider_Prefab
   m_TagString: RootCatalogueItem
@@ -275,3 +276,24 @@ MonoBehaviour:
   targetSize: 0.035
   rootModelName: RootModel
   collisionName: PlacementCollision
+--- !u!114 &3895278227493114961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6275031868405077536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3bcfb5ea4ca6804b85f61a955869a6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootModel: {fileID: 1650021171654706006}
+  placementCollision: {fileID: 7509959283147701775}
+  targetDiameterMM: 40
+  scanHeightMM: 5
+  minimumVertices: 12
+  alignBottomToZero: 1
+  measuredDiameterMM: 0
+  lastScaleFactor: 0
+  sampledVertices: 0

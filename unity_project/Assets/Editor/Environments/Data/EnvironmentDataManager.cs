@@ -1,4 +1,5 @@
 ﻿using FilePathHelper;
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -22,6 +23,7 @@ namespace EditorTools.Environments
             if (Catalogue.Instance == null)
             {
                 Catalogue.CreateInstance();
+                Debug.Log($"Loading Catalogue : {Environment.StackTrace}");
                 using (var progress = new ProgressBar("Loading Catalogue For All"))
                 {
                     Catalogue.Instance.LoadFromFile(str => progress.UpdateIncrement(str), c => progress.SetMaxIncrement(c), null);

@@ -142,6 +142,7 @@ namespace EditorTools.Bundles
             {
                 if (GUILayout.Button("Clear loaded Catalogue", GUILayout.Width(200)) == true)
                 {
+                    Debug.Log($"Loading Catalogue : {Environment.StackTrace}");
                     using (var progress = new ProgressBar("Loading Catalogue For All"))
                     {
                         Catalogue.Instance.LoadFromFile(str => progress.UpdateIncrement(str), c => progress.SetMaxIncrement(c), null);

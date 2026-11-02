@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2632619717157818984}
   - component: {fileID: -6620076063581819911}
+  - component: {fileID: 8681385613232350964}
   m_Layer: 8
   m_Name: Emerald_Flame_Vanguar_Prefab
   m_TagString: RootCatalogueItem
@@ -27,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.839571, y: 1.839571, z: 1.839571}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8464924312634287500}
@@ -46,11 +47,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f656ba065a4dfbe4aa5a4639870d8361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0.029495256, y: 0.034999996, z: 0.0333245}
+  size: {x: 0.03997897, y: 0.0474403, z: 0.04516927}
   resizeBy: 1
   targetSize: 0.035
   rootModelName: RootModel
   collisionName: PlacementCollision
+--- !u!114 &8681385613232350964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419614833397188020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3bcfb5ea4ca6804b85f61a955869a6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootModel: {fileID: 2982873302865364434}
+  placementCollision: {fileID: 8464924312634287500}
+  targetDiameterMM: 40
+  scanHeightMM: 2
+  minimumVertices: 12
+  alignBottomToZero: 1
+  measuredDiameterMM: 40
+  lastScaleFactor: 1
+  sampledVertices: 17278
 --- !u!1 &4054148550504710559
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,8 +151,8 @@ Transform:
   m_GameObject: {fileID: 6305444792211899278}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.009519621, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.023736447, z: 0}
+  m_LocalScale: {x: 2.4934232, y: 2.4934232, z: 2.4934232}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3054391793732535724}
@@ -268,8 +290,8 @@ Transform:
   m_GameObject: {fileID: 7888652267882831267}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.009519621, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.023736447, z: 0}
+  m_LocalScale: {x: 2.4934232, y: 2.4934232, z: 2.4934232}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5031202452776326002}
