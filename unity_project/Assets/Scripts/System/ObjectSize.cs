@@ -93,7 +93,175 @@ public class ObjectSize : MonoBehaviour
 
         UpdateSize();
     }
+
+    /// <summary>
+    /// //////
+    /// </summary>
+    [Header("Child Names")]
+    [SerializeField]
+    private string rootModelName = "RootModel";
+
+    [SerializeField]
+    private string collisionName = "PlacementCollision";
+
+    public void AlignModelBase()
+    {
+#if UNITY_EDITOR
+        Transform rootModel = transform.Find(rootModelName);
+        Transform placementCollision = transform.Find(collisionName);
+
+        if (rootModel == null || placementCollision == null)
+        {
+            Debug.LogError(
+                "RootModel or PlacementCollision not found!",
+                this
+            );
+            return;
+        }
+
+        // ---------------------------------------------
+        // 1. PRESERVE EXISTING MODEL ROTATION
+        // ---------------------------------------------
+
+        Quaternion existingRotation = rootModel.localRotation;
+
+        // The model may already be 0 or -90.
+        // Do not force a different rotation.
+        // Make the collision use the same rotation.
+        //
+        // Assumes the collision mesh was authored
+        // with the same local axis orientation.
+
+        // ---------------------------------------------
+        // 2. FIND LOWEST VERTEX
+        // ---------------------------------------------
+
+        float lowestY = float.PositiveInfinity;
+        bool foundMesh = false;
+
+        MeshFilter[] meshFilters =
+            rootModel.GetComponentsInChildren<MeshFilter>(true);
+
+        foreach (MeshFilter meshFilter in meshFilters)
+        {
+            Mesh mesh = meshFilter.sharedMesh;
+
+            if (mesh == null)
+                continue;
+
+            Vector3[] vertices = mesh.vertices;
+
+            foreach (Vector3 vertex in vertices)
+            {
+                Vector3 worldPoint =
+                    meshFilter.transform.TransformPoint(vertex);
+
+                Vector3 localPoint =
+                    transform.InverseTransformPoint(worldPoint);
+
+                lowestY = Mathf.Min(lowestY, localPoint.y);
+                foundMesh = true;
+            }
+        }
+
+        SkinnedMeshRenderer[] skinnedMeshes =
+            rootModel.GetComponentsInChildren<SkinnedMeshRenderer>(true);
+
+        foreach (SkinnedMeshRenderer renderer in skinnedMeshes)
+        {
+            Bounds bounds = renderer.localBounds;
+
+            Vector3 centre = bounds.center;
+            Vector3 extents = bounds.extents;
+
+            for (int x = -1; x <= 1; x += 2)
+            {
+                for (int y = -1; y <= 1; y += 2)
+                {
+                    for (int z = -1; z <= 1; z += 2)
+                    {
+                        Vector3 corner = centre +
+                            Vector3.Scale(
+                                extents,
+                                new Vector3(x, y, z)
+                            );
+
+                        Vector3 worldPoint =
+                            renderer.transform.TransformPoint(corner);
+
+                        Vector3 localPoint =
+                            transform.InverseTransformPoint(worldPoint);
+
+                        lowestY = Mathf.Min(lowestY, localPoint.y);
+                        foundMesh = true;
+                    }
+                }
+            }
+        }
+
+        if (!foundMesh)
+        {
+            Debug.LogError(
+                "No meshes found under RootModel!",
+                this
+            );
+            return;
+        }
+
+        // ---------------------------------------------
+        // 3. CALCULATE Y OFFSET
+        // ---------------------------------------------
+
+        float offsetY = -lowestY;
+
+        // ---------------------------------------------
+        // 4. APPLY CHANGES
+        // ---------------------------------------------
+
+        Undo.RecordObject(rootModel, "Align RootModel");
+        Undo.RecordObject(
+            placementCollision,
+            "Align PlacementCollision"
+        );
+
+        // Keep the original RootModel rotation.
+        rootModel.localRotation = existingRotation;
+
+        // Match collision rotation to model rotation.
+        placementCollision.localRotation = existingRotation;
+
+        // Move both children by the same Y offset.
+        Vector3 modelPosition = rootModel.localPosition;
+        modelPosition.y += offsetY;
+        rootModel.localPosition = modelPosition;
+
+        Vector3 collisionPosition =
+            placementCollision.localPosition;
+
+        collisionPosition.y += offsetY;
+        placementCollision.localPosition = collisionPosition;
+
+        // ---------------------------------------------
+        // 5. SAVE CHANGES
+        // ---------------------------------------------
+
+        EditorUtility.SetDirty(rootModel);
+        EditorUtility.SetDirty(placementCollision);
+
+        Physics.SyncTransforms();
+
+        Debug.Log(
+            $"Aligned: {name}\n" +
+            $"Model rotation: {rootModel.localEulerAngles}\n" +
+            $"Collision rotation: {placementCollision.localEulerAngles}\n" +
+            $"Original lowest Y: {lowestY:F4}\n" +
+            $"Applied Y offset: {offsetY:F4}",
+            this
+        );
+#endif
+    }
 }
+
 
 #if UNITY_EDITOR
 [CustomEditor(typeof(ObjectSize))]
@@ -146,6 +314,13 @@ public class ObjectSizeEditor : Editor
 
             SaveChanges(item);
         }
+
+        if (GUILayout.Button("Fix Model Base Y = 0"))
+        {
+            item.AlignModelBase();
+        }
+
+
     }
 
     private static void SaveChanges(Object obj)

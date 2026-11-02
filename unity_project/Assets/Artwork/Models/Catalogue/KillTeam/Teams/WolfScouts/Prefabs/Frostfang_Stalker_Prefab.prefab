@@ -132,7 +132,7 @@ Transform:
   m_GameObject: {fileID: 4378133745856456003}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.0048392205, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -219,7 +219,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.0712311, y: 2.0712311, z: 2.0712311}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 572200236437139544}
@@ -238,9 +238,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f656ba065a4dfbe4aa5a4639870d8361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0.010857619, y: 0.009656093, z: 0.019028753}
+  size: {x: 0.022488639, y: 0.020000003, z: 0.039412946}
   resizeBy: 1
-  targetSize: 0.035
+  targetSize: 0.02
+  rootModelName: RootModel
+  collisionName: PlacementCollision
 --- !u!1 &8637310194909615833
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,7 +268,7 @@ Transform:
   m_GameObject: {fileID: 8637310194909615833}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.0048392205, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
