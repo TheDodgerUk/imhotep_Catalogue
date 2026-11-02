@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -18,47 +19,194 @@ public class ObjectSize : MonoBehaviour
     [Header("Current size in metres")]
     public Vector3 size;
 
-    [Header("Resize settings")]
+    [Header("Resize Settings")]
     public Dimension resizeBy = Dimension.Height;
 
     [Min(0.0001f)]
     public float targetSize = 0.035f;
 
+    [Header("Child Names")]
+    [SerializeField]
+    private string rootModelName = "RootModel";
+
+    [SerializeField]
+    private string collisionName = "PlacementCollision";
+
+    private Transform rootModel;
+    private Transform placementCollision;
+
     private void Awake()
     {
+        if (!FindChildren())
+            return;
+
+        this.transform.localScale = Vector3.one;
         UpdateSize();
     }
 
-    public void UpdateRotation(bool badXRotation)
+    private bool FindChildren()
     {
-        this.transform.Find("PlacementCollision").localRotation = Quaternion.Euler(badXRotation ? -90f : 0f, 0f, 0f);
-        this.transform.Find("RootModel").localRotation = Quaternion.Euler(badXRotation ? -90f : 0f, 0f, 0f);
+        rootModel = transform.Find(rootModelName);
+        placementCollision = transform.Find(collisionName);
+
+        if (rootModel == null || placementCollision == null)
+        {
+            Debug.LogError(
+                "RootModel or PlacementCollision not found!",
+                this
+            );
+
+            return false;
+        }
+
+        return true;
     }
 
+    // --------------------------------------------------
+    // UPDATE ROTATION
+    // --------------------------------------------------
+
+    public void UpdateRotation(bool badXRotation)
+    {
+        if (!FindChildren())
+            return;
+
+#if UNITY_EDITOR
+        Undo.RecordObjects(
+            new UnityEngine.Object[]
+            {
+                rootModel,
+                placementCollision
+            },
+            "Update Model Rotation"
+        );
+#endif
+
+        Quaternion rotation = Quaternion.Euler(
+            badXRotation ? -90f : 0f,
+            0f,
+            0f
+        );
+
+        rootModel.localRotation = rotation;
+        placementCollision.localRotation = rotation;
+
+        Physics.SyncTransforms();
+
+        UpdateSize();
+
+        SaveTransform(rootModel);
+        SaveTransform(placementCollision);
+    }
+
+    // --------------------------------------------------
+    // UPDATE SIZE
+    // --------------------------------------------------
 
     public void UpdateSize()
     {
-        Renderer[] renderers =
-            GetComponentsInChildren<Renderer>();
-
-        if (renderers.Length == 0)
+        if (!FindChildren())
         {
             size = Vector3.zero;
             return;
         }
 
-        Bounds bounds = renderers[0].bounds;
+        Renderer[] renderers =
+            rootModel.GetComponentsInChildren<Renderer>(true);
 
-        for (int i = 1; i < renderers.Length; i++)
+        bool found = false;
+        Bounds bounds = new Bounds();
+
+        foreach (Renderer renderer in renderers)
         {
-            bounds.Encapsulate(renderers[i].bounds);
+            if (!found)
+            {
+                bounds = renderer.bounds;
+                found = true;
+            }
+            else
+            {
+                bounds.Encapsulate(renderer.bounds);
+            }
         }
 
-        size = bounds.size;
+        size = found ? bounds.size : Vector3.zero;
     }
+
+    // --------------------------------------------------
+    // RESIZE OBJECT
+    // --------------------------------------------------
 
     public void ResizeObject()
     {
+        if (!FindChildren())
+            return;
+
+        if (targetSize <= 0f)
+        {
+            Debug.LogWarning(
+                "Target size must be greater than zero.",
+                this
+            );
+            return;
+        }
+
+#if UNITY_EDITOR
+        Undo.RecordObjects(
+            new UnityEngine.Object[]
+            {
+                transform,
+                rootModel,
+                placementCollision
+            },
+            "Resize Model and Collision"
+        );
+#endif
+
+        // Preserve the existing world geometry when
+        // normalising the parent scale.
+        Vector3 parentScale = transform.localScale;
+
+        if (Mathf.Abs(parentScale.x) < 0.000001f ||
+            Mathf.Abs(parentScale.y) < 0.000001f ||
+            Mathf.Abs(parentScale.z) < 0.000001f)
+        {
+            Debug.LogWarning(
+                "Cannot resize: parent has a zero scale axis.",
+                this
+            );
+            return;
+        }
+
+        // Move the parent's scale into both children.
+        // This preserves their effective local transforms
+        // when the parent scale is uniform.
+        bool uniformParent =
+            Mathf.Approximately(parentScale.x, parentScale.y) &&
+            Mathf.Approximately(parentScale.y, parentScale.z);
+
+        if (!uniformParent)
+        {
+            Debug.LogWarning(
+                "Non-uniform parent scale cannot always be " +
+                "transferred exactly to rotated children. " +
+                "Use a uniform parent scale for reliable results.",
+                this
+            );
+            return;
+        }
+
+        float existingScale = parentScale.x;
+
+        rootModel.localScale *= existingScale;
+        placementCollision.localScale *= existingScale;
+
+        rootModel.localPosition *= existingScale;
+        placementCollision.localPosition *= existingScale;
+
+        transform.localScale = Vector3.one;
+
+        Physics.SyncTransforms();
         UpdateSize();
 
         float currentSize;
@@ -78,67 +226,61 @@ public class ObjectSize : MonoBehaviour
                 break;
         }
 
-        if (currentSize <= 0.000001f || targetSize <= 0f)
+        if (currentSize <= 0.000001f)
         {
             Debug.LogWarning(
-                "Cannot resize: current and target sizes must be above zero.",
+                "Cannot resize: selected dimension is zero.",
                 this
             );
+
+            SaveAllTransforms();
             return;
         }
 
         float multiplier = targetSize / currentSize;
 
-        transform.localScale *= multiplier;
+        // Scale both children by the same amount.
+        rootModel.localScale *= multiplier;
+        placementCollision.localScale *= multiplier;
+
+        // Scale local offsets to preserve alignment.
+        rootModel.localPosition *= multiplier;
+        placementCollision.localPosition *= multiplier;
+
+        // Do not change either child's rotation.
+        // Supports both 0,0,0 and -90,0,0.
+
+        Physics.SyncTransforms();
 
         UpdateSize();
+
+        SaveAllTransforms();
+
+        Debug.Log(
+            $"Resized: {name}\n" +
+            $"Target size: {targetSize:F5}\n" +
+            $"Multiplier: {multiplier:F5}\n" +
+            $"Parent scale: {transform.localScale}\n" +
+            $"RootModel scale: {rootModel.localScale}\n" +
+            $"Collision scale: {placementCollision.localScale}\n" +
+            $"Final size: {size}",
+            this
+        );
     }
 
-    /// <summary>
-    /// //////
-    /// </summary>
-    [Header("Child Names")]
-    [SerializeField]
-    private string rootModelName = "RootModel";
-
-    [SerializeField]
-    private string collisionName = "PlacementCollision";
+    // --------------------------------------------------
+    // ALIGN MODEL BASE TO Y = 0
+    // --------------------------------------------------
 
     public void AlignModelBase()
     {
-#if UNITY_EDITOR
-        Transform rootModel = transform.Find(rootModelName);
-        Transform placementCollision = transform.Find(collisionName);
-
-        if (rootModel == null || placementCollision == null)
-        {
-            Debug.LogError(
-                "RootModel or PlacementCollision not found!",
-                this
-            );
+        if (!FindChildren())
             return;
-        }
-
-        // ---------------------------------------------
-        // 1. PRESERVE EXISTING MODEL ROTATION
-        // ---------------------------------------------
-
-        Quaternion existingRotation = rootModel.localRotation;
-
-        // The model may already be 0 or -90.
-        // Do not force a different rotation.
-        // Make the collision use the same rotation.
-        //
-        // Assumes the collision mesh was authored
-        // with the same local axis orientation.
-
-        // ---------------------------------------------
-        // 2. FIND LOWEST VERTEX
-        // ---------------------------------------------
 
         float lowestY = float.PositiveInfinity;
         bool foundMesh = false;
 
+        // MeshFilter meshes
         MeshFilter[] meshFilters =
             rootModel.GetComponentsInChildren<MeshFilter>(true);
 
@@ -164,6 +306,7 @@ public class ObjectSize : MonoBehaviour
             }
         }
 
+        // Skinned meshes
         SkinnedMeshRenderer[] skinnedMeshes =
             rootModel.GetComponentsInChildren<SkinnedMeshRenderer>(true);
 
@@ -208,29 +351,26 @@ public class ObjectSize : MonoBehaviour
             return;
         }
 
-        // ---------------------------------------------
-        // 3. CALCULATE Y OFFSET
-        // ---------------------------------------------
-
         float offsetY = -lowestY;
 
-        // ---------------------------------------------
-        // 4. APPLY CHANGES
-        // ---------------------------------------------
-
-        Undo.RecordObject(rootModel, "Align RootModel");
-        Undo.RecordObject(
-            placementCollision,
-            "Align PlacementCollision"
+#if UNITY_EDITOR
+        Undo.RecordObjects(
+            new UnityEngine.Object[]
+            {
+                rootModel,
+                placementCollision
+            },
+            "Align Model Base"
         );
+#endif
 
-        // Keep the original RootModel rotation.
+        // Preserve existing rotations.
+        Quaternion existingRotation = rootModel.localRotation;
+
         rootModel.localRotation = existingRotation;
-
-        // Match collision rotation to model rotation.
         placementCollision.localRotation = existingRotation;
 
-        // Move both children by the same Y offset.
+        // Move both children together.
         Vector3 modelPosition = rootModel.localPosition;
         modelPosition.y += offsetY;
         rootModel.localPosition = modelPosition;
@@ -241,29 +381,58 @@ public class ObjectSize : MonoBehaviour
         collisionPosition.y += offsetY;
         placementCollision.localPosition = collisionPosition;
 
-        // ---------------------------------------------
-        // 5. SAVE CHANGES
-        // ---------------------------------------------
-
-        EditorUtility.SetDirty(rootModel);
-        EditorUtility.SetDirty(placementCollision);
-
         Physics.SyncTransforms();
+
+        UpdateSize();
+
+        SaveTransform(rootModel);
+        SaveTransform(placementCollision);
 
         Debug.Log(
             $"Aligned: {name}\n" +
             $"Model rotation: {rootModel.localEulerAngles}\n" +
             $"Collision rotation: {placementCollision.localEulerAngles}\n" +
-            $"Original lowest Y: {lowestY:F4}\n" +
-            $"Applied Y offset: {offsetY:F4}",
+            $"Original lowest Y: {lowestY:F5}\n" +
+            $"Applied Y offset: {offsetY:F5}",
             this
         );
+    }
+
+    // --------------------------------------------------
+    // EDITOR SAVE HELPERS
+    // --------------------------------------------------
+
+    private void SaveAllTransforms()
+    {
+        SaveTransform(transform);
+        SaveTransform(rootModel);
+        SaveTransform(placementCollision);
+    }
+
+    private void SaveTransform(Transform target)
+    {
+        if (target == null)
+            return;
+
+#if UNITY_EDITOR
+        EditorUtility.SetDirty(target);
+
+        if (PrefabUtility.IsPartOfPrefabInstance(target))
+        {
+            PrefabUtility.RecordPrefabInstancePropertyModifications(
+                target
+            );
+        }
 #endif
     }
 }
 
+// ======================================================
+// CUSTOM INSPECTOR
+// ======================================================
 
 #if UNITY_EDITOR
+
 [CustomEditor(typeof(ObjectSize))]
 public class ObjectSizeEditor : Editor
 {
@@ -273,9 +442,14 @@ public class ObjectSizeEditor : Editor
 
         ObjectSize item = (ObjectSize)target;
 
-        EditorGUILayout.Space();
+        EditorGUILayout.Space(10);
 
-        if (GUILayout.Button("Update Size"))
+        EditorGUILayout.LabelField(
+            "Object Tools",
+            EditorStyles.boldLabel
+        );
+
+        if (GUILayout.Button("Update Size", GUILayout.Height(30)))
         {
             Undo.RecordObject(item, "Update Object Size");
 
@@ -284,53 +458,50 @@ public class ObjectSizeEditor : Editor
             SaveChanges(item);
         }
 
-        if (GUILayout.Button("Resize Object"))
+        if (GUILayout.Button("Resize Object", GUILayout.Height(30)))
         {
-            Undo.RecordObjects(
-                new Object[] { item, item.transform },
-                "Resize Object"
-            );
-
             item.ResizeObject();
 
             SaveChanges(item);
-            SaveChanges(item.transform);
         }
 
-        if (GUILayout.Button("Bad Rotation"))
-        {
-            Undo.RecordObject(item, "Update Rotation");
+        EditorGUILayout.Space(5);
 
+        if (GUILayout.Button("Bad Rotation (-90 X)", GUILayout.Height(30)))
+        {
             item.UpdateRotation(true);
 
             SaveChanges(item);
         }
 
-        if (GUILayout.Button("Normal Rotation"))
+        if (GUILayout.Button("Normal Rotation (0 X)", GUILayout.Height(30)))
         {
-            Undo.RecordObject(item, "Update Rotation");
-
             item.UpdateRotation(false);
 
             SaveChanges(item);
         }
 
-        if (GUILayout.Button("Fix Model Base Y = 0"))
+        EditorGUILayout.Space(5);
+
+        if (GUILayout.Button("Fix Model Base Y = 0", GUILayout.Height(30)))
         {
             item.AlignModelBase();
+
+            SaveChanges(item);
         }
-
-
     }
 
-    private static void SaveChanges(Object obj)
+    private static void SaveChanges(UnityEngine.Object obj)
     {
         EditorUtility.SetDirty(obj);
 
         if (PrefabUtility.IsPartOfPrefabInstance(obj))
         {
-            PrefabUtility.RecordPrefabInstancePropertyModifications(obj);
+            PrefabUtility.RecordPrefabInstancePropertyModifications(
+                obj
+            );
         }
     }
 }
+
 #endif
