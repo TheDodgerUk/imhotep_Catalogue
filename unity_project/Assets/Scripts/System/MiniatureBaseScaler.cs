@@ -346,12 +346,17 @@ public class MiniatureBaseScaler : MonoBehaviour
 
         lastScaleFactor = factor;
 
+
+        this.gameObject.transform.localScale = Vector3.one;
+        EditorUtility.SetDirty(this.gameObject);
         EditorUtility.SetDirty(rootModel);
 
         if (placementCollision != null)
             EditorUtility.SetDirty(placementCollision);
 
         EditorUtility.SetDirty(this);
+
+        PrefabUtility.SavePrefabAsset(gameObject);
 
         Debug.Log(
             $"Scaled miniature base to {targetDiameterMM:F2} mm\n" +
