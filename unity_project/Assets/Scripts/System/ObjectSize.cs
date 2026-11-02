@@ -1,5 +1,7 @@
 
 using UnityEngine;
+using UnityEngine.UIElements;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -497,14 +499,42 @@ public class ObjectSizeEditor : Editor
         }
     }
 
-    private static void SaveChanges(UnityEngine.Object obj)
+    public static void SaveChanges(UnityEngine.Object obj)
     {
+        if (obj == null)
+            return;
+
         EditorUtility.SetDirty(obj);
 
-        if (PrefabUtility.IsPartOfPrefabInstance(obj))
+        GameObject go = null;
+
+        if (obj is GameObject gameObject)
+            go = gameObject;
+        else if (obj is Component component)
+            go = component.gameObject;
+
+        if (go == null)
+            return;
+
+        if (PrefabUtility.IsPartOfPrefabAsset(go))
         {
-            PrefabUtility.RecordPrefabInstancePropertyModifications(
-                obj
+            // Find the root of the prefab asset
+            GameObject root = go.transform.root.gameObject;
+
+            PrefabUtility.SavePrefabAsset(root);
+        }
+        else if (PrefabUtility.IsPartOfPrefabInstance(go))
+        {
+            // Record changes as prefab overrides
+            PrefabUtility.RecordPrefabInstancePropertyModifications(obj);
+        }
+
+        // Mark scene as modified
+        if (go.scene.IsValid() && go.scene.isLoaded &&
+            !PrefabUtility.IsPartOfPrefabAsset(go))
+        {
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+                go.scene
             );
         }
     }
