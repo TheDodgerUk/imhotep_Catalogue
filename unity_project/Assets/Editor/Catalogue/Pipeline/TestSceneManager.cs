@@ -30,7 +30,7 @@ namespace EditorTools.CatalogueViewer
             ClearSpawnPoint(spawnPoint);
 
             var clone = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
-            prefab.AddComponent<ObjectSize>();
+            prefab.ForceComponent<ObjectSize>();
             clone.transform.SetParent(spawnPoint.transform, false);
             clone.hideFlags = HideFlags.DontSave;
 
