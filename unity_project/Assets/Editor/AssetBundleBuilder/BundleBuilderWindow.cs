@@ -143,6 +143,7 @@ namespace EditorTools.Bundles
                 if (GUILayout.Button("Clear loaded Catalogue", GUILayout.Width(200)) == true)
                 {
                     Debug.Log($"Loading Catalogue : {Environment.StackTrace}");
+                    Catalogue.CreateInstance();
                     using (var progress = new ProgressBar("Loading Catalogue For All"))
                     {
                         Catalogue.Instance.LoadFromFile(str => progress.UpdateIncrement(str), c => progress.SetMaxIncrement(c), null);
@@ -670,6 +671,16 @@ namespace EditorTools.Bundles
 
         private void CheckStatic(CatalogueReplaceInScene data, GameObject root)
         {
+
+            if (Catalogue.Instance == null || Catalogue.Instance.Entries == null)
+            {
+                Catalogue.CreateInstance();
+                Debug.Log($"Loading Catalogue : {Environment.StackTrace}");
+                using (var progress = new ProgressBar("Loading Catalogue For All"))
+                {
+                    Catalogue.Instance.LoadFromFile(str => progress.UpdateIncrement(str), c => progress.SetMaxIncrement(c), null);
+                }
+            }
             // no point looking at these
             for (int j = 0; j < Catalogue.Instance.Entries.Count; j++)
             {
