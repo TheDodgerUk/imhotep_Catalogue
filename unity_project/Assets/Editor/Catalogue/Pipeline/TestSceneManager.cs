@@ -31,7 +31,6 @@ namespace EditorTools.CatalogueViewer
 
             var clone = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
             prefab.ForceComponent<ObjectSize>();
-            prefab.ForceComponent<MiniatureBaseScaler>();
             clone.transform.SetParent(spawnPoint.transform, false);
             clone.hideFlags = HideFlags.DontSave;
 

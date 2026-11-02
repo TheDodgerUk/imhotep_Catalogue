@@ -134,7 +134,6 @@ namespace EditorTools.CatalogueViewer
                 prefab = model;
             }
             prefab.ForceComponent<ObjectSize>();
-            prefab.ForceComponent<MiniatureBaseScaler>();
             var renderItem = CreateRenderItem(prefab);
 
             if (string.IsNullOrEmpty(renderItem.Bundle) == true)
