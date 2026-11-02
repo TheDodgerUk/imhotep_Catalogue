@@ -25,8 +25,8 @@ Transform:
   m_GameObject: {fileID: 1182304368938369873}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.007579211, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.021512626, z: 0}
+  m_LocalScale: {x: 2.838373, y: 2.838373, z: 2.838373}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8753749949255137490}
@@ -42,6 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1280039708833371144}
   - component: {fileID: -6056191099017971543}
+  - component: {fileID: 1840801775177387877}
   m_Layer: 8
   m_Name: Hookrunner_Goblin_Prefab
   m_TagString: RootCatalogueItem
@@ -59,7 +60,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7934926, y: 0.7934926, z: 0.7934926}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8589185726748848773}
@@ -78,11 +79,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f656ba065a4dfbe4aa5a4639870d8361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0.011144628, y: 0.012, z: 0.015097494}
+  size: {x: 0.03986503, y: 0.042924754, z: 0.05400468}
   resizeBy: 1
   targetSize: 0.012
   rootModelName: RootModel
   collisionName: PlacementCollision
+--- !u!114 &1840801775177387877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3557084308898746659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3bcfb5ea4ca6804b85f61a955869a6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootModel: {fileID: 6265354550344187589}
+  placementCollision: {fileID: 8589185726748848773}
+  targetDiameterMM: 40
+  scanHeightMM: 5
+  minimumVertices: 12
+  alignBottomToZero: 1
+  measuredDiameterMM: 40
+  lastScaleFactor: 2.838373
+  sampledVertices: 37171
 --- !u!1 &3578609710454558456
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,8 +290,8 @@ Transform:
   m_GameObject: {fileID: 6003147615769613001}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.007579211, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.021512626, z: 0}
+  m_LocalScale: {x: 2.838373, y: 2.838373, z: 2.838373}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3090451022039616500}

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 909377513281385262}
   - component: {fileID: 3735044961198797489}
+  - component: {fileID: -6459719285537675744}
   m_Layer: 8
   m_Name: Emerald_Shadow_Mark_Prefab
   m_TagString: RootCatalogueItem
@@ -27,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.570737, y: 2.570737, z: 2.570737}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9088946275243577717}
@@ -46,11 +47,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f656ba065a4dfbe4aa5a4639870d8361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0.048927445, y: 0.035, z: 0.03377306}
+  size: {x: 0.057543036, y: 0.041163117, z: 0.039720133}
   resizeBy: 1
   targetSize: 0.035
   rootModelName: RootModel
   collisionName: PlacementCollision
+--- !u!114 &-6459719285537675744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3317765197539066830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3bcfb5ea4ca6804b85f61a955869a6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootModel: {fileID: 4394634672241874272}
+  placementCollision: {fileID: 9088946275243577717}
+  targetDiameterMM: 40
+  scanHeightMM: 5
+  minimumVertices: 12
+  alignBottomToZero: 1
+  measuredDiameterMM: 40
+  lastScaleFactor: 3.0234156
+  sampledVertices: 161015
 --- !u!1 &3392849038146354131
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,8 +98,8 @@ Transform:
   m_GameObject: {fileID: 3392849038146354131}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.0068144207, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.020602824, z: 0}
+  m_LocalScale: {x: 3.0234156, y: 3.0234156, z: 3.0234156}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8569693978711130402}
@@ -215,8 +237,8 @@ Transform:
   m_GameObject: {fileID: 7459442601986367238}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.0068144207, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.020602824, z: 0}
+  m_LocalScale: {x: 3.0234156, y: 3.0234156, z: 3.0234156}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2706044948473902487}

@@ -132,8 +132,8 @@ Transform:
   m_GameObject: {fileID: 684793643611939089}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.009519311, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.0313403, z: 0}
+  m_LocalScale: {x: 3.2922866, y: 3.2922866, z: 3.2922866}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6445574777671544412}
@@ -149,6 +149,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7267546000836116333}
   - component: {fileID: -4627454902951930517}
+  - component: {fileID: 8306753505914258309}
   m_Layer: 8
   m_Name: Champion_Miniature_Prefab
   m_TagString: RootCatalogueItem
@@ -166,7 +167,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.8403711, y: 1.8403711, z: 1.8403711}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 245870345830535924}
@@ -185,11 +186,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f656ba065a4dfbe4aa5a4639870d8361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0.031084219, y: 0.035, z: 0.019482708}
+  size: {x: 0.05560735, y: 0.06261239, z: 0.034853112}
   resizeBy: 1
   targetSize: 0.035
   rootModelName: RootModel
   collisionName: PlacementCollision
+--- !u!114 &8306753505914258309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4921504899897293579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3bcfb5ea4ca6804b85f61a955869a6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootModel: {fileID: 1548149343880683081}
+  placementCollision: {fileID: 245870345830535924}
+  targetDiameterMM: 40
+  scanHeightMM: 5
+  minimumVertices: 12
+  alignBottomToZero: 1
+  measuredDiameterMM: 34.853104
+  lastScaleFactor: 3.2922866
+  sampledVertices: 40384
 --- !u!1 &7540435814979770434
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,8 +290,8 @@ Transform:
   m_GameObject: {fileID: 7964597959500561549}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.009519311, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.0313403, z: 0}
+  m_LocalScale: {x: 3.2922866, y: 3.2922866, z: 3.2922866}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9132007885378696400}

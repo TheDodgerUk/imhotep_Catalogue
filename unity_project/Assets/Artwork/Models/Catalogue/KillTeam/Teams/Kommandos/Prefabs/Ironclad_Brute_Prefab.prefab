@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 87704252456262327}
   - component: {fileID: 6787026739780109107}
+  - component: {fileID: 1280114835161851053}
   m_Layer: 8
   m_Name: Ironclad_Brute_Prefab
   m_TagString: RootCatalogueItem
@@ -27,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.9822848, y: 1.9822848, z: 1.9822848}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5856519439612927059}
@@ -46,11 +47,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f656ba065a4dfbe4aa5a4639870d8361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0.028349962, y: 0.035, z: 0.037744734}
+  size: {x: 0.03004389, y: 0.037091274, z: 0.040000003}
   resizeBy: 1
   targetSize: 0.035
   rootModelName: RootModel
   collisionName: PlacementCollision
+--- !u!114 &1280114835161851053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478464175269452655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3bcfb5ea4ca6804b85f61a955869a6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootModel: {fileID: 4758794829082972281}
+  placementCollision: {fileID: 5856519439612927059}
+  targetDiameterMM: 40
+  scanHeightMM: 5
+  minimumVertices: 12
+  alignBottomToZero: 1
+  measuredDiameterMM: 36.482162
+  lastScaleFactor: 2.1007276
+  sampledVertices: 246038
 --- !u!1 &4086132393038122521
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,8 +151,8 @@ Transform:
   m_GameObject: {fileID: 5531323096281149963}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.008782839, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.018450353, z: 0}
+  m_LocalScale: {x: 2.1007276, y: 2.1007276, z: 2.1007276}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8743046793919732326}
@@ -268,8 +290,8 @@ Transform:
   m_GameObject: {fileID: 7490176964190405276}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.008782839, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.018450353, z: 0}
+  m_LocalScale: {x: 2.1007276, y: 2.1007276, z: 2.1007276}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6813256007655197412}

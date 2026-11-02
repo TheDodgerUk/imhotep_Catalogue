@@ -25,8 +25,8 @@ Transform:
   m_GameObject: {fileID: 3861576448867478542}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.00952041, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.02815519, z: 0}
+  m_LocalScale: {x: 2.9573505, y: 2.9573505, z: 2.9573505}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6664255336073782262}
@@ -110,8 +110,8 @@ Transform:
   m_GameObject: {fileID: 4694862371448678021}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.00952041, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.02815519, z: 0}
+  m_LocalScale: {x: 2.9573505, y: 2.9573505, z: 2.9573505}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3131656602867973353}
@@ -234,6 +234,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5873928335006434144}
   - component: {fileID: 2092467259892313245}
+  - component: {fileID: -1234398062884744749}
   m_Layer: 8
   m_Name: Blighted_Alchemist_Prefab
   m_TagString: RootCatalogueItem
@@ -251,7 +252,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.8391382, y: 1.8391382, z: 1.8391382}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2382000767141091110}
@@ -270,8 +271,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f656ba065a4dfbe4aa5a4639870d8361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0.033130787, y: 0.035, z: 0.023181535}
+  size: {x: 0.0532746, y: 0.056280307, z: 0.037276115}
   resizeBy: 1
   targetSize: 0.035
   rootModelName: RootModel
   collisionName: PlacementCollision
+--- !u!114 &-1234398062884744749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6377964381679667012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3bcfb5ea4ca6804b85f61a955869a6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootModel: {fileID: 1934419661709036084}
+  placementCollision: {fileID: 2382000767141091110}
+  targetDiameterMM: 40
+  scanHeightMM: 5
+  minimumVertices: 12
+  alignBottomToZero: 1
+  measuredDiameterMM: 37.44325
+  lastScaleFactor: 2.9573505
+  sampledVertices: 129871

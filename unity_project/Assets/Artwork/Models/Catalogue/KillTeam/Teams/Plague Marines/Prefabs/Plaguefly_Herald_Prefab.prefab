@@ -25,8 +25,8 @@ Transform:
   m_GameObject: {fileID: 345405134023010910}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.0095204115, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.036649838, z: 0}
+  m_LocalScale: {x: 3.849607, y: 3.849607, z: 3.849607}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1018513927612562591}
@@ -149,6 +149,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5499042705894052366}
   - component: {fileID: 2830118649448492504}
+  - component: {fileID: -8916415744550303361}
   m_Layer: 8
   m_Name: Plaguefly_Herald_Prefab
   m_TagString: RootCatalogueItem
@@ -166,7 +167,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.8393837, y: 1.8393837, z: 1.8393837}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 327020191413741643}
@@ -185,11 +186,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f656ba065a4dfbe4aa5a4639870d8361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0.034526043, y: 0.035, z: 0.019112436}
+  size: {x: 0.07225882, y: 0.073250756, z: 0.04000001}
   resizeBy: 1
   targetSize: 0.035
   rootModelName: RootModel
   collisionName: PlacementCollision
+--- !u!114 &-8916415744550303361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3273546714994992070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3bcfb5ea4ca6804b85f61a955869a6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootModel: {fileID: 7436437050767420996}
+  placementCollision: {fileID: 327020191413741643}
+  targetDiameterMM: 40
+  scanHeightMM: 5
+  minimumVertices: 12
+  alignBottomToZero: 1
+  measuredDiameterMM: 40
+  lastScaleFactor: 3.849607
+  sampledVertices: 10771
 --- !u!1 &4166766950714169749
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,8 +237,8 @@ Transform:
   m_GameObject: {fileID: 4166766950714169749}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.0095204115, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.036649838, z: 0}
+  m_LocalScale: {x: 3.849607, y: 3.849607, z: 3.849607}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1294510364563506505}

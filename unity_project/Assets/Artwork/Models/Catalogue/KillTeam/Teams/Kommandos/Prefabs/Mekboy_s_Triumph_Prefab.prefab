@@ -25,8 +25,8 @@ Transform:
   m_GameObject: {fileID: 2805146107417993225}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.009519491, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.030915296, z: 0}
+  m_LocalScale: {x: 3.2475784, y: 3.2475784, z: 3.2475784}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7753914988459961955}
@@ -57,8 +57,8 @@ Transform:
   m_GameObject: {fileID: 3183448691322070099}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.009519491, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.030915296, z: 0}
+  m_LocalScale: {x: 3.2475784, y: 3.2475784, z: 3.2475784}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7967204120480497697}
@@ -127,6 +127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1286559167475286481}
   - component: {fileID: -6948122507078122396}
+  - component: {fileID: 9110838466703081249}
   m_Layer: 8
   m_Name: Mekboy_s_Triumph_Prefab
   m_TagString: RootCatalogueItem
@@ -144,7 +145,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.8392144, y: 1.8392144, z: 1.8392144}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 350266724417131851}
@@ -163,11 +164,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f656ba065a4dfbe4aa5a4639870d8361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0.023947805, y: 0.035, z: 0.022205193}
+  size: {x: 0.042285647, y: 0.06180097, z: 0.039208643}
   resizeBy: 1
   targetSize: 0.035
   rootModelName: RootModel
   collisionName: PlacementCollision
+--- !u!114 &9110838466703081249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4376533858181758528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3bcfb5ea4ca6804b85f61a955869a6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootModel: {fileID: 3601044075725053560}
+  placementCollision: {fileID: 350266724417131851}
+  targetDiameterMM: 40
+  scanHeightMM: 5
+  minimumVertices: 12
+  alignBottomToZero: 1
+  measuredDiameterMM: 34.945183
+  lastScaleFactor: 3.2475784
+  sampledVertices: 28692
 --- !u!1 &4675783206336716484
 GameObject:
   m_ObjectHideFlags: 0
