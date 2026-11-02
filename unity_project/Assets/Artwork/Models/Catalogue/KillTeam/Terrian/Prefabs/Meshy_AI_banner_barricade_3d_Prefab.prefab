@@ -94,7 +94,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7654898354712996717}
   m_Father: {fileID: 3117408493730180476}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8812410633712715242
@@ -147,6 +148,81 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &6054536768751710128
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7654898354712996717}
+  - component: {fileID: 7838881928446606994}
+  - component: {fileID: 6489337511979082426}
+  m_Layer: 0
+  m_Name: Generated Box Colliders
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7654898354712996717
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6054536768751710128}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2615092496887348553}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7838881928446606994
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6054536768751710128}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.019031223, y: 0.0027899207, z: 0.009515611}
+  m_Center: {x: 0.000005491078, y: -0.00011578004, z: -0.00035505556}
+--- !u!65 &6489337511979082426
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6054536768751710128}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.012687482, y: 0.0027899207, z: 0.0006850101}
+  m_Center: {x: 0.000005491078, y: -0.00011578004, z: 0.004745255}
 --- !u!1 &7123089483709562103
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,7 +286,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8691829688226210651}
   - component: {fileID: 8626930158636578850}
-  - component: {fileID: 4139074247542345011}
   - component: {fileID: 6641442188315868206}
   m_Layer: 8
   m_Name: Meshy_AI_banner_barricade_3d_Prefab
@@ -259,14 +334,6 @@ MonoBehaviour:
   measuredDiameterMM: 40.000008
   lastScaleFactor: 0.6125647
   sampledVertices: 108017
---- !u!33 &4139074247542345011
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7139824530433840783}
-  m_Mesh: {fileID: 0}
 --- !u!114 &6641442188315868206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,8 +346,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a231c81fe68e954394c4f50068562fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  longestAxisCells: 96
+  rootModel: {fileID: 3117408493730180476}
+  longestAxisCells: 12
   surfacePaddingCells: 0
   maxColliders: 2000
   maxVoxelCount: 1500000
-  colliderContainer: {fileID: 0}
+  colliderContainer: {fileID: 7654898354712996717}
