@@ -1,4 +1,4 @@
-
+using System;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -10,99 +10,82 @@ using UnityEditor.SceneManagement;
 [ExecuteAlways]
 public class ObjectSize : MonoBehaviour
 {
-    public enum Dimension
-    {
-        Width,
-        Height,
-        Depth
-    }
+    public enum Dimension { Width, Height, Depth }
 
-    [Header("Current size in metres")]
+    [Header("Measured Object Size (Read Only)")]
     [SerializeField] private Vector3 size;
     [SerializeField] private Vector3 sizeCm;
-
     public Vector3 Size => size;
     public Vector3 SizeCm => sizeCm;
 
     [Header("Resize Settings")]
     public Dimension resizeBy = Dimension.Height;
+    [Min(0.0001f)] public float targetSize = 0.035f;
 
-    [Min(0.0001f)]
-    public float targetSize = 0.035f;
+    [Header("Target Base")]
+    [Min(1f)] public float targetDiameterMM = 40f;
+    [Header("Base Detection")]
+    [Min(0.1f)] public float scanHeightMM = 5f;
+    [Min(3)] public int minimumVertices = 12;
+    [Header("Options")]
+    public bool alignBottomToZero = true;
 
-    private string rootModelName = "RootModel";
-    private string collisionName = "PlacementCollision";
+
+    [SerializeField] private float measuredDiameterMM;
+    [SerializeField] private float lastScaleFactor;
+    [SerializeField] private int sampledVertices;
+    public float MeasuredDiameterMM => measuredDiameterMM;
 
     private Transform rootModel;
     private Transform placementCollision;
 
+    private void Reset() => FindChildren();
+
     private void Awake()
     {
-        if (!FindChildren())
-            return;
-
-        transform.localScale = Vector3.one;
-        UpdateSize();
+        if (FindChildren()) UpdateSize();
     }
 
-    private bool FindChildren()
+    public bool FindChildren()
     {
-        rootModel = transform.Find(rootModelName);
-        placementCollision = transform.Find(collisionName);
-
+        rootModel = transform.Find("RootModel");
+        placementCollision = transform.Find("PlacementCollision");
         if (rootModel == null || placementCollision == null)
         {
-            Debug.LogError(
-                "RootModel or PlacementCollision not found!",
-                this
-            );
-
+            Debug.LogError("RootModel or PlacementCollision not found.", this);
             return false;
         }
-
         return true;
     }
 
-    // --------------------------------------------------
-    // UPDATE ROTATION
-    // --------------------------------------------------
-
-    public void UpdateRotation(bool badXRotation)
+    private void RecordChanges(string label)
     {
-        if (!FindChildren())
-            return;
-
 #if UNITY_EDITOR
-        Undo.RecordObjects(
-            new UnityEngine.Object[]
-            {
-                rootModel,
-                placementCollision
-            },
-            "Update Model Rotation"
-        );
+        Undo.RecordObjects(new UnityEngine.Object[]
+        {
+            this, transform, rootModel, placementCollision
+        }, label);
 #endif
-
-        Quaternion rotation = Quaternion.Euler(
-            badXRotation ? -90f : 0f,
-            0f,
-            0f
-        );
-
-        rootModel.localRotation = rotation;
-        placementCollision.localRotation = rotation;
-
-        Physics.SyncTransforms();
-
-        UpdateSize();
-
-        SaveTransform(rootModel);
-        SaveTransform(placementCollision);
     }
 
-    // --------------------------------------------------
-    // UPDATE SIZE
-    // --------------------------------------------------
+    private void ApplyScale(float factor)
+    {
+        rootModel.localScale *= factor;
+        rootModel.localPosition *= factor;
+        placementCollision.localScale *= factor;
+        placementCollision.localPosition *= factor;
+    }
+
+    // Public operations save themselves, so they also work when called from other editor code.
+    public void UpdateRotation(bool badXRotation)
+    {
+        if (!FindChildren()) return;
+        RecordChanges("Update Model Rotation");
+        Quaternion rotation = Quaternion.Euler(badXRotation ? -90f : 0f, 0f, 0f);
+        rootModel.localRotation = rotation;
+        placementCollision.localRotation = rotation;
+        FinishChanges();
+    }
 
     public void UpdateSize()
     {
@@ -113,455 +96,282 @@ public class ObjectSize : MonoBehaviour
             return;
         }
 
-        Renderer[] renderers =
-            rootModel.GetComponentsInChildren<Renderer>(true);
-
+        Renderer[] renderers = rootModel.GetComponentsInChildren<Renderer>(true);
         bool found = false;
         Bounds bounds = new Bounds();
-
         foreach (Renderer renderer in renderers)
         {
-            if (!found)
-            {
-                bounds = renderer.bounds;
-                found = true;
-            }
-            else
-            {
-                bounds.Encapsulate(renderer.bounds);
-            }
+            if (!found) { bounds = renderer.bounds; found = true; }
+            else bounds.Encapsulate(renderer.bounds);
         }
-
         size = found ? bounds.size : Vector3.zero;
-
         sizeCm = new Vector3(
             Mathf.Round(size.x * 1000f) / 10f,
             Mathf.Round(size.y * 1000f) / 10f,
-            Mathf.Round(size.z * 1000f) / 10f
-        );
+            Mathf.Round(size.z * 1000f) / 10f);
     }
 
-    // --------------------------------------------------
-    // RESIZE OBJECT
-    // --------------------------------------------------
+    private bool TryNormalizeParentScale()
+    {
+        Vector3 parentScale = transform.localScale;
+        if (Mathf.Abs(parentScale.x) < 0.000001f ||
+            Mathf.Abs(parentScale.y) < 0.000001f ||
+            Mathf.Abs(parentScale.z) < 0.000001f ||
+            !Mathf.Approximately(parentScale.x, parentScale.y) ||
+            !Mathf.Approximately(parentScale.y, parentScale.z))
+        {
+            Debug.LogWarning("Parent scale must be non-zero and uniform.", this);
+            return false;
+        }
+        ApplyScale(parentScale.x);
+        transform.localScale = Vector3.one;
+        return true;
+    }
 
     public void ResizeObject()
     {
-        if (!FindChildren())
-            return;
-
-        if (targetSize <= 0f)
+        if (!FindChildren() || targetSize <= 0f) return;
+        Vector3 s = transform.localScale;
+        if (Mathf.Abs(s.x) < 0.000001f ||
+            !Mathf.Approximately(s.x, s.y) ||
+            !Mathf.Approximately(s.y, s.z))
         {
-            Debug.LogWarning(
-                "Target size must be greater than zero.",
-                this
-            );
+            Debug.LogWarning("Parent scale must be non-zero and uniform.", this);
             return;
         }
-
-#if UNITY_EDITOR
-        Undo.RecordObjects(
-            new UnityEngine.Object[]
-            {
-                transform,
-                rootModel,
-                placementCollision
-            },
-            "Resize Model and Collision"
-        );
-#endif
-
-        // Preserve existing world geometry when
-        // normalising the parent scale.
-        Vector3 parentScale = transform.localScale;
-
-        if (Mathf.Abs(parentScale.x) < 0.000001f ||
-            Mathf.Abs(parentScale.y) < 0.000001f ||
-            Mathf.Abs(parentScale.z) < 0.000001f)
-        {
-            Debug.LogWarning(
-                "Cannot resize: parent has a zero scale axis.",
-                this
-            );
-            return;
-        }
-
-        bool uniformParent =
-            Mathf.Approximately(parentScale.x, parentScale.y) &&
-            Mathf.Approximately(parentScale.y, parentScale.z);
-
-        if (!uniformParent)
-        {
-            Debug.LogWarning(
-                "Non-uniform parent scale cannot always be " +
-                "transferred exactly to rotated children. " +
-                "Use a uniform parent scale for reliable results.",
-                this
-            );
-            return;
-        }
-
-        float existingScale = parentScale.x;
-
-        rootModel.localScale *= existingScale;
-        placementCollision.localScale *= existingScale;
-
-        rootModel.localPosition *= existingScale;
-        placementCollision.localPosition *= existingScale;
-
-        transform.localScale = Vector3.one;
-
-        Physics.SyncTransforms();
         UpdateSize();
-
-        float currentSize;
-
-        switch (resizeBy)
+        float current = resizeBy == Dimension.Width ? size.x :
+                        resizeBy == Dimension.Height ? size.y : size.z;
+        if (current <= 0.000001f)
         {
-            case Dimension.Width:
-                currentSize = size.x;
-                break;
-
-            case Dimension.Height:
-                currentSize = size.y;
-                break;
-
-            default:
-                currentSize = size.z;
-                break;
-        }
-
-        if (currentSize <= 0.000001f)
-        {
-            Debug.LogWarning(
-                "Cannot resize: selected dimension is zero.",
-                this
-            );
-
-            SaveAllTransforms();
+            Debug.LogWarning("Selected dimension is zero.", this);
             return;
         }
-
-        float multiplier = targetSize / currentSize;
-
-        rootModel.localScale *= multiplier;
-        placementCollision.localScale *= multiplier;
-
-        rootModel.localPosition *= multiplier;
-        placementCollision.localPosition *= multiplier;
-
-        // Preserve rotations: supports 0,0,0 and -90,0,0.
-
-        Physics.SyncTransforms();
-
-        UpdateSize();
-
-        SaveAllTransforms();
-
-        Debug.Log(
-            $"Resized: {name}\n" +
-            $"Target size: {targetSize:F5}\n" +
-            $"Multiplier: {multiplier:F5}\n" +
-            $"Parent scale: {transform.localScale}\n" +
-            $"RootModel scale: {rootModel.localScale}\n" +
-            $"Collision scale: {placementCollision.localScale}\n" +
-            $"Final size: {size}",
-            this
-        );
+        RecordChanges("Resize Object");
+        // Current size already includes the parent's scale.
+        if (!TryNormalizeParentScale()) return;
+        float factor = targetSize / current;
+        ApplyScale(factor);
+        FinishChanges();
+        Debug.Log($"Resized {name}: multiplier {factor:F5}, final size {size}", this);
     }
 
-    // --------------------------------------------------
-    // ALIGN MODEL BASE TO Y = 0
-    // --------------------------------------------------
+    private bool TryGetLowestY(out float lowestY)
+    {
+        lowestY = float.PositiveInfinity;
+        bool found = false;
+        foreach (MeshFilter filter in rootModel.GetComponentsInChildren<MeshFilter>(true))
+        {
+            Mesh mesh = filter.sharedMesh;
+            if (mesh == null) continue;
+            Vector3[] vertices;
+            try { vertices = mesh.vertices; }
+            catch (Exception)
+            {
+                Debug.LogWarning($"Cannot read mesh {mesh.name}. Enable Read/Write.", filter);
+                continue;
+            }
+            Matrix4x4 matrix = transform.worldToLocalMatrix * filter.transform.localToWorldMatrix;
+            foreach (Vector3 vertex in vertices)
+            {
+                lowestY = Mathf.Min(lowestY, matrix.MultiplyPoint3x4(vertex).y);
+                found = true;
+            }
+        }
+        foreach (SkinnedMeshRenderer renderer in rootModel.GetComponentsInChildren<SkinnedMeshRenderer>(true))
+        {
+            Bounds b = renderer.localBounds;
+            Matrix4x4 matrix = transform.worldToLocalMatrix * renderer.transform.localToWorldMatrix;
+            for (int x = -1; x <= 1; x += 2)
+                for (int y = -1; y <= 1; y += 2)
+                    for (int z = -1; z <= 1; z += 2)
+                    {
+                        Vector3 corner = b.center + Vector3.Scale(b.extents, new Vector3(x, y, z));
+                        lowestY = Mathf.Min(lowestY, matrix.MultiplyPoint3x4(corner).y);
+                        found = true;
+                    }
+        }
+        return found;
+    }
+
+    private void OffsetChildrenY(float offset)
+    {
+        rootModel.localPosition += Vector3.up * offset;
+        placementCollision.localPosition += Vector3.up * offset;
+    }
 
     public void AlignModelBase()
     {
-        if (!FindChildren())
-            return;
-
-        float lowestY = float.PositiveInfinity;
-        bool foundMesh = false;
-
-        MeshFilter[] meshFilters =
-            rootModel.GetComponentsInChildren<MeshFilter>(true);
-
-        foreach (MeshFilter meshFilter in meshFilters)
+        if (!FindChildren() || !TryGetLowestY(out float bottom))
         {
-            Mesh mesh = meshFilter.sharedMesh;
+            Debug.LogWarning("Unable to find readable model geometry.", this);
+            return;
+        }
+        RecordChanges("Align Model Base");
+        OffsetChildrenY(-bottom);
+        FinishChanges();
+    }
 
-            if (mesh == null)
-                continue;
+    private bool TryMeasure(out float diameter, out float bottomY, out int count)
+    {
+        diameter = 0f;
+        bottomY = 0f;
+        count = 0;
+        if (!FindChildren() || !TryGetLowestY(out bottomY)) return false;
 
-            Vector3[] vertices = mesh.vertices;
-
+        float maxY = bottomY + scanHeightMM / 1000f;
+        float minX = float.PositiveInfinity, maxX = float.NegativeInfinity;
+        float minZ = float.PositiveInfinity, maxZ = float.NegativeInfinity;
+        foreach (MeshFilter filter in rootModel.GetComponentsInChildren<MeshFilter>(true))
+        {
+            Mesh mesh = filter.sharedMesh;
+            if (mesh == null) continue;
+            Vector3[] vertices;
+            try { vertices = mesh.vertices; }
+            catch (Exception) { continue; }
+            Matrix4x4 matrix = transform.worldToLocalMatrix * filter.transform.localToWorldMatrix;
             foreach (Vector3 vertex in vertices)
             {
-                Vector3 worldPoint =
-                    meshFilter.transform.TransformPoint(vertex);
-
-                Vector3 localPoint =
-                    transform.InverseTransformPoint(worldPoint);
-
-                lowestY = Mathf.Min(lowestY, localPoint.y);
-                foundMesh = true;
+                Vector3 p = matrix.MultiplyPoint3x4(vertex);
+                if (p.y > maxY) continue;
+                minX = Mathf.Min(minX, p.x);
+                maxX = Mathf.Max(maxX, p.x);
+                minZ = Mathf.Min(minZ, p.z);
+                maxZ = Mathf.Max(maxZ, p.z);
+                count++;
             }
         }
+        if (count < minimumVertices) return false;
+        diameter = Mathf.Max(maxX - minX, maxZ - minZ);
+        return diameter > 0.000001f;
+    }
 
-        SkinnedMeshRenderer[] skinnedMeshes =
-            rootModel.GetComponentsInChildren<SkinnedMeshRenderer>(true);
-
-        foreach (SkinnedMeshRenderer renderer in skinnedMeshes)
+    public void MeasureBase()
+    {
+        if (!TryMeasure(out float diameter, out float bottom, out int count))
         {
-            Bounds bounds = renderer.localBounds;
-
-            Vector3 centre = bounds.center;
-            Vector3 extents = bounds.extents;
-
-            for (int x = -1; x <= 1; x += 2)
-            {
-                for (int y = -1; y <= 1; y += 2)
-                {
-                    for (int z = -1; z <= 1; z += 2)
-                    {
-                        Vector3 corner = centre +
-                            Vector3.Scale(
-                                extents,
-                                new Vector3(x, y, z)
-                            );
-
-                        Vector3 worldPoint =
-                            renderer.transform.TransformPoint(corner);
-
-                        Vector3 localPoint =
-                            transform.InverseTransformPoint(worldPoint);
-
-                        lowestY = Mathf.Min(lowestY, localPoint.y);
-                        foundMesh = true;
-                    }
-                }
-            }
-        }
-
-        if (!foundMesh)
-        {
-            Debug.LogError(
-                "No meshes found under RootModel!",
-                this
-            );
+            Debug.LogWarning("Unable to measure base. Check mesh Read/Write and scan height.", this);
             return;
         }
+        RecordChanges("Measure Base");
+        measuredDiameterMM = diameter * 1000f;
+        sampledVertices = count;
+        FinishChanges();
+        Debug.Log($"Base diameter: {measuredDiameterMM:F2} mm, bottom Y: {bottom:F5}, vertices: {count}", this);
+    }
 
-        float offsetY = -lowestY;
-
-#if UNITY_EDITOR
-        Undo.RecordObjects(
-            new UnityEngine.Object[]
-            {
-                rootModel,
-                placementCollision
-            },
-            "Align Model Base"
-        );
-#endif
-
-        Quaternion existingRotation = rootModel.localRotation;
-
-        rootModel.localRotation = existingRotation;
-        placementCollision.localRotation = existingRotation;
-
-        Vector3 modelPosition = rootModel.localPosition;
-        modelPosition.y += offsetY;
-        rootModel.localPosition = modelPosition;
-
-        Vector3 collisionPosition =
-            placementCollision.localPosition;
-
-        collisionPosition.y += offsetY;
-        placementCollision.localPosition = collisionPosition;
-
+    public void ScaleToTarget()
+    {
+        if (!FindChildren() || targetDiameterMM <= 0f) return;
+        if (!Mathf.Approximately(transform.localScale.x, 1f) ||
+            !Mathf.Approximately(transform.localScale.y, 1f) ||
+            !Mathf.Approximately(transform.localScale.z, 1f))
+        {
+            Debug.LogError("Parent scale must be (1,1,1) before scaling base.", this);
+            return;
+        }
+        if (!TryMeasure(out float diameter, out _, out _))
+        {
+            Debug.LogWarning("Unable to measure base.", this);
+            return;
+        }
+        float factor = targetDiameterMM / (diameter * 1000f);
+        if (float.IsNaN(factor) || float.IsInfinity(factor) || factor <= 0f) return;
+        RecordChanges("Scale Miniature Base");
+        ApplyScale(factor);
         Physics.SyncTransforms();
-
-        UpdateSize();
-
-        SaveTransform(rootModel);
-        SaveTransform(placementCollision);
-
-        Debug.Log(
-            $"Aligned: {name}\n" +
-            $"Model rotation: {rootModel.localEulerAngles}\n" +
-            $"Collision rotation: {placementCollision.localEulerAngles}\n" +
-            $"Original lowest Y: {lowestY:F5}\n" +
-            $"Applied Y offset: {offsetY:F5}",
-            this
-        );
-    }
-
-    // --------------------------------------------------
-    // EDITOR SAVE HELPERS
-    // --------------------------------------------------
-
-    private void SaveAllTransforms()
-    {
-        SaveTransform(transform);
-        SaveTransform(rootModel);
-        SaveTransform(placementCollision);
-    }
-
-    private void SaveTransform(Transform target)
-    {
-        if (target == null)
-            return;
-
-#if UNITY_EDITOR
-        EditorUtility.SetDirty(target);
-
-        if (PrefabUtility.IsPartOfPrefabInstance(target))
+        if (TryMeasure(out float newDiameter, out float bottom, out int count))
         {
-            PrefabUtility.RecordPrefabInstancePropertyModifications(
-                target
-            );
+            if (alignBottomToZero) OffsetChildrenY(-bottom);
+            measuredDiameterMM = newDiameter * 1000f;
+            sampledVertices = count;
         }
+        lastScaleFactor = factor;
+        FinishChanges();
+        Debug.Log($"Scaled base to {targetDiameterMM:F2} mm, factor {factor:F5}", this);
+    }
+
+    private void FinishChanges()
+    {
+        Physics.SyncTransforms();
+        UpdateSize();
+#if UNITY_EDITOR
+        SaveEverything();
 #endif
     }
+
+#if UNITY_EDITOR
+    public void SaveEverything()
+    {
+        if (!FindChildren()) return;
+        UnityEngine.Object[] changed = { this, transform, rootModel, placementCollision };
+        foreach (UnityEngine.Object obj in changed)
+        {
+            EditorUtility.SetDirty(obj);
+            if (PrefabUtility.IsPartOfPrefabInstance(obj))
+                PrefabUtility.RecordPrefabInstancePropertyModifications(obj);
+        }
+
+        if (PrefabUtility.IsPartOfPrefabAsset(gameObject))
+        {
+            GameObject root = transform.root.gameObject;
+            PrefabUtility.SavePrefabAsset(root);
+        }
+        else if (gameObject.scene.IsValid() && gameObject.scene.isLoaded)
+        {
+            // Scene instances save as overrides and mark the scene dirty.
+            EditorSceneManager.MarkSceneDirty(gameObject.scene);
+            // A prefab instance's source asset is intentionally NOT overwritten.
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (!FindChildren()) return;
+        Renderer[] renderers = rootModel.GetComponentsInChildren<Renderer>(true);
+        if (renderers.Length == 0) return;
+        Bounds b = renderers[0].bounds;
+        for (int i = 1; i < renderers.Length; i++) b.Encapsulate(renderers[i].bounds);
+        Vector3 centre = new Vector3(b.center.x, b.min.y + scanHeightMM / 1000f, b.center.z);
+        float half = Mathf.Max(b.size.x, b.size.z) * 0.75f;
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(centre + Vector3.left * half, centre + Vector3.right * half);
+        Gizmos.DrawLine(centre + Vector3.back * half, centre + Vector3.forward * half);
+        Handles.Label(centre + Vector3.up * 0.005f, $"Scan Height: {scanHeightMM:F1} mm");
+    }
+#endif
 }
 
-// ======================================================
-// CUSTOM INSPECTOR
-// ======================================================
-
 #if UNITY_EDITOR
-
 [CustomEditor(typeof(ObjectSize))]
 public class ObjectSizeEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        ObjectSize item = (ObjectSize)target;
-
-        // Draw editable properties, excluding calculated sizes.
         serializedObject.Update();
-
-        DrawPropertiesExcluding(
-            serializedObject,
-            "m_Script",
-            "size",
-            "sizeCm"
-        );
-
+        DrawPropertiesExcluding(serializedObject, "m_Script", "size", "sizeCm",
+            "measuredDiameterMM", "lastScaleFactor", "sampledVertices");
         serializedObject.ApplyModifiedProperties();
 
-        // --------------------------------------------------
-        // READ-ONLY SIZE FIELDS
-        // --------------------------------------------------
-
         EditorGUILayout.Space(10);
-
-        EditorGUILayout.LabelField(
-            "Measured Size (Read Only)",
-            EditorStyles.boldLabel
-        );
-
+        EditorGUILayout.LabelField("Measured Results (Read Only)", EditorStyles.boldLabel);
         using (new EditorGUI.DisabledScope(true))
         {
-            EditorGUILayout.Vector3Field(
-                "Size (metres)",
-                item.Size
-            );
-
-            EditorGUILayout.Vector3Field(
-                "Size (cm)",
-                item.SizeCm
-            );
+            foreach (string property in new[] { "size", "sizeCm", "measuredDiameterMM", "lastScaleFactor", "sampledVertices" })
+                EditorGUILayout.PropertyField(serializedObject.FindProperty(property));
         }
 
-        // --------------------------------------------------
-        // OBJECT TOOLS
-        // --------------------------------------------------
-
+        ObjectSize item = (ObjectSize)target;
         EditorGUILayout.Space(10);
-
-        EditorGUILayout.LabelField(
-            "Object Tools",
-            EditorStyles.boldLabel
-        );
-
-        if (GUILayout.Button("Update Size", GUILayout.Height(30)))
-        {
-            Undo.RecordObject(item, "Update Object Size");
-
-            item.UpdateSize();
-
-            SaveChanges(item);
-        }
-
-        if (GUILayout.Button("Resize Object", GUILayout.Height(30)))
-        {
-            item.ResizeObject();
-
-            SaveChanges(item);
-        }
-
-        EditorGUILayout.Space(5);
-
-        if (GUILayout.Button("Bad Rotation (-90 X)", GUILayout.Height(30)))
-        {
-            item.UpdateRotation(true);
-
-            SaveChanges(item);
-        }
-
-        if (GUILayout.Button("Normal Rotation (0 X)", GUILayout.Height(30)))
-        {
-            item.UpdateRotation(false);
-
-            SaveChanges(item);
-        }
-
-        EditorGUILayout.Space(5);
-
-        if (GUILayout.Button("Fix Model Base Y = 0", GUILayout.Height(30)))
-        {
-            item.AlignModelBase();
-
-            SaveChanges(item);
-        }
-    }
-
-    public static void SaveChanges(UnityEngine.Object obj)
-    {
-        if (obj == null)
-            return;
-
-        EditorUtility.SetDirty(obj);
-
-        GameObject go = null;
-
-        if (obj is GameObject gameObject)
-            go = gameObject;
-        else if (obj is Component component)
-            go = component.gameObject;
-
-        if (go == null)
-            return;
-
-        if (PrefabUtility.IsPartOfPrefabAsset(go))
-        {
-            GameObject root = go.transform.root.gameObject;
-
-            PrefabUtility.SavePrefabAsset(root);
-        }
-        else if (PrefabUtility.IsPartOfPrefabInstance(go))
-        {
-            PrefabUtility.RecordPrefabInstancePropertyModifications(obj);
-        }
-
-        if (go.scene.IsValid() &&
-            go.scene.isLoaded &&
-            !PrefabUtility.IsPartOfPrefabAsset(go))
-        {
-            EditorSceneManager.MarkSceneDirty(go.scene);
-        }
+        EditorGUILayout.LabelField("Object Tools", EditorStyles.boldLabel);
+        if (GUILayout.Button("Update Size", GUILayout.Height(30))) { Undo.RecordObject(item, "Update Size"); item.UpdateSize(); item.SaveEverything(); }
+        if (GUILayout.Button("Resize Object", GUILayout.Height(30))) item.ResizeObject();
+        if (GUILayout.Button("Bad Rotation (-90 X)", GUILayout.Height(30))) item.UpdateRotation(true);
+        if (GUILayout.Button("Normal Rotation (0 X)", GUILayout.Height(30))) item.UpdateRotation(false);
+        if (GUILayout.Button("Fix Model Base Y = 0", GUILayout.Height(30))) item.AlignModelBase();
+        EditorGUILayout.Space(15);
+        if (GUILayout.Button("Measure Current Base", GUILayout.Height(30))) item.MeasureBase();
+        if (GUILayout.Button("Scale Base To Target Size", GUILayout.Height(36))) item.ScaleToTarget();
     }
 }
-
 #endif
