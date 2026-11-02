@@ -1,10 +1,9 @@
 
 using UnityEngine;
-using UnityEngine.UIElements;
-
 
 #if UNITY_EDITOR
 using UnityEditor;
+using UnityEditor.SceneManagement;
 #endif
 
 [DisallowMultipleComponent]
@@ -19,18 +18,17 @@ public class ObjectSize : MonoBehaviour
     }
 
     [Header("Current size in metres")]
-    public Vector3 size;
+    [SerializeField] private Vector3 size;
+    [SerializeField] private Vector3 sizeCm;
 
-    [Header("Current size in cm")]
-    public Vector3 sizeCm;
-
+    public Vector3 Size => size;
+    public Vector3 SizeCm => sizeCm;
 
     [Header("Resize Settings")]
     public Dimension resizeBy = Dimension.Height;
 
     [Min(0.0001f)]
     public float targetSize = 0.035f;
-
 
     private string rootModelName = "RootModel";
     private string collisionName = "PlacementCollision";
@@ -43,7 +41,7 @@ public class ObjectSize : MonoBehaviour
         if (!FindChildren())
             return;
 
-        this.transform.localScale = Vector3.one;
+        transform.localScale = Vector3.one;
         UpdateSize();
     }
 
@@ -111,6 +109,7 @@ public class ObjectSize : MonoBehaviour
         if (!FindChildren())
         {
             size = Vector3.zero;
+            sizeCm = Vector3.zero;
             return;
         }
 
@@ -134,6 +133,7 @@ public class ObjectSize : MonoBehaviour
         }
 
         size = found ? bounds.size : Vector3.zero;
+
         sizeCm = new Vector3(
             Mathf.Round(size.x * 1000f) / 10f,
             Mathf.Round(size.y * 1000f) / 10f,
@@ -171,7 +171,7 @@ public class ObjectSize : MonoBehaviour
         );
 #endif
 
-        // Preserve the existing world geometry when
+        // Preserve existing world geometry when
         // normalising the parent scale.
         Vector3 parentScale = transform.localScale;
 
@@ -186,9 +186,6 @@ public class ObjectSize : MonoBehaviour
             return;
         }
 
-        // Move the parent's scale into both children.
-        // This preserves their effective local transforms
-        // when the parent scale is uniform.
         bool uniformParent =
             Mathf.Approximately(parentScale.x, parentScale.y) &&
             Mathf.Approximately(parentScale.y, parentScale.z);
@@ -247,16 +244,13 @@ public class ObjectSize : MonoBehaviour
 
         float multiplier = targetSize / currentSize;
 
-        // Scale both children by the same amount.
         rootModel.localScale *= multiplier;
         placementCollision.localScale *= multiplier;
 
-        // Scale local offsets to preserve alignment.
         rootModel.localPosition *= multiplier;
         placementCollision.localPosition *= multiplier;
 
-        // Do not change either child's rotation.
-        // Supports both 0,0,0 and -90,0,0.
+        // Preserve rotations: supports 0,0,0 and -90,0,0.
 
         Physics.SyncTransforms();
 
@@ -288,7 +282,6 @@ public class ObjectSize : MonoBehaviour
         float lowestY = float.PositiveInfinity;
         bool foundMesh = false;
 
-        // MeshFilter meshes
         MeshFilter[] meshFilters =
             rootModel.GetComponentsInChildren<MeshFilter>(true);
 
@@ -314,7 +307,6 @@ public class ObjectSize : MonoBehaviour
             }
         }
 
-        // Skinned meshes
         SkinnedMeshRenderer[] skinnedMeshes =
             rootModel.GetComponentsInChildren<SkinnedMeshRenderer>(true);
 
@@ -372,13 +364,11 @@ public class ObjectSize : MonoBehaviour
         );
 #endif
 
-        // Preserve existing rotations.
         Quaternion existingRotation = rootModel.localRotation;
 
         rootModel.localRotation = existingRotation;
         placementCollision.localRotation = existingRotation;
 
-        // Move both children together.
         Vector3 modelPosition = rootModel.localPosition;
         modelPosition.y += offsetY;
         rootModel.localPosition = modelPosition;
@@ -446,9 +436,47 @@ public class ObjectSizeEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        DrawDefaultInspector();
-
         ObjectSize item = (ObjectSize)target;
+
+        // Draw editable properties, excluding calculated sizes.
+        serializedObject.Update();
+
+        DrawPropertiesExcluding(
+            serializedObject,
+            "m_Script",
+            "size",
+            "sizeCm"
+        );
+
+        serializedObject.ApplyModifiedProperties();
+
+        // --------------------------------------------------
+        // READ-ONLY SIZE FIELDS
+        // --------------------------------------------------
+
+        EditorGUILayout.Space(10);
+
+        EditorGUILayout.LabelField(
+            "Measured Size (Read Only)",
+            EditorStyles.boldLabel
+        );
+
+        using (new EditorGUI.DisabledScope(true))
+        {
+            EditorGUILayout.Vector3Field(
+                "Size (metres)",
+                item.Size
+            );
+
+            EditorGUILayout.Vector3Field(
+                "Size (cm)",
+                item.SizeCm
+            );
+        }
+
+        // --------------------------------------------------
+        // OBJECT TOOLS
+        // --------------------------------------------------
 
         EditorGUILayout.Space(10);
 
@@ -518,24 +546,20 @@ public class ObjectSizeEditor : Editor
 
         if (PrefabUtility.IsPartOfPrefabAsset(go))
         {
-            // Find the root of the prefab asset
             GameObject root = go.transform.root.gameObject;
 
             PrefabUtility.SavePrefabAsset(root);
         }
         else if (PrefabUtility.IsPartOfPrefabInstance(go))
         {
-            // Record changes as prefab overrides
             PrefabUtility.RecordPrefabInstancePropertyModifications(obj);
         }
 
-        // Mark scene as modified
-        if (go.scene.IsValid() && go.scene.isLoaded &&
+        if (go.scene.IsValid() &&
+            go.scene.isLoaded &&
             !PrefabUtility.IsPartOfPrefabAsset(go))
         {
-            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
-                go.scene
-            );
+            EditorSceneManager.MarkSceneDirty(go.scene);
         }
     }
 }

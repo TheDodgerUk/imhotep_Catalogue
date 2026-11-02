@@ -9,8 +9,8 @@ using UnityEditor;
 public class MiniatureBaseScaler : MonoBehaviour
 {
     [Header("Child Objects")]
-    public Transform rootModel;
-    public Transform placementCollision;
+    private Transform rootModel;
+    private Transform placementCollision;
 
     [Header("Target Base")]
     [Min(1f)]
