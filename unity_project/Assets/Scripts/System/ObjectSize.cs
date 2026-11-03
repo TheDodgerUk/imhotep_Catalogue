@@ -48,11 +48,16 @@ public class ObjectSize : MonoBehaviour
 
     public bool FindChildren()
     {
-        rootModel = transform.Find("RootModel");
-        placementCollision = transform.Find("PlacementCollision");
-        if (rootModel == null || placementCollision == null)
+        rootModel = transform.FindChildRecursive("RootModel");
+        if (rootModel == null)
         {
-            Debug.LogError("RootModel or PlacementCollision not found.", this);
+            Debug.LogError("RootModelfound.", this);
+            return false;
+        }
+        placementCollision = transform.FindChildRecursive("PlacementCollision");
+        if (placementCollision == null)
+        {
+            Debug.LogError("PlacementCollision not found.", this);
             return false;
         }
         return true;
