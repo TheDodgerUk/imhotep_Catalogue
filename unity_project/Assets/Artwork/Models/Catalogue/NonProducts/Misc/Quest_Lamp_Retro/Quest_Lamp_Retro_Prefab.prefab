@@ -1472,6 +1472,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5535175201623964999}
   - component: {fileID: 6156160235495200981}
+  - component: {fileID: -4204804844827647744}
   m_Layer: 8
   m_Name: Quest_Lamp_Retro_Prefab
   m_TagString: RootCatalogueItem
@@ -1510,8 +1511,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 0, y: 0, z: 0}
+  sizeCm: {x: 0, y: 0, z: 0}
   resizeBy: 1
   targetSize: 0.035
+  targetDiameterMM: 40
+  scanHeightMM: 5
+  minimumVertices: 12
+  alignBottomToZero: 1
+  measuredDiameterMM: 0
+  lastScaleFactor: 0
+  sampledVertices: 0
+--- !u!114 &-4204804844827647744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6287254097708054079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a231c81fe68e954394c4f50068562fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootModel: {fileID: 8111596217804573931}
+  longestAxisCells: 96
+  surfacePaddingCells: 0
+  maxColliders: 2000
+  maxVoxelCount: 1500000
+  colliderContainer: {fileID: 0}
 --- !u!1 &7858578819414882604
 GameObject:
   m_ObjectHideFlags: 0

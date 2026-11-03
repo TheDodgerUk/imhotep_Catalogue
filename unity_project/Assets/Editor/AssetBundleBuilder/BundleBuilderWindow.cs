@@ -706,7 +706,14 @@ namespace EditorTools.Bundles
                                 button.CollectAllData(root);
                                 foreach (var item in button.m_ItemData)
                                 {
-                                    item.m_ModelGameObject.SetStaticRecursively(false);
+                                    if (item.m_ModelGameObject != null)
+                                    {
+                                        item.m_ModelGameObject.SetStaticRecursively(false);
+                                    }
+                                    else
+                                    {
+                                        Debug.LogError($"ContentButtonMetaData m_ModelGameObject is null for {root.name}");
+                                    }
                                 }
                                 break;
                             case MetaDataType.ContentSlider:
@@ -715,7 +722,14 @@ namespace EditorTools.Bundles
                                 slider.CollectAllData(root);
                                 foreach (var item in slider.m_ItemData)
                                 {
-                                    item.m_ModelGameObject.SetStaticRecursively(false);
+                                    if (item.m_ModelGameObject != null)
+                                    {
+                                        item.m_ModelGameObject.SetStaticRecursively(false);
+                                    }
+                                    else
+                                    {
+                                        Debug.LogError($"ContentSliderMetaData m_ModelGameObject is null for {root.name}");
+                                    }
                                 }
                                 break;
                             case MetaDataType.ContentHinge:
@@ -724,7 +738,14 @@ namespace EditorTools.Bundles
                                 hinge.CollectAllData(root);
                                 foreach (var item in hinge.m_HingeData)
                                 {
-                                    item.m_HingeGameObject.SetStaticRecursively(false);
+                                    if(item.m_HingeGameObject != null)
+                                    {
+                                        item.m_HingeGameObject.SetStaticRecursively(false);
+                                    }
+                                    else
+                                    {
+                                        Debug.LogError($"ContentHingeMetaData m_HingeGameObject is null for {root.name}");
+                                    }
                                 }
                                 break;
                             case MetaDataType.ContentPickUp:
@@ -751,7 +772,14 @@ namespace EditorTools.Bundles
                                 cable.CollectAllData(root);
                                 foreach (var item in cable.m_Data)
                                 {
-                                    item.m_GameObjectPickup.SetStaticRecursively(false);
+                                    if(item.m_GameObjectPickup != null)
+                                    {
+                                        item.m_GameObjectPickup.SetStaticRecursively(false);
+                                    }
+                                    else
+                                    {
+                                        Debug.LogError($"ContentPickUpCableMetaData m_GameObjectPickup is null for {root.name}");
+                                    }
                                 }
                                 break;
                             case MetaDataType.ContentPickUpSocket:
@@ -759,7 +787,14 @@ namespace EditorTools.Bundles
                                 socket.CollectAllData(root);
                                 foreach (var item in socket.m_Data)
                                 {
-                                    item.m_GameObjectPickup.SetStaticRecursively(false);
+                                    if(item.m_GameObjectPickup != null)
+                                    {
+                                        item.m_GameObjectPickup.SetStaticRecursively(false);
+                                    }
+                                    else
+                                    {
+                                        Debug.LogError($"ContentPickUpSocketMetaData m_GameObjectPickup is null for {root.name}");
+                                    }
                                 }
                                 break;
                         }
@@ -788,6 +823,11 @@ namespace EditorTools.Bundles
             int REMOVE_AMOUNT = ".prefab".Length;
 
             var all = Selection.gameObjects.ToList();
+            if(all.Count == 0)
+            {
+                Debug.LogError("No items Selected");
+            }
+
             for (int i = 0; i < all.Count; i++)
             {
                 Selection.activeObject = all[i].gameObject;
@@ -858,6 +898,8 @@ namespace EditorTools.Bundles
 
                         var cloneName = itemTransform.name;
                         clone.name = $"{cloneName}";
+
+                        Debug.Log($"InstantiatePrefab  {itemTransform.name}");
 
                         clone.transform.parent = itemTransform.gameObject.transform.parent;
                         clone.transform.localPosition = itemTransform.gameObject.transform.localPosition;
