@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5031720442185729309}
   - component: {fileID: -7271058743486677449}
+  - component: {fileID: -3044036806464334412}
   m_Layer: 8
   m_Name: Meshy_AI_demeo_rpg_table_Prefab
   m_TagString: RootCatalogueItem
@@ -47,10 +48,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 1.8689786, y: 1.0000001, z: 1.6558}
+  sizeCm: {x: 0, y: 0, z: 0}
   resizeBy: 1
   targetSize: 1
-  rootModelName: RootModel
-  collisionName: PlacementCollision
+  targetDiameterMM: 40
+  scanHeightMM: 5
+  minimumVertices: 12
+  alignBottomToZero: 1
+  measuredDiameterMM: 0
+  lastScaleFactor: 0
+  sampledVertices: 0
+--- !u!114 &-3044036806464334412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4766335870792076783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a231c81fe68e954394c4f50068562fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootModel: {fileID: 7213282799249621173}
+  longestAxisCells: 96
+  surfacePaddingCells: 0
+  maxColliders: 2000
+  maxVoxelCount: 1500000
+  colliderContainer: {fileID: 0}
 --- !u!1 &5378850500047566270
 GameObject:
   m_ObjectHideFlags: 0

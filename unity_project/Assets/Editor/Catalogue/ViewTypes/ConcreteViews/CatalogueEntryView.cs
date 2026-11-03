@@ -177,7 +177,10 @@ namespace EditorTools.CatalogueViewer
 
                 if (GUILayout.Button("Add Filter") == true)
                 {
-                    m_Selected.CatalogueFilters.Add(CatalogueFilterOptions[CatalogueFilterIndex]);
+                    if (m_Selected.CatalogueFilters.Contains(CatalogueFilterOptions[CatalogueFilterIndex]) == false)
+                    {
+                        m_Selected.CatalogueFilters.Add(CatalogueFilterOptions[CatalogueFilterIndex]);
+                    }
                 }
 
                 for (int i = 0; i < m_Selected.CatalogueFilters.Count; i++)
@@ -313,7 +316,10 @@ namespace EditorTools.CatalogueViewer
                 m_EnvironmentIndex = EditorGUILayout.Popup(m_EnvironmentIndex, EnvironmentPopupOptions);
                 if (true == GUILayout.Button("Add Environment"))
                 {
-                    m_Selected.EnvironmentsAvailable.Add(EnvironmentPopupOptions[m_EnvironmentIndex]);
+                    if (m_Selected.EnvironmentsAvailable.Contains(EnvironmentPopupOptions[m_EnvironmentIndex]) == false)
+                    {
+                        m_Selected.EnvironmentsAvailable.Add(EnvironmentPopupOptions[m_EnvironmentIndex]);
+                    }
                 }
                 EditorGUILayout.EndHorizontal();
             }
