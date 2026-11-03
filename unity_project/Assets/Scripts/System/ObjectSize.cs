@@ -299,31 +299,113 @@ public class ObjectSize : MonoBehaviour
         SaveEverything();
 #endif
     }
-
 #if UNITY_EDITOR
     public void SaveEverything()
     {
-        if (!FindChildren()) return;
-        UnityEngine.Object[] changed = { this, transform, rootModel, placementCollision };
-        foreach (UnityEngine.Object obj in changed)
+        if (!FindChildren())
+            return;
+
+        Physics.SyncTransforms();
+        UpdateSize();
+
+        UnityEngine.Object[] changedObjects =
         {
+        this,
+        transform,
+        rootModel,
+        placementCollision
+    };
+
+        // Mark every modified object as dirty.
+        foreach (UnityEngine.Object obj in changedObjects)
+        {
+            if (obj == null)
+                continue;
+
             EditorUtility.SetDirty(obj);
+
             if (PrefabUtility.IsPartOfPrefabInstance(obj))
+            {
                 PrefabUtility.RecordPrefabInstancePropertyModifications(obj);
+            }
         }
 
-        if (PrefabUtility.IsPartOfPrefabAsset(gameObject))
+        GameObject prefabRoot =
+            PrefabUtility.GetNearestPrefabInstanceRoot(gameObject);
+
+        // CASE 1: Editing an instance inside a scene.
+        if (prefabRoot != null &&
+            !PrefabUtility.IsPartOfPrefabAsset(gameObject))
         {
-            GameObject root = transform.root.gameObject;
-            PrefabUtility.SavePrefabAsset(root);
+            string prefabPath =
+                PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(
+                    prefabRoot
+                );
+
+            if (!string.IsNullOrEmpty(prefabPath))
+            {
+                // Apply the modified components and transforms
+                // to the source prefab.
+                foreach (UnityEngine.Object obj in changedObjects)
+                {
+                    if (obj == null)
+                        continue;
+
+                    if (!PrefabUtility.IsPartOfPrefabInstance(obj))
+                        continue;
+
+                    PrefabUtility.ApplyObjectOverride(
+                        obj,
+                        prefabPath,
+                        InteractionMode.AutomatedAction
+                    );
+                }
+
+                AssetDatabase.SaveAssets();
+
+                Debug.Log(
+                    "Applied changes to prefab: " + prefabPath,
+                    this
+                );
+            }
         }
-        else if (gameObject.scene.IsValid() && gameObject.scene.isLoaded)
+        // CASE 2: Editing the prefab asset directly.
+        else if (PrefabUtility.IsPartOfPrefabAsset(gameObject))
         {
-            // Scene instances save as overrides and mark the scene dirty.
+            GameObject assetRoot = transform.root.gameObject;
+
+            PrefabUtility.SavePrefabAsset(assetRoot);
+            AssetDatabase.SaveAssets();
+
+            Debug.Log(
+                "Saved prefab asset: " + assetRoot.name,
+                this
+            );
+        }
+
+        // CASE 3: Save changes to the scene.
+        if (gameObject.scene.IsValid() &&
+            gameObject.scene.isLoaded &&
+            !PrefabUtility.IsPartOfPrefabAsset(gameObject))
+        {
             EditorSceneManager.MarkSceneDirty(gameObject.scene);
-            // A prefab instance's source asset is intentionally NOT overwritten.
+
+            if (!string.IsNullOrEmpty(gameObject.scene.path))
+            {
+                EditorSceneManager.SaveScene(gameObject.scene);
+            }
+            else
+            {
+                Debug.LogWarning(
+                    "Scene has not been saved to disk yet.",
+                    this
+                );
+            }
         }
+
+        Debug.Log("ObjectSize changes saved.", this);
     }
+
 
     private void OnDrawGizmosSelected()
     {

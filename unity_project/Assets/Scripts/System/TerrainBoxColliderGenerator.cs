@@ -3,13 +3,19 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEditor.SceneManagement;
+#endif
+
 [DisallowMultipleComponent]
 public class TerrainBoxColliderGenerator : MonoBehaviour
 {
     [Header("Child Objects")]
     public Transform rootModel;
 
-    [Header("Voxel grid (local mesh units)")]
+    [Header("Voxel Grid")]
     [Min(4)]
     public int longestAxisCells = 96;
 
@@ -45,8 +51,7 @@ public class TerrainBoxColliderGenerator : MonoBehaviour
 
         if (rootModel == null)
         {
-            Debug.LogError(
-                "RootModel not found.", this);
+            Debug.LogError("RootModel not found.", this);
             return null;
         }
 
@@ -59,10 +64,32 @@ public class TerrainBoxColliderGenerator : MonoBehaviour
                 return filter;
         }
 
+        Debug.LogError(
+            "No MeshFilter found under RootModel.", this);
+
         return null;
     }
 
+    // ====================================================
+    // REMOVE COLLIDERS
+    // ====================================================
+
     public void RemoveColliders()
+    {
+        if (Application.isPlaying)
+        {
+            Debug.LogWarning(
+                "Cannot permanently remove colliders in Play Mode.",
+                this);
+            return;
+        }
+
+        RemoveCollidersInternal();
+
+        SaveChanges();
+    }
+
+    private void RemoveCollidersInternal()
     {
         MeshFilter filter = FindMeshFilter();
 
@@ -74,26 +101,35 @@ public class TerrainBoxColliderGenerator : MonoBehaviour
 
         if (existing != null)
         {
-            if (Application.isPlaying)
-                Destroy(existing.gameObject);
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+                Undo.DestroyObjectImmediate(existing.gameObject);
             else
-                DestroyImmediate(existing.gameObject);
+#endif
+                Destroy(existing.gameObject);
         }
 
         colliderContainer = null;
     }
 
+    // ====================================================
+    // GENERATE COLLIDERS
+    // ====================================================
+
     public void GenerateColliders()
     {
-        MeshFilter primaryFilter = FindMeshFilter();
-
-        if (primaryFilter == null)
+        if (Application.isPlaying)
         {
-            Debug.LogError(
-                "No MeshFilter found under RootModel.",
+            Debug.LogWarning(
+                "Cannot permanently generate colliders in Play Mode.",
                 this);
             return;
         }
+
+        MeshFilter primaryFilter = FindMeshFilter();
+
+        if (primaryFilter == null)
+            return;
 
         Transform meshTransform =
             primaryFilter.transform;
@@ -104,8 +140,6 @@ public class TerrainBoxColliderGenerator : MonoBehaviour
         List<Vector3> vertices = new List<Vector3>();
         List<int> triangles = new List<int>();
 
-        // Transform all mesh geometry into the
-        // primary mesh GameObject's local space.
         Matrix4x4 destinationInverse =
             meshTransform.worldToLocalMatrix;
 
@@ -250,7 +284,9 @@ public class TerrainBoxColliderGenerator : MonoBehaviour
                     0, dims.z - 1);
 
                 for (int x = x0; x <= x1; x++)
+                {
                     for (int y = y0; y <= y1; y++)
+                    {
                         for (int z = z0; z <= z1; z++)
                         {
                             if (solid[x, y, z])
@@ -270,6 +306,8 @@ public class TerrainBoxColliderGenerator : MonoBehaviour
                                 touched++;
                             }
                         }
+                    }
+                }
             }
         }
         catch (Exception ex)
@@ -278,12 +316,16 @@ public class TerrainBoxColliderGenerator : MonoBehaviour
             return;
         }
 
-        // Greedy merge adjacent occupied voxels.
-        // Build the plan before modifying existing colliders.
+        // =================================================
+        // GREEDY MERGE
+        // =================================================
+
         List<Bounds> boxes = new List<Bounds>();
 
         for (int y = 0; y < dims.y; y++)
+        {
             for (int z = 0; z < dims.z; z++)
+            {
                 for (int x = 0; x < dims.x; x++)
                 {
                     if (!solid[x, y, z])
@@ -322,6 +364,7 @@ public class TerrainBoxColliderGenerator : MonoBehaviour
                         bool ok = true;
 
                         for (int iz = z; iz < ze && ok; iz++)
+                        {
                             for (int ix = x; ix < xe; ix++)
                             {
                                 if (!solid[ix, ye, iz])
@@ -330,6 +373,7 @@ public class TerrainBoxColliderGenerator : MonoBehaviour
                                     break;
                                 }
                             }
+                        }
 
                         if (!ok)
                             break;
@@ -338,9 +382,13 @@ public class TerrainBoxColliderGenerator : MonoBehaviour
                     }
 
                     for (int iy = y; iy < ye; iy++)
+                    {
                         for (int iz = z; iz < ze; iz++)
+                        {
                             for (int ix = x; ix < xe; ix++)
                                 solid[ix, iy, iz] = false;
+                        }
+                    }
 
                     Vector3 start =
                         bounds.min +
@@ -364,21 +412,33 @@ public class TerrainBoxColliderGenerator : MonoBehaviour
                     {
                         Debug.LogWarning(
                             $"Would generate over {maxColliders} " +
-                            "colliders. Increase Max Colliders or " +
-                            "reduce Longest Axis Cells. " +
-                            "Existing colliders unchanged.",
+                            "colliders. Existing colliders unchanged.",
                             this);
                         return;
                     }
                 }
+            }
+        }
 
-        // Replace colliders only after successful generation.
-        RemoveColliders();
+        // =================================================
+        // CREATE COLLIDERS
+        // =================================================
+
+#if UNITY_EDITOR
+        Undo.SetCurrentGroupName("Generate Terrain Colliders");
+        int undoGroup = Undo.GetCurrentGroup();
+#endif
+
+        RemoveCollidersInternal();
 
         GameObject container =
             new GameObject(ContainerName);
 
-        // Parent directly under the mesh GameObject.
+#if UNITY_EDITOR
+        Undo.RegisterCreatedObjectUndo(
+            container, "Create Collider Container");
+#endif
+
         container.transform.SetParent(
             meshTransform, false);
 
@@ -393,15 +453,25 @@ public class TerrainBoxColliderGenerator : MonoBehaviour
 
         colliderContainer = container.transform;
 
-        // Bounds are already in meshTransform local space.
         foreach (Bounds box in boxes)
         {
+#if UNITY_EDITOR
+            BoxCollider bc =
+                Undo.AddComponent<BoxCollider>(container);
+#else
             BoxCollider bc =
                 container.AddComponent<BoxCollider>();
+#endif
 
             bc.center = box.center;
             bc.size = box.size;
         }
+
+#if UNITY_EDITOR
+        Undo.CollapseUndoOperations(undoGroup);
+#endif
+
+        SaveChanges();
 
         Debug.Log(
             $"Generated {boxes.Count} BoxColliders " +
@@ -410,7 +480,120 @@ public class TerrainBoxColliderGenerator : MonoBehaviour
             this);
     }
 
-    // Separating Axis Theorem triangle/AABB overlap.
+    // ====================================================
+    // SAVE PREFAB
+    // ====================================================
+
+
+    private void SaveChanges()
+    {
+#if UNITY_EDITOR
+        if (Application.isPlaying)
+            return;
+
+        EditorUtility.SetDirty(this);
+
+        // 1. Editing the prefab directly in Prefab Mode.
+        var prefabStage =
+            PrefabStageUtility.GetCurrentPrefabStage();
+
+        if (prefabStage != null &&
+            gameObject.scene == prefabStage.scene)
+        {
+            EditorSceneManager.MarkSceneDirty(prefabStage.scene);
+
+            GameObject savedPrefab =
+                PrefabUtility.SaveAsPrefabAsset(
+                    prefabStage.prefabContentsRoot,
+                    prefabStage.assetPath);
+
+            if (savedPrefab == null)
+            {
+                Debug.LogError("Failed to save prefab.", this);
+                return;
+            }
+
+            AssetDatabase.SaveAssets();
+
+            Debug.Log("Saved prefab in Prefab Mode.", this);
+            return;
+        }
+
+        // 2. Editing a prefab asset directly.
+        if (PrefabUtility.IsPartOfPrefabAsset(gameObject))
+        {
+            GameObject prefabRoot =
+                transform.root.gameObject;
+
+            bool success;
+
+            PrefabUtility.SavePrefabAsset(
+                prefabRoot,
+                out success);
+
+            if (!success)
+            {
+                Debug.LogError("Failed to save prefab asset.", this);
+                return;
+            }
+
+            AssetDatabase.SaveAssets();
+
+            Debug.Log("Saved prefab asset.", this);
+            return;
+        }
+
+        // 3. Editing a prefab instance inside a scene.
+        if (PrefabUtility.IsPartOfPrefabInstance(gameObject))
+        {
+            GameObject prefabRoot =
+                PrefabUtility.GetOutermostPrefabInstanceRoot(
+                    gameObject);
+
+            if (prefabRoot != null)
+            {
+                PrefabUtility.RecordPrefabInstancePropertyModifications(
+                    this);
+
+                // Applies added/removed children and colliders
+                // to the original prefab asset.
+                PrefabUtility.ApplyPrefabInstance(
+                    prefabRoot,
+                    InteractionMode.AutomatedAction);
+
+                AssetDatabase.SaveAssets();
+
+                Debug.Log(
+                    "Applied scene instance changes to original prefab.",
+                    this);
+            }
+        }
+
+        // 4. Save the scene containing this object.
+        if (gameObject.scene.IsValid() &&
+            gameObject.scene.isLoaded)
+        {
+            EditorSceneManager.MarkSceneDirty(gameObject.scene);
+
+            if (string.IsNullOrEmpty(gameObject.scene.path))
+            {
+                Debug.LogWarning(
+                    "Scene has not been saved to disk yet.",
+                    this);
+            }
+            else
+            {
+                EditorSceneManager.SaveScene(gameObject.scene);
+            }
+        }
+#endif
+    }
+
+
+    // ====================================================
+    // TRIANGLE / BOX INTERSECTION
+    // ====================================================
+
     private static bool TriangleIntersectsBox(
         Vector3 center,
         Vector3 half,

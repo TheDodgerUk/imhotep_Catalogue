@@ -141,12 +141,14 @@ namespace EditorTools.CatalogueViewer
                 {
                     if (GUILayout.Button("Save Catalogue") == true)
                     {
+                        var val = Stopwatch.Diagnostics();
                         var timer = Stopwatch.Diagnostics();
                         ValidateCatalogue();
+                        val.Stop();
                         SaveCatalogueToFile(justAdded: false, withVersion: false, false);
                         timer.Stop();
                         EditorApplication.Beep();
-                        EditorUtility.DisplayDialog("Completed", $"Save Catalogue, took:{timer.Readable()} ", "Ok");
+                        EditorUtility.DisplayDialog("Completed", $"Save Catalogue, total took:{timer.Readable()}  validate:{val.Readable()}", "Ok");
                     }
                     if (GUILayout.Button("Print brands") == true)
                     {
