@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 87704252456262327}
   - component: {fileID: 6787026739780109107}
+  - component: {fileID: 8374914301879752530}
   m_Layer: 8
   m_Name: Ironclad_Brute_Prefab
   m_TagString: RootCatalogueItem
@@ -27,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.1007276, y: 2.1007276, z: 2.1007276}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5856519439612927059}
@@ -54,9 +55,27 @@ MonoBehaviour:
   scanHeightMM: 5
   minimumVertices: 12
   alignBottomToZero: 1
-  measuredDiameterMM: 0
-  lastScaleFactor: 0
-  sampledVertices: 0
+  measuredDiameterMM: 36.482166
+  lastScaleFactor: 2.1007276
+  sampledVertices: 246038
+--- !u!114 &8374914301879752530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478464175269452655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a231c81fe68e954394c4f50068562fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootModel: {fileID: 4758794829082972281}
+  longestAxisCells: 96
+  surfacePaddingCells: 0
+  maxColliders: 2000
+  maxVoxelCount: 1500000
+  colliderContainer: {fileID: 0}
 --- !u!1 &4086132393038122521
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,8 +154,8 @@ Transform:
   m_GameObject: {fileID: 5531323096281149963}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.018450353, z: 0}
-  m_LocalScale: {x: 2.1007276, y: 2.1007276, z: 2.1007276}
+  m_LocalPosition: {x: 0, y: 0.00878284, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8743046793919732326}
@@ -274,8 +293,8 @@ Transform:
   m_GameObject: {fileID: 7490176964190405276}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.018450353, z: 0}
-  m_LocalScale: {x: 2.1007276, y: 2.1007276, z: 2.1007276}
+  m_LocalPosition: {x: 0, y: 0.00878284, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6813256007655197412}

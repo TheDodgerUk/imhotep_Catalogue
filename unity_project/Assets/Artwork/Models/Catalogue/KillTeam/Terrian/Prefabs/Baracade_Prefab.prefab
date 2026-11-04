@@ -292,7 +292,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6758578097245527991}
   - component: {fileID: -3965357258469153504}
-  - component: {fileID: 100272811395825451}
   m_Layer: 8
   m_Name: Baracade_Prefab
   m_TagString: RootCatalogueItem
@@ -310,7 +309,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 42.3375, y: 42.3375, z: 42.3375}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5213452542141919159}
@@ -333,27 +332,13 @@ MonoBehaviour:
   sizeCm: {x: 14.4, y: 7, z: 5.2}
   resizeBy: 1
   targetSize: 0.07
---- !u!114 &100272811395825451
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5689949139499659984}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3bcfb5ea4ca6804b85f61a955869a6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rootModel: {fileID: 3433663403898852536}
-  placementCollision: {fileID: 5213452542141919159}
   targetDiameterMM: 40
   scanHeightMM: 5
   minimumVertices: 12
   alignBottomToZero: 1
-  measuredDiameterMM: 46.750713
-  lastScaleFactor: 0.35014743
-  sampledVertices: 8892
+  measuredDiameterMM: 0
+  lastScaleFactor: 0
+  sampledVertices: 0
 --- !u!1 &5743238190962309788
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,8 +364,8 @@ Transform:
   m_GameObject: {fileID: 5743238190962309788}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.14982098, z: 0}
-  m_LocalScale: {x: 42.3375, y: 42.3375, z: 42.3375}
+  m_LocalPosition: {x: 0, y: 6.343046, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4133917318469453491}
@@ -411,8 +396,8 @@ Transform:
   m_GameObject: {fileID: 6670687873415065401}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.14982098, z: 0}
-  m_LocalScale: {x: 42.3375, y: 42.3375, z: 42.3375}
+  m_LocalPosition: {x: 0, y: 6.343046, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7440958327120756298}
@@ -515,6 +500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a231c81fe68e954394c4f50068562fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rootModel: {fileID: 0}
   longestAxisCells: 8
   surfacePaddingCells: 0
   maxColliders: 2000

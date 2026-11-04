@@ -73,12 +73,15 @@ public class ObjectSize : MonoBehaviour
 #endif
     }
 
+    private void NormalizeChildScales()
+    {
+        rootModel.localScale = Vector3.one;
+        placementCollision.localScale = Vector3.one;
+    }
+
     private void ApplyScale(float factor)
     {
-        rootModel.localScale *= factor;
-        rootModel.localPosition *= factor;
-        placementCollision.localScale *= factor;
-        placementCollision.localPosition *= factor;
+        transform.localScale *= factor;
     }
 
     // Public operations save themselves, so they also work when called from other editor code.
@@ -101,6 +104,33 @@ public class ObjectSize : MonoBehaviour
             return;
         }
 
+        // Move the RootModel scale onto the main object, keeping its world size.
+        // A single parent scale can preserve both children exactly only if their
+        // existing scales are the same uniform value.
+        Vector3 modelScale = rootModel.localScale;
+        Vector3 collisionScale = placementCollision.localScale;
+        if (modelScale != Vector3.one || collisionScale != Vector3.one)
+        {
+            if (!Mathf.Approximately(modelScale.x, modelScale.y) ||
+                !Mathf.Approximately(modelScale.y, modelScale.z) ||
+                modelScale.x <= 0f)
+            {
+                Debug.LogWarning("RootModel must have a positive uniform scale to transfer it to the main object.", this);
+                return;
+            }
+
+            if (collisionScale != modelScale)
+                Debug.LogWarning("PlacementCollision has a different scale from RootModel; resetting it may change its size.", this);
+
+            RecordChanges("Move Child Scale To Main Object");
+            float factor = modelScale.x;
+            transform.localScale *= factor;
+            rootModel.localPosition *= factor;
+            placementCollision.localPosition *= factor;
+            NormalizeChildScales();
+            Physics.SyncTransforms();
+        }
+
         Renderer[] renderers = rootModel.GetComponentsInChildren<Renderer>(true);
         bool found = false;
         Bounds bounds = new Bounds();
@@ -116,45 +146,24 @@ public class ObjectSize : MonoBehaviour
             Mathf.Round(size.z * 1000f) / 10f);
     }
 
-    private bool TryNormalizeParentScale()
-    {
-        Vector3 parentScale = transform.localScale;
-        if (Mathf.Abs(parentScale.x) < 0.000001f ||
-            Mathf.Abs(parentScale.y) < 0.000001f ||
-            Mathf.Abs(parentScale.z) < 0.000001f ||
-            !Mathf.Approximately(parentScale.x, parentScale.y) ||
-            !Mathf.Approximately(parentScale.y, parentScale.z))
-        {
-            Debug.LogWarning("Parent scale must be non-zero and uniform.", this);
-            return false;
-        }
-        ApplyScale(parentScale.x);
-        transform.localScale = Vector3.one;
-        return true;
-    }
-
     public void ResizeObject()
     {
         if (!FindChildren() || targetSize <= 0f) return;
-        Vector3 s = transform.localScale;
-        if (Mathf.Abs(s.x) < 0.000001f ||
-            !Mathf.Approximately(s.x, s.y) ||
-            !Mathf.Approximately(s.y, s.z))
-        {
-            Debug.LogWarning("Parent scale must be non-zero and uniform.", this);
-            return;
-        }
+
+        RecordChanges("Resize Object");
+        NormalizeChildScales();
+        Physics.SyncTransforms();
         UpdateSize();
+
         float current = resizeBy == Dimension.Width ? size.x :
                         resizeBy == Dimension.Height ? size.y : size.z;
+
         if (current <= 0.000001f)
         {
             Debug.LogWarning("Selected dimension is zero.", this);
             return;
         }
-        RecordChanges("Resize Object");
-        // Current size already includes the parent's scale.
-        if (!TryNormalizeParentScale()) return;
+
         float factor = targetSize / current;
         ApplyScale(factor);
         FinishChanges();
@@ -224,7 +233,7 @@ public class ObjectSize : MonoBehaviour
         count = 0;
         if (!FindChildren() || !TryGetLowestY(out bottomY)) return false;
 
-        float maxY = bottomY + scanHeightMM / 1000f;
+        float maxY = bottomY + scanHeightMM / (1000f * Mathf.Max(Mathf.Abs(transform.lossyScale.y), 0.000001f));
         float minX = float.PositiveInfinity, maxX = float.NegativeInfinity;
         float minZ = float.PositiveInfinity, maxZ = float.NegativeInfinity;
         foreach (MeshFilter filter in rootModel.GetComponentsInChildren<MeshFilter>(true))
@@ -238,7 +247,7 @@ public class ObjectSize : MonoBehaviour
             foreach (Vector3 vertex in vertices)
             {
                 Vector3 p = matrix.MultiplyPoint3x4(vertex);
-                if (p.y > maxY) continue;
+                if (p.y < bottomY - 0.000001f || p.y > maxY) continue;
                 minX = Mathf.Min(minX, p.x);
                 maxX = Mathf.Max(maxX, p.x);
                 minZ = Mathf.Min(minZ, p.z);
@@ -259,7 +268,7 @@ public class ObjectSize : MonoBehaviour
             return;
         }
         RecordChanges("Measure Base");
-        measuredDiameterMM = diameter * 1000f;
+        measuredDiameterMM = diameter * 1000f * Mathf.Abs(transform.lossyScale.x);
         sampledVertices = count;
         FinishChanges();
         Debug.Log($"Base diameter: {measuredDiameterMM:F2} mm, bottom Y: {bottom:F5}, vertices: {count}", this);
@@ -268,29 +277,36 @@ public class ObjectSize : MonoBehaviour
     public void ScaleToTarget()
     {
         if (!FindChildren() || targetDiameterMM <= 0f) return;
-        if (!Mathf.Approximately(transform.localScale.x, 1f) ||
-            !Mathf.Approximately(transform.localScale.y, 1f) ||
-            !Mathf.Approximately(transform.localScale.z, 1f))
-        {
-            Debug.LogError("Parent scale must be (1,1,1) before scaling base.", this);
-            return;
-        }
+
+        RecordChanges("Scale Miniature Base");
+        NormalizeChildScales();
+        Physics.SyncTransforms();
+
         if (!TryMeasure(out float diameter, out _, out _))
         {
             Debug.LogWarning("Unable to measure base.", this);
             return;
         }
-        float factor = targetDiameterMM / (diameter * 1000f);
+
+        // TryMeasure returns a diameter in parent-local coordinates.
+        // Convert to world units before calculating the new parent scale.
+        float currentWorldDiameterMM = diameter * 1000f *
+            Mathf.Abs(transform.lossyScale.x);
+        if (currentWorldDiameterMM <= 0.000001f) return;
+
+        float factor = targetDiameterMM / currentWorldDiameterMM;
         if (float.IsNaN(factor) || float.IsInfinity(factor) || factor <= 0f) return;
-        RecordChanges("Scale Miniature Base");
+
         ApplyScale(factor);
         Physics.SyncTransforms();
+
         if (TryMeasure(out float newDiameter, out float bottom, out int count))
         {
             if (alignBottomToZero) OffsetChildrenY(-bottom);
-            measuredDiameterMM = newDiameter * 1000f;
+            measuredDiameterMM = newDiameter * 1000f * Mathf.Abs(transform.lossyScale.x);
             sampledVertices = count;
         }
+
         lastScaleFactor = factor;
         FinishChanges();
         Debug.Log($"Scaled base to {targetDiameterMM:F2} mm, factor {factor:F5}", this);
