@@ -7,6 +7,7 @@ using static GlobalConsts;
 using UnityEngine.SceneManagement;
 using UnityEditor.SceneManagement;
 using System;
+using System.Linq;
 
 namespace EditorTools.Bundles
 {
@@ -822,21 +823,32 @@ namespace EditorTools.Bundles
             string _PREFAB_PREFAB = $"{GlobalConsts._PREFAB_PREFAB_EXTENTION}";
             int REMOVE_AMOUNT = ".prefab".Length;
 
-            var all = Selection.gameObjects.ToList();
-            if(all.Count == 0)
+            List<GameObject> selectedObjects = Selection.gameObjects.ToList();
+            if(selectedObjects.Count == 0)
             {
-                Debug.LogError("No items Selected");
+#if UNITY_EDITOR
+                UnityEditor.EditorUtility.DisplayDialog(
+                    "Error",
+                    "No items selected, selecting all ",
+                    "OK"
+                );
+#endif
+                selectedObjects = UnityEngine.Object.FindObjectsOfType<GameObject>(true)
+                    .Where(obj => obj.scene == UnityEngine.SceneManagement.SceneManager.GetActiveScene())
+                    .ToList();
+
+                Selection.objects = selectedObjects.ToArray();
             }
 
-            for (int i = 0; i < all.Count; i++)
+            for (int i = 0; i < selectedObjects.Count; i++)
             {
-                Selection.activeObject = all[i].gameObject;
+                Selection.activeObject = selectedObjects[i].gameObject;
                 EditorGUIUtility.PingObject(Selection.activeObject);
 
 
                 // checks to see if ends the item is a prefab  but NOT the generated one from the catalogue side
                 // if it is, it replaces it with the generated catalougue item
-                var realPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(all[i].gameObject);
+                var realPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(selectedObjects[i].gameObject);
                 if (realPath.StartsWith(CATALOGUE_PATH) == true)
                 {
                     if (realPath.EndsWith(_PREFAB_PREFAB) == false)
@@ -854,18 +866,18 @@ namespace EditorTools.Bundles
                             if (realGUID == renderMetaData.Main.Guid)
                             {
                                 found = true;
-                                int index = all[i].gameObject.transform.GetSiblingIndex();
+                                int index = selectedObjects[i].gameObject.transform.GetSiblingIndex();
                                 var assignedPrefab = PrefabManager.LoadPrefab(renderMetaData.Main);
 
-                                SceneManager.SetActiveScene(all[i].gameObject.scene);
+                                SceneManager.SetActiveScene(selectedObjects[i].gameObject.scene);
 
                                 var clone = PrefabUtility.InstantiatePrefab(assignedPrefab) as GameObject;
                                 clone.name = $"{clone.name} ({Mathf.Abs(clone.GetInstanceID())})";
-                                clone.transform.parent = all[i].gameObject.transform.parent;
-                                clone.transform.localPosition = all[i].gameObject.transform.localPosition;
-                                clone.transform.localRotation = all[i].gameObject.transform.localRotation;
+                                clone.transform.parent = selectedObjects[i].gameObject.transform.parent;
+                                clone.transform.localPosition = selectedObjects[i].gameObject.transform.localPosition;
+                                clone.transform.localRotation = selectedObjects[i].gameObject.transform.localRotation;
 
-                                DestroyImmediate(all[i].gameObject);
+                                DestroyImmediate(selectedObjects[i].gameObject);
                                 clone.transform.SetSiblingIndex(index);
                                 break;
                             }
@@ -884,7 +896,7 @@ namespace EditorTools.Bundles
                 // replaces it with the correct catalogue item prefab
                 for (int j = 0; j < Catalogue.Instance.Entries.Count; j++)
                 {
-                    var itemTransform = all[i];
+                    var itemTransform = selectedObjects[i];
                     var renderMetaData = Catalogue.Instance.Entries[j].GetMetaData<RenderMetaData>();
 
                     if (itemTransform.name.Contains(Catalogue.Instance.Entries[j].Guid) == true || itemTransform.name.Contains(renderMetaData.Main.Guid) == true)
