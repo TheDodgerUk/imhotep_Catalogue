@@ -77,15 +77,26 @@ public class ObjectSize : MonoBehaviour
 #endif
     }
 
-    private void NormalizeChildScales()
+    // Transfer any scale on the root to the children without changing their
+    // positions or sizes in the root's parent space.
+    private void NormalizeRootScale()
     {
-        rootModel.localScale = Vector3.one;
-        placementCollision.localScale = Vector3.one;
+        Vector3 scale = transform.localScale;
+        if (scale == Vector3.one) return;
+
+        RecordChanges("Transfer Root Scale To Children");
+        rootModel.localPosition = Vector3.Scale(rootModel.localPosition, scale);
+        placementCollision.localPosition = Vector3.Scale(placementCollision.localPosition, scale);
+        rootModel.localScale = Vector3.Scale(rootModel.localScale, scale);
+        placementCollision.localScale = Vector3.Scale(placementCollision.localScale, scale);
+        transform.localScale = Vector3.one;
     }
 
     private void ApplyScale(float factor)
     {
-        transform.localScale *= factor;
+        NormalizeRootScale();
+        rootModel.localScale *= factor;
+        placementCollision.localScale *= factor;
     }
 
     // Public operations save themselves, so they also work when called from other editor code.
@@ -108,32 +119,8 @@ public class ObjectSize : MonoBehaviour
             return;
         }
 
-        // Move the RootModel scale onto the main object, keeping its world size.
-        // A single parent scale can preserve both children exactly only if their
-        // existing scales are the same uniform value.
-        Vector3 modelScale = rootModel.localScale;
-        Vector3 collisionScale = placementCollision.localScale;
-        if (modelScale != Vector3.one || collisionScale != Vector3.one)
-        {
-            if (!Mathf.Approximately(modelScale.x, modelScale.y) ||
-                !Mathf.Approximately(modelScale.y, modelScale.z) ||
-                modelScale.x <= 0f)
-            {
-                Debug.LogWarning("RootModel must have a positive uniform scale to transfer it to the main object.", this);
-                return;
-            }
-
-            if (collisionScale != modelScale)
-                Debug.LogWarning("PlacementCollision has a different scale from RootModel; resetting it may change its size.", this);
-
-            RecordChanges("Move Child Scale To Main Object");
-            float factor = modelScale.x;
-            transform.localScale *= factor;
-            rootModel.localPosition *= factor;
-            placementCollision.localPosition *= factor;
-            NormalizeChildScales();
-            Physics.SyncTransforms();
-        }
+        NormalizeRootScale();
+        Physics.SyncTransforms();
 
         Renderer[] renderers = rootModel.GetComponentsInChildren<Renderer>(true);
         bool found = false;
@@ -155,7 +142,7 @@ public class ObjectSize : MonoBehaviour
         if (!FindChildren() || targetSize <= 0f) return;
 
         RecordChanges("Resize Object");
-        NormalizeChildScales();
+        NormalizeRootScale();
         Physics.SyncTransforms();
         UpdateSize();
 
@@ -283,7 +270,7 @@ public class ObjectSize : MonoBehaviour
         if (!FindChildren() || targetDiameterMM <= 0f) return;
 
         RecordChanges("Scale Miniature Base");
-        NormalizeChildScales();
+        NormalizeRootScale();
         Physics.SyncTransforms();
 
         if (!TryMeasure(out float diameter, out _, out _))
@@ -471,14 +458,55 @@ public class ObjectSizeEditor : Editor
         ObjectSize item = (ObjectSize)target;
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("Object Tools", EditorStyles.boldLabel);
-        if (GUILayout.Button("Update Size", GUILayout.Height(30))) { Undo.RecordObject(item, "Update Size"); item.UpdateSize(); item.SaveEverything(); }
-        if (GUILayout.Button("Resize Object", GUILayout.Height(30))) item.ResizeObject();
-        if (GUILayout.Button("Bad Rotation (-90 X)", GUILayout.Height(30))) item.UpdateRotation(true);
-        if (GUILayout.Button("Normal Rotation (0 X)", GUILayout.Height(30))) item.UpdateRotation(false);
-        if (GUILayout.Button("Fix Model Base Y = 0", GUILayout.Height(30))) item.AlignModelBase();
+        if (GUILayout.Button("Update Size", GUILayout.Height(30)))
+        {
+            Undo.RecordObject(item, "Update Size");
+            item.UpdateSize();
+            item.AlignModelBase();
+            item.SaveEverything();
+        }
+
+        if (GUILayout.Button("Resize Object", GUILayout.Height(30)))
+        {
+            item.ResizeObject();
+            item.AlignModelBase();
+            item.SaveEverything();
+        }
+
+        if (GUILayout.Button("Bad Rotation (-90 X)", GUILayout.Height(30)))
+        {
+            item.UpdateRotation(true);
+            item.AlignModelBase();
+            item.SaveEverything();
+        }
+
+        if (GUILayout.Button("Normal Rotation (0 X)", GUILayout.Height(30)))
+        {
+            item.UpdateRotation(false);
+            item.AlignModelBase();
+            item.SaveEverything();
+        }
+
+        if (GUILayout.Button("Fix Model Base Y = 0", GUILayout.Height(30)))
+        {
+            item.AlignModelBase();
+            item.SaveEverything();
+        }
+
         EditorGUILayout.Space(15);
-        if (GUILayout.Button("Measure Current Base", GUILayout.Height(30))) item.MeasureBase();
-        if (GUILayout.Button("Scale Base To Target Size", GUILayout.Height(36))) item.ScaleToTarget();
+
+        if (GUILayout.Button("Measure Current Base", GUILayout.Height(30)))
+        {
+            item.MeasureBase();
+            item.SaveEverything();
+        }
+
+        if (GUILayout.Button("Scale Base To Target Size", GUILayout.Height(36)))
+        {
+            item.ScaleToTarget();
+            item.AlignModelBase();
+            item.SaveEverything();
+        }
     }
 }
 #endif
