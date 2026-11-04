@@ -234,7 +234,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8352888557574221465}
   - component: {fileID: -1518900628204646779}
-  - component: {fileID: -6269078455303333389}
   m_Layer: 8
   m_Name: Squig_with_Dynamite_Prefab
   m_TagString: RootCatalogueItem
@@ -272,24 +271,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 0.018200913, y: 0.020000001, z: 0.033319436}
+  sizeCm: {x: 1.8, y: 2, z: 3.3}
   resizeBy: 1
   targetSize: 0.02
-  rootModelName: RootModel
-  collisionName: PlacementCollision
---- !u!114 &-6269078455303333389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8219151164825348443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3bcfb5ea4ca6804b85f61a955869a6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rootModel: {fileID: 3480565413369859244}
-  placementCollision: {fileID: 179350488147961534}
   targetDiameterMM: 40
   scanHeightMM: 5
   minimumVertices: 12

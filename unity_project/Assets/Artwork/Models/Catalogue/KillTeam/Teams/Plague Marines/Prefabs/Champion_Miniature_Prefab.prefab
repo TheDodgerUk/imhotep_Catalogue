@@ -149,7 +149,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7267546000836116333}
   - component: {fileID: -4627454902951930517}
-  - component: {fileID: 8306753505914258309}
   m_Layer: 8
   m_Name: Champion_Miniature_Prefab
   m_TagString: RootCatalogueItem
@@ -187,31 +186,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 0.05560735, y: 0.06261239, z: 0.034853112}
+  sizeCm: {x: 5.6, y: 6.3, z: 3.5}
   resizeBy: 1
   targetSize: 0.035
-  rootModelName: RootModel
-  collisionName: PlacementCollision
---- !u!114 &8306753505914258309
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4921504899897293579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3bcfb5ea4ca6804b85f61a955869a6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rootModel: {fileID: 1548149343880683081}
-  placementCollision: {fileID: 245870345830535924}
   targetDiameterMM: 40
   scanHeightMM: 5
   minimumVertices: 12
   alignBottomToZero: 1
-  measuredDiameterMM: 34.853104
-  lastScaleFactor: 3.2922866
-  sampledVertices: 40384
+  measuredDiameterMM: 0
+  lastScaleFactor: 0
+  sampledVertices: 0
 --- !u!1 &7540435814979770434
 GameObject:
   m_ObjectHideFlags: 0
