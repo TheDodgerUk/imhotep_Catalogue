@@ -43,7 +43,11 @@ public class ObjectSize : MonoBehaviour
 
     private void Awake()
     {
-        if (FindChildren()) UpdateSize();
+        if (FindChildren())
+        {
+            UpdateSize();
+            AlignModelBase();
+        }
     }
 
     public bool FindChildren()
