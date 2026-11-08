@@ -345,6 +345,29 @@ namespace KillTeam
             generatedLights.Clear();
         }
 
+        public void SetAllLightsBakeType(LightmapBakeType bakeType)
+        {
+            // Include generated child lights even if the serialized list is stale.
+            Transform root = transform.Find(GeneratedRootName);
+            if (root == null)
+                return;
+
+            Light[] lights = root.GetComponentsInChildren<Light>(true);
+            foreach (Light light in lights)
+            {
+                if (light == null)
+                    continue;
+
+#if UNITY_EDITOR
+                Undo.RecordObject(light, "Change Light Bake Type");
+#endif
+                light.lightmapBakeType = bakeType;
+#if UNITY_EDITOR
+                EditorUtility.SetDirty(light);
+#endif
+            }
+        }
+
         public void SetAllLightsEnabled(bool enabled)
         {
             foreach (Light light in generatedLights)
@@ -380,6 +403,28 @@ namespace KillTeam
                 lighting.ClearLighting();
                 EditorUtility.SetDirty(lighting);
             }
+
+            EditorGUILayout.Space(8);
+
+            if (GUILayout.Button("Realtime Lights ALL", GUILayout.Height(30)))
+                lighting.SetAllLightsBakeType(LightmapBakeType.Realtime);
+
+            if (GUILayout.Button("Baking Lighting ALL", GUILayout.Height(30)))
+                lighting.SetAllLightsBakeType(LightmapBakeType.Baked);
+
+            EditorGUILayout.Space(8);
+
+            using (new EditorGUI.DisabledScope(Lightmapping.isRunning || EditorApplication.isPlaying))
+            {
+                if (GUILayout.Button("BAKE LIGHTING NOW", GUILayout.Height(35)))
+                {
+                    if (!Lightmapping.BakeAsync())
+                        Debug.LogWarning("Could not start lightmap baking. Check Lighting settings and ensure no bake is already running.");
+                }
+            }
+
+            if (Lightmapping.isRunning)
+                EditorGUILayout.HelpBox("Lighting bake in progress...", MessageType.Info);
 
             EditorGUILayout.Space(8);
 
