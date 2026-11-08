@@ -34,6 +34,15 @@ namespace KillTeam
         public float ceilingRange = 10f;
 
         [Header("Red Pillar Lights")]
+
+        [Header("Pillar Models")]
+        [Tooltip("Drag pillar GameObjects from the Hierarchy here.")]
+        public List<Transform> pillars = new List<Transform>();
+
+        [Header("Pillar Light Settings")]
+        public float pillarLightHeight = 0.5f;
+        public float pillarLightTargetHeight = 4f;
+
         public Color pillarColor = new Color(0.8f, 0.05f, 0.02f);
         public float pillarIntensity = 2f;
         public float pillarRange = 5f;
@@ -52,20 +61,24 @@ namespace KillTeam
         public float flickerAmount = 0.15f;
         public float flickerSpeed = 5f;
 
-        [Header("Performance")]
+        [Header("Shadows")]
         public bool enableShadows = true;
         public LightShadows shadowType = LightShadows.Soft;
 
-        [Header("Debug")]
+        [Header("Lightmap UV Generation")]
+        [Min(0)]
+        public int maxUVTriangleCount = 100000;
+
+        [Header("Generated Lights")]
         [SerializeField]
         private List<Light> generatedLights = new List<Light>();
 
         private const string GeneratedRootName = "GeneratedLights";
         private const string CandlePrefix = "VFX_Candle_Flame";
 
-        // --------------------------------------------------
+        // ==================================================
         // CANDLE FLICKER
-        // --------------------------------------------------
+        // ==================================================
 
         private class CandleFlicker : MonoBehaviour
         {
@@ -80,8 +93,7 @@ namespace KillTeam
                 if (targetLight == null)
                     return;
 
-                // Baked lights cannot animate their illumination.
-                if (targetLight.lightmapBakeType == LightmapBakeType.Baked)
+                if (targetLight == null || !targetLight.enabled)
                     return;
 
                 float noise = Mathf.PerlinNoise(
@@ -96,28 +108,27 @@ namespace KillTeam
             }
         }
 
-        // --------------------------------------------------
-        // GENERATED LIGHT ROOT
-        // --------------------------------------------------
+        // ==================================================
+        // GENERATED ROOT
+        // ==================================================
 
         private Transform GetGeneratedRoot()
         {
             Transform root = transform.Find(GeneratedRootName);
 
-            if (root == null)
-            {
-                GameObject obj = new GameObject(GeneratedRootName);
+            if (root != null)
+                return root;
 
-                root = obj.transform;
-                root.SetParent(transform, false);
-            }
+            GameObject obj = new GameObject(GeneratedRootName);
 
-            return root;
+            obj.transform.SetParent(transform, false);
+
+            return obj.transform;
         }
 
-        // --------------------------------------------------
+        // ==================================================
         // CREATE LIGHT
-        // --------------------------------------------------
+        // ==================================================
 
         private Light CreateLight(
             string lightName,
@@ -151,11 +162,11 @@ namespace KillTeam
             return light;
         }
 
-        // --------------------------------------------------
+        // ==================================================
         // CREATE SPOTLIGHT
-        // --------------------------------------------------
+        // ==================================================
 
-        private void CreateSpot(
+        private Light CreateSpot(
             string name,
             Vector3 position,
             Vector3 target,
@@ -167,9 +178,10 @@ namespace KillTeam
         {
             Vector3 direction = target - position;
 
-            Quaternion rotation = direction.sqrMagnitude > 0.0001f
-                ? Quaternion.LookRotation(direction)
-                : Quaternion.identity;
+            Quaternion rotation =
+                direction.sqrMagnitude > 0.0001f
+                    ? Quaternion.LookRotation(direction)
+                    : Quaternion.identity;
 
             Light light = CreateLight(
                 name,
@@ -183,13 +195,15 @@ namespace KillTeam
             );
 
             light.spotAngle = angle;
+
+            return light;
         }
 
-        // --------------------------------------------------
+        // ==================================================
         // CREATE POINT LIGHT
-        // --------------------------------------------------
+        // ==================================================
 
-        private void CreatePoint(
+        private Light CreatePoint(
             string name,
             Vector3 position,
             Color color,
@@ -197,7 +211,7 @@ namespace KillTeam
             float range,
             bool shadows)
         {
-            CreateLight(
+            return CreateLight(
                 name,
                 LightType.Point,
                 position,
@@ -209,9 +223,9 @@ namespace KillTeam
             );
         }
 
-        // --------------------------------------------------
-        // FIND CANDLE FLAMES IN ALL LOADED SCENES
-        // --------------------------------------------------
+        // ==================================================
+        // GENERATE CANDLE LIGHTS
+        // ==================================================
 
         private void GenerateCandleLights()
         {
@@ -229,14 +243,12 @@ namespace KillTeam
                 if (!scene.isLoaded)
                     continue;
 
-                GameObject[] rootObjects = scene.GetRootGameObjects();
-
-                foreach (GameObject root in rootObjects)
+                foreach (GameObject root in scene.GetRootGameObjects())
                 {
-                    Transform[] allTransforms =
+                    Transform[] transforms =
                         root.GetComponentsInChildren<Transform>(true);
 
-                    foreach (Transform candleTransform in allTransforms)
+                    foreach (Transform candleTransform in transforms)
                     {
                         if (!candleTransform.name.StartsWith(
                             CandlePrefix,
@@ -250,11 +262,9 @@ namespace KillTeam
                                 candleTransform.position
                             );
 
-                        Light candle = CreateLight(
+                        Light candle = CreatePoint(
                             "Candle_" + candleIndex,
-                            LightType.Point,
                             localPosition,
-                            Quaternion.identity,
                             candleColor,
                             candleIntensity,
                             candleRange,
@@ -284,9 +294,9 @@ namespace KillTeam
             );
         }
 
-        // --------------------------------------------------
+        // ==================================================
         // GENERATE ALL LIGHTING
-        // --------------------------------------------------
+        // ==================================================
 
         public void GenerateLighting()
         {
@@ -295,14 +305,15 @@ namespace KillTeam
             float halfWidth = roomWidth * 0.5f;
             float halfLength = roomLength * 0.5f;
 
-            Vector3 tablePosition = table != null
-                ? transform.InverseTransformPoint(table.position)
-                : Vector3.zero;
+            Vector3 tablePosition =
+                table != null
+                    ? transform.InverseTransformPoint(table.position)
+                    : Vector3.zero;
 
-            // Main table spotlight.
             Vector3 mainPosition =
                 tablePosition + Vector3.up * tableLightHeight;
 
+            // Main table spotlight.
             CreateSpot(
                 "Main_Table_Spotlight",
                 mainPosition,
@@ -339,23 +350,29 @@ namespace KillTeam
                 );
             }
 
-            // Red pillar accent lights.
-            Vector3[] pillarPositions =
+            // Generate red lights for assigned pillar models.
+            for (int i = 0; i < pillars.Count; i++)
             {
-                new Vector3(-halfWidth + 1f, 0.5f, -halfLength + 2f),
-                new Vector3( halfWidth - 1f, 0.5f, -halfLength + 2f),
-                new Vector3(-halfWidth + 1f, 0.5f,  halfLength - 2f),
-                new Vector3( halfWidth - 1f, 0.5f,  halfLength - 2f)
-            };
+                Transform pillar = pillars[i];
 
-            for (int i = 0; i < pillarPositions.Length; i++)
-            {
-                Vector3 position = pillarPositions[i];
+                if (pillar == null)
+                    continue;
+
+                // Convert the pillar's world position into
+                // the lighting manager's local space.
+                Vector3 localPosition =
+                    transform.InverseTransformPoint(pillar.position);
+
+                Vector3 lightPosition =
+                    localPosition + Vector3.up * pillarLightHeight;
+
+                Vector3 targetPosition =
+                    localPosition + Vector3.up * pillarLightTargetHeight;
 
                 CreateSpot(
                     "Pillar_Red_" + i,
-                    position,
-                    position + Vector3.up * 4f,
+                    lightPosition,
+                    targetPosition,
                     pillarColor,
                     pillarIntensity,
                     pillarRange,
@@ -364,47 +381,17 @@ namespace KillTeam
                 );
             }
 
-            // Orange wall lights.
-            for (int i = 0; i < 3; i++)
-            {
-                float z = Mathf.Lerp(
-                    -halfLength + 2f,
-                    halfLength - 2f,
-                    i / 2f
-                );
-
-                CreatePoint(
-                    "Wall_Left_" + i,
-                    new Vector3(-halfWidth + 0.5f, 3f, z),
-                    wallColor,
-                    wallIntensity,
-                    wallRange,
-                    false
-                );
-
-                CreatePoint(
-                    "Wall_Right_" + i,
-                    new Vector3(halfWidth - 0.5f, 3f, z),
-                    wallColor,
-                    wallIntensity,
-                    wallRange,
-                    false
-                );
-            }
-
-            // Find VFX_Candle_Flame objects and place lights.
             GenerateCandleLights();
 
             Debug.Log(
-                "Imperial Strategium Lighting generated: " +
-                generatedLights.Count + " lights.",
+                "Generated " + generatedLights.Count + " lights.",
                 this
             );
         }
 
-        // --------------------------------------------------
-        // CLEAR GENERATED LIGHTING
-        // --------------------------------------------------
+        // ==================================================
+        // CLEAR LIGHTING
+        // ==================================================
 
         public void ClearLighting()
         {
@@ -412,42 +399,44 @@ namespace KillTeam
 
             if (root != null)
             {
-                // Detach before destroying.
                 root.SetParent(null);
 
                 if (Application.isPlaying)
-                {
                     Destroy(root.gameObject);
-                }
                 else
-                {
                     DestroyImmediate(root.gameObject);
-                }
             }
 
             generatedLights.Clear();
         }
 
-        // --------------------------------------------------
-        // ENABLE / DISABLE GENERATED LIGHTS
-        // --------------------------------------------------
+        // ==================================================
+        // ENABLE / DISABLE LIGHTS
+        // ==================================================
 
         public void SetAllLightsEnabled(bool enabled)
         {
-            foreach (Light light in generatedLights)
+            Transform root = transform.Find(GeneratedRootName);
+
+            if (root == null)
+                return;
+
+            Light[] lights =
+                root.GetComponentsInChildren<Light>(true);
+
+            foreach (Light light in lights)
             {
                 if (light != null)
                     light.enabled = enabled;
             }
         }
 
-        // --------------------------------------------------
-        // EDITOR-ONLY LIGHTING AND STATIC CONTROLS
-        // --------------------------------------------------
-
 #if UNITY_EDITOR
 
-        // Find generated lights, even after an Editor reload.
+        // ==================================================
+        // GET GENERATED LIGHTS
+        // ==================================================
+
         private Light[] GetGeneratedLights()
         {
             Transform root = transform.Find(GeneratedRootName);
@@ -457,6 +446,10 @@ namespace KillTeam
 
             return root.GetComponentsInChildren<Light>(true);
         }
+
+        // ==================================================
+        // SET LIGHTS TO REALTIME OR BAKED
+        // ==================================================
 
         public void SetAllLightsBakeType(LightmapBakeType bakeType)
         {
@@ -474,7 +467,8 @@ namespace KillTeam
                 EditorUtility.SetDirty(light);
             }
 
-            EditorSceneManager.MarkSceneDirty(gameObject.scene);
+            if (gameObject.scene.IsValid())
+                EditorSceneManager.MarkSceneDirty(gameObject.scene);
 
             Debug.Log(
                 "Set " + lights.Length +
@@ -483,54 +477,255 @@ namespace KillTeam
             );
         }
 
-        // --------------------------------------------------
-        // BAKE LIGHTING
-        // --------------------------------------------------
+        // ==================================================
+        // SET ALL SCENE LIGHTS TO SOFT SHADOWS
+        // ==================================================
 
-        public void BakeLighting()
+        public void SetAllLightsSoftShadows()
         {
-            if (Application.isPlaying)
-            {
-                Debug.LogWarning(
-                    "Cannot bake lighting while in Play Mode.",
-                    this
-                );
+            int count = 0;
 
-                return;
+            for (int sceneIndex = 0;
+                 sceneIndex < SceneManager.sceneCount;
+                 sceneIndex++)
+            {
+                Scene scene = SceneManager.GetSceneAt(sceneIndex);
+
+                if (!scene.isLoaded)
+                    continue;
+
+                foreach (GameObject root in scene.GetRootGameObjects())
+                {
+                    Light[] lights =
+                        root.GetComponentsInChildren<Light>(true);
+
+                    foreach (Light light in lights)
+                    {
+                        Undo.RecordObject(
+                            light,
+                            "Set Soft Shadows"
+                        );
+
+                        light.shadows = LightShadows.Soft;
+
+                        EditorUtility.SetDirty(light);
+                        count++;
+                    }
+                }
+
+                EditorSceneManager.MarkSceneDirty(scene);
             }
 
-            if (Lightmapping.isRunning)
-            {
-                Debug.LogWarning(
-                    "Lighting bake is already running.",
-                    this
-                );
+            Debug.Log(
+                "Set " + count + " lights to Soft Shadows.",
+                this
+            );
+        }
 
-                return;
+        // ==================================================
+        // GENERATE LIGHTMAP UVs
+        // ==================================================
+
+        public void GenerateLightmapUVsAll()
+        {
+            Dictionary<string, int> modelTriangles =
+                new Dictionary<string, int>();
+
+            int updatedCount = 0;
+            int alreadyEnabled = 0;
+            int skippedCount = 0;
+            int failedCount = 0;
+
+            // Collect model assets before reimporting anything.
+            for (int sceneIndex = 0;
+                 sceneIndex < SceneManager.sceneCount;
+                 sceneIndex++)
+            {
+                Scene scene = SceneManager.GetSceneAt(sceneIndex);
+
+                if (!scene.isLoaded)
+                    continue;
+
+                foreach (GameObject root in scene.GetRootGameObjects())
+                {
+                    MeshFilter[] filters =
+                        root.GetComponentsInChildren<MeshFilter>(true);
+
+                    foreach (MeshFilter filter in filters)
+                    {
+                        AddModelMesh(
+                            filter.sharedMesh,
+                            modelTriangles
+                        );
+                    }
+
+                    SkinnedMeshRenderer[] skinned =
+                        root.GetComponentsInChildren<SkinnedMeshRenderer>(true);
+
+                    foreach (SkinnedMeshRenderer renderer in skinned)
+                    {
+                        AddModelMesh(
+                            renderer.sharedMesh,
+                            modelTriangles
+                        );
+                    }
+                }
             }
 
-            // Save current scenes without opening or closing scenes.
-            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+            List<string> paths =
+                new List<string>(modelTriangles.Keys);
+
+            try
+            {
+                for (int i = 0; i < paths.Count; i++)
+                {
+                    string path = paths[i];
+
+                    // Cancellation is checked between models.
+                    bool cancel =
+                        EditorUtility.DisplayCancelableProgressBar(
+                            "Generating Lightmap UVs",
+                            (i + 1) + " / " + paths.Count +
+                            "\n" + path,
+                            paths.Count == 0
+                                ? 1f
+                                : (float)i / paths.Count
+                        );
+
+                    if (cancel)
+                    {
+                        Debug.LogWarning(
+                            "Lightmap UV generation cancelled."
+                        );
+
+                        break;
+                    }
+
+                    int triangles = modelTriangles[path];
+
+                    if (maxUVTriangleCount > 0 &&
+                        triangles > maxUVTriangleCount)
+                    {
+                        skippedCount++;
+
+                        Debug.LogWarning(
+                            "Skipped high-poly model (" +
+                            triangles + " triangles): " + path,
+                            this
+                        );
+
+                        continue;
+                    }
+
+                    ModelImporter importer =
+                        AssetImporter.GetAtPath(path) as ModelImporter;
+
+                    if (importer == null)
+                    {
+                        skippedCount++;
+                        continue;
+                    }
+
+                    if (importer.generateSecondaryUV)
+                    {
+                        alreadyEnabled++;
+                        continue;
+                    }
+
+                    try
+                    {
+                        importer.generateSecondaryUV = true;
+                        importer.SaveAndReimport();
+
+                        updatedCount++;
+
+                        Debug.Log(
+                            "Generated Lightmap UVs: " + path,
+                            this
+                        );
+                    }
+                    catch (Exception exception)
+                    {
+                        failedCount++;
+
+                        Debug.LogError(
+                            "Failed to generate Lightmap UVs: " +
+                            path + "\n" + exception,
+                            this
+                        );
+                    }
+                }
+            }
+            finally
+            {
+                EditorUtility.ClearProgressBar();
+            }
+
+            Debug.Log(
+                "========== LIGHTMAP UV RESULTS ==========\n" +
+                "Models Found: " + paths.Count + "\n" +
+                "Updated: " + updatedCount + "\n" +
+                "Already Enabled: " + alreadyEnabled + "\n" +
+                "Skipped: " + skippedCount + "\n" +
+                "Failed: " + failedCount + "\n" +
+                "========================================",
+                this
+            );
+
+            EditorUtility.DisplayDialog(
+                "Lightmap UV Generation Finished",
+                "Models Updated: " + updatedCount + "\n" +
+                "Already Enabled: " + alreadyEnabled + "\n" +
+                "Skipped: " + skippedCount + "\n" +
+                "Failed: " + failedCount,
+                "OK"
+            );
+        }
+
+        private void AddModelMesh(
+            Mesh mesh,
+            Dictionary<string, int> modelTriangles)
+        {
+            if (mesh == null)
                 return;
 
-            bool started = Lightmapping.BakeAsync();
+            string path = AssetDatabase.GetAssetPath(mesh);
 
-            if (started)
+            if (string.IsNullOrEmpty(path))
+                return;
+
+            int triangleCount = 0;
+
+            // Index counts are available without reading the
+            // mesh vertex buffer.
+            for (int subMesh = 0;
+                 subMesh < mesh.subMeshCount;
+                 subMesh++)
             {
-                Debug.Log("Lighting Bake Started!", this);
+                if (mesh.GetTopology(subMesh) == MeshTopology.Triangles)
+                {
+                    triangleCount +=
+                        (int)(mesh.GetIndexCount(subMesh) / 3);
+                }
+            }
+
+            if (modelTriangles.ContainsKey(path))
+            {
+                // Use the largest mesh encountered for this asset.
+                modelTriangles[path] = Mathf.Max(
+                    modelTriangles[path],
+                    triangleCount
+                );
             }
             else
             {
-                Debug.LogWarning(
-                    "Lighting bake could not be started.",
-                    this
-                );
+                modelTriangles.Add(path, triangleCount);
             }
         }
 
-        // --------------------------------------------------
-        // MARK ALL OBJECTS STATIC / NON STATIC
-        // --------------------------------------------------
+        // ==================================================
+        // CONTRIBUTE GI CONTROLS
+        // ==================================================
 
         public void MarkAllStatic()
         {
@@ -542,57 +737,12 @@ namespace KillTeam
             SetAllObjectsStatic(false);
         }
 
-        public void DebugLightingSettings()
-        {
-            UnityEngine.Object settings =
-                Lightmapping.lightingSettings;
-
-            if (settings == null)
-            {
-                Debug.LogWarning(
-                    "No Lighting Settings Asset assigned to this scene!"
-                );
-                return;
-            }
-
-            string assetPath = AssetDatabase.GetAssetPath(settings);
-
-            Debug.Log(
-                "========== LIGHTING SETTINGS ==========\n" +
-                "Asset Name: " + settings.name + "\n" +
-                "Asset Path: " + assetPath + "\n" +
-                "Bake Running: " + Lightmapping.isRunning + "\n" +
-                "Baked Lightmaps: " + LightmapSettings.lightmaps.Length + "\n" +
-                "======================================="
-            );
-
-            // Select the Lighting Settings Asset in the Inspector.
-            Selection.activeObject = settings;
-            EditorGUIUtility.PingObject(settings);
-        }
-
         private void SetAllObjectsStatic(bool makeStatic)
         {
             if (Application.isPlaying)
-            {
-                Debug.LogWarning(
-                    "Static flags cannot be edited in Play Mode.",
-                    this
-                );
-
                 return;
-            }
 
             int count = 0;
-
-            // One Undo operation for all objects.
-            Undo.IncrementCurrentGroup();
-
-            int undoGroup = Undo.GetCurrentGroup();
-
-            Undo.SetCurrentGroupName(
-                makeStatic ? "Mark All Static" : "Mark All Non Static"
-            );
 
             for (int sceneIndex = 0;
                  sceneIndex < SceneManager.sceneCount;
@@ -603,39 +753,30 @@ namespace KillTeam
                 if (!scene.isLoaded)
                     continue;
 
-                GameObject[] rootObjects = scene.GetRootGameObjects();
-
-                foreach (GameObject root in rootObjects)
+                foreach (GameObject root in scene.GetRootGameObjects())
                 {
-                    // Includes inactive children.
-                    Transform[] allTransforms =
-                        root.GetComponentsInChildren<Transform>(true);
+                    Renderer[] renderers =
+                        root.GetComponentsInChildren<Renderer>(true);
 
-                    foreach (Transform child in allTransforms)
+                    foreach (Renderer renderer in renderers)
                     {
-                        GameObject obj = child.gameObject;
-
-                        // Ignore objects that cannot be edited.
-                        if ((obj.hideFlags & HideFlags.NotEditable) != 0)
+                        if (!(renderer is MeshRenderer))
                             continue;
+
+                        GameObject obj = renderer.gameObject;
 
                         Undo.RecordObject(
                             obj,
-                            makeStatic
-                                ? "Mark All Static"
-                                : "Mark All Non Static"
+                            "Change Contribute GI"
                         );
 
-                        // StaticEditorFlags.Everything enables all
-                        // available static flags for this Unity version.
-                        StaticEditorFlags flags = makeStatic
-                            ? StaticEditorFlags.ContributeGI |
-                              StaticEditorFlags.OccluderStatic |
-                              StaticEditorFlags.OccludeeStatic |
-                              StaticEditorFlags.BatchingStatic |
-                              StaticEditorFlags.NavigationStatic |
-                              StaticEditorFlags.OffMeshLinkGeneration
-                            : (StaticEditorFlags)0;
+                        StaticEditorFlags flags =
+                            GameObjectUtility.GetStaticEditorFlags(obj);
+
+                        if (makeStatic)
+                            flags |= StaticEditorFlags.ContributeGI;
+                        else
+                            flags &= ~StaticEditorFlags.ContributeGI;
 
                         GameObjectUtility.SetStaticEditorFlags(
                             obj,
@@ -643,7 +784,6 @@ namespace KillTeam
                         );
 
                         EditorUtility.SetDirty(obj);
-
                         count++;
                     }
                 }
@@ -651,25 +791,192 @@ namespace KillTeam
                 EditorSceneManager.MarkSceneDirty(scene);
             }
 
-            Undo.CollapseUndoOperations(undoGroup);
+            Debug.Log(
+                "Updated Contribute GI on " +
+                count + " objects.",
+                this
+            );
+        }
+
+        // ==================================================
+        // FAST / GOOD QUALITY PRESETS
+        // ==================================================
+
+        public void SetBakeQuality(bool goodQuality)
+        {
+            if (Application.isPlaying || Lightmapping.isRunning)
+                return;
+
+            LightingSettings settings =
+                Lightmapping.lightingSettings;
+
+            if (settings == null)
+            {
+                EditorUtility.DisplayDialog(
+                    "Lighting Settings Missing",
+                    "Create and assign a Lighting Settings Asset " +
+                    "in Window > Rendering > Lighting.",
+                    "OK"
+                );
+
+                return;
+            }
+
+            Undo.RecordObject(
+                settings,
+                "Change Lighting Quality"
+            );
+
+            settings.bakedGI = true;
+
+            settings.lightmapper =
+                LightingSettings.Lightmapper.ProgressiveGPU;
+
+            settings.lightmapResolution =
+                goodQuality ? 30f : 10f;
+
+            settings.lightmapMaxSize =
+                goodQuality ? 2048 : 1024;
+
+            settings.lightmapPadding =
+                goodQuality ? 3 : 2;
+
+            settings.directSampleCount =
+                goodQuality ? 128 : 32;
+
+            settings.indirectSampleCount =
+                goodQuality ? 256 : 64;
+
+            settings.environmentSampleCount =
+                goodQuality ? 256 : 64;
+
+            settings.maxBounces =
+                goodQuality ? 3 : 2;
+
+            EditorUtility.SetDirty(settings);
+            AssetDatabase.SaveAssets();
 
             Debug.Log(
-                (makeStatic
-                    ? "Marked Static: "
-                    : "Marked Non Static: ") +
-                count + " GameObjects.",
+                goodQuality
+                    ? "GOOD QUALITY bake settings applied."
+                    : "FAST bake settings applied.",
                 this
+            );
+        }
+
+        // ==================================================
+        // CHECK LIGHTING SETTINGS
+        // ==================================================
+
+        public void DebugLightingSettings()
+        {
+            LightingSettings settings =
+                Lightmapping.lightingSettings;
+
+            if (settings == null)
+            {
+                Debug.LogWarning(
+                    "No Lighting Settings Asset assigned.",
+                    this
+                );
+
+                return;
+            }
+
+            Debug.Log(
+                "========== LIGHTING SETTINGS ==========\n" +
+                "Asset: " + settings.name + "\n" +
+                "Path: " + AssetDatabase.GetAssetPath(settings) + "\n" +
+                "Bake Running: " + Lightmapping.isRunning + "\n" +
+                "Baked Lightmaps: " +
+                LightmapSettings.lightmaps.Length + "\n" +
+                "======================================",
+                this
+            );
+
+            Selection.activeObject = settings;
+            EditorGUIUtility.PingObject(settings);
+        }
+
+        // ==================================================
+        // BAKE LIGHTING
+        // ==================================================
+
+        public void BakeLighting()
+        {
+            if (Application.isPlaying || Lightmapping.isRunning)
+                return;
+
+            if (Lightmapping.lightingSettings == null)
+            {
+                EditorUtility.DisplayDialog(
+                    "Lighting Settings Missing",
+                    "Assign a Lighting Settings Asset before baking.",
+                    "OK"
+                );
+
+                return;
+            }
+
+            if (!EditorSceneManager
+                .SaveCurrentModifiedScenesIfUserWantsTo())
+            {
+                return;
+            }
+
+            // Prevent duplicate subscriptions.
+            Lightmapping.bakeCompleted -= OnBakeCompleted;
+
+            // Register before starting the bake.
+            Lightmapping.bakeCompleted += OnBakeCompleted;
+
+            bool started = Lightmapping.BakeAsync();
+
+            if (!started)
+            {
+                Lightmapping.bakeCompleted -= OnBakeCompleted;
+
+                Debug.LogWarning(
+                    "Lighting bake could not be started.",
+                    this
+                );
+
+                return;
+            }
+
+            Debug.Log("Lighting bake started.", this);
+        }
+
+        // ==================================================
+        // BAKE COMPLETED POPUP
+        // ==================================================
+
+        private void OnBakeCompleted()
+        {
+            // Remove callback so it only runs once.
+            Lightmapping.bakeCompleted -= OnBakeCompleted;
+
+            Debug.Log(
+                "Imperial Strategium lighting bake completed!",
+                this
+            );
+
+            EditorUtility.DisplayDialog(
+                "Lighting Bake Complete",
+                "Your Imperial Strategium lightmaps " +
+                "have finished baking!",
+                "OK"
             );
         }
 
 #endif
     }
 
+#if UNITY_EDITOR
+
     // ======================================================
     // CUSTOM INSPECTOR - SAME FILE
     // ======================================================
-
-#if UNITY_EDITOR
 
     [CustomEditor(typeof(ImperialStrategiumLighting))]
     public class ImperialStrategiumLightingEditor : Editor
@@ -682,6 +989,10 @@ namespace KillTeam
                 (ImperialStrategiumLighting)target;
 
             EditorGUILayout.Space(12);
+
+            // ----------------------------------------------
+            // LIGHT GENERATION
+            // ----------------------------------------------
 
             EditorGUILayout.LabelField(
                 "Lighting Generation",
@@ -706,6 +1017,10 @@ namespace KillTeam
 
             EditorGUILayout.Space(10);
 
+            // ----------------------------------------------
+            // LIGHT MODES
+            // ----------------------------------------------
+
             EditorGUILayout.LabelField(
                 "Light Modes",
                 EditorStyles.boldLabel
@@ -729,7 +1044,115 @@ namespace KillTeam
                 );
             }
 
+            if (GUILayout.Button(
+                "Set ALL Lights Soft Shadows",
+                GUILayout.Height(35)))
+            {
+                lighting.SetAllLightsSoftShadows();
+            }
+
             EditorGUILayout.Space(10);
+
+            // ----------------------------------------------
+            // LIGHTMAP UV TOOLS
+            // ----------------------------------------------
+
+            EditorGUILayout.LabelField(
+                "Lightmap UV Tools",
+                EditorStyles.boldLabel
+            );
+
+            EditorGUI.BeginDisabledGroup(Application.isPlaying);
+
+            if (GUILayout.Button(
+                "Generate Lightmap UVs ALL",
+                GUILayout.Height(35)))
+            {
+                lighting.GenerateLightmapUVsAll();
+            }
+
+            EditorGUI.EndDisabledGroup();
+
+            EditorGUILayout.Space(10);
+
+            // ----------------------------------------------
+            // STATIC OBJECT CONTROLS
+            // ----------------------------------------------
+
+            EditorGUILayout.LabelField(
+                "Static Object Controls",
+                EditorStyles.boldLabel
+            );
+
+            EditorGUI.BeginDisabledGroup(Application.isPlaying);
+
+            if (GUILayout.Button(
+                "Mark All Static (Contribute GI)",
+                GUILayout.Height(35)))
+            {
+                lighting.MarkAllStatic();
+            }
+
+            if (GUILayout.Button(
+                "Mark All Non Static (Remove GI)",
+                GUILayout.Height(35)))
+            {
+                lighting.MarkAllNonStatic();
+            }
+
+            EditorGUI.EndDisabledGroup();
+
+            EditorGUILayout.HelpBox(
+                "These buttons change Contribute GI on every " +
+                "MeshRenderer in all loaded scenes. " +
+                "Do not use Mark All Static while movable " +
+                "VR objects and miniatures are present.",
+                MessageType.Warning
+            );
+
+            EditorGUILayout.Space(10);
+
+            // ----------------------------------------------
+            // LIGHTING QUALITY
+            // ----------------------------------------------
+
+            EditorGUILayout.LabelField(
+                "Lighting Quality",
+                EditorStyles.boldLabel
+            );
+
+            EditorGUI.BeginDisabledGroup(
+                Application.isPlaying || Lightmapping.isRunning
+            );
+
+            if (GUILayout.Button(
+                "FAST BAKE",
+                GUILayout.Height(35)))
+            {
+                lighting.SetBakeQuality(false);
+            }
+
+            if (GUILayout.Button(
+                "GOOD QUALITY BAKE",
+                GUILayout.Height(35)))
+            {
+                lighting.SetBakeQuality(true);
+            }
+
+            EditorGUI.EndDisabledGroup();
+
+            EditorGUILayout.HelpBox(
+                "FAST: 10 texels/unit, 32 direct samples.\n" +
+                "GOOD: 30 texels/unit, 128 direct samples.\n" +
+                "Select a preset, then press BAKE LIGHTING NOW.",
+                MessageType.Info
+            );
+
+            EditorGUILayout.Space(10);
+
+            // ----------------------------------------------
+            // LIGHTMAP BAKING
+            // ----------------------------------------------
 
             EditorGUILayout.LabelField(
                 "Lightmap Baking",
@@ -747,13 +1170,6 @@ namespace KillTeam
                 lighting.BakeLighting();
             }
 
-            if (GUILayout.Button(
-    "Check Lighting Settings Asset",
-    GUILayout.Height(35)))
-            {
-                lighting.DebugLightingSettings();
-            }
-
             EditorGUI.EndDisabledGroup();
 
             if (Lightmapping.isRunning)
@@ -764,7 +1180,18 @@ namespace KillTeam
                 );
             }
 
+            if (GUILayout.Button(
+                "Check Lighting Settings Asset",
+                GUILayout.Height(30)))
+            {
+                lighting.DebugLightingSettings();
+            }
+
             EditorGUILayout.Space(10);
+
+            // ----------------------------------------------
+            // LIGHT VISIBILITY
+            // ----------------------------------------------
 
             EditorGUILayout.LabelField(
                 "Light Visibility",
@@ -780,34 +1207,6 @@ namespace KillTeam
             {
                 lighting.SetAllLightsEnabled(false);
             }
-
-            EditorGUILayout.Space(12);
-
-            EditorGUILayout.LabelField(
-                "Static Object Controls",
-                EditorStyles.boldLabel
-            );
-
-            if (GUILayout.Button(
-                "Mark All Static",
-                GUILayout.Height(35)))
-            {
-                lighting.MarkAllStatic();
-            }
-
-            if (GUILayout.Button(
-                "Mark All Non Static",
-                GUILayout.Height(35)))
-            {
-                lighting.MarkAllNonStatic();
-            }
-
-            EditorGUILayout.HelpBox(
-                "Static buttons affect ALL GameObjects in ALL " +
-                "loaded scenes, including inactive objects. " +
-                "Movable VR objects should not remain static.",
-                MessageType.Warning
-            );
         }
     }
 
