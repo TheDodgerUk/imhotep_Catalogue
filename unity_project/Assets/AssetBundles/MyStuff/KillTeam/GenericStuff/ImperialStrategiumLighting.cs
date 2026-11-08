@@ -542,6 +542,35 @@ namespace KillTeam
             SetAllObjectsStatic(false);
         }
 
+        public void DebugLightingSettings()
+        {
+            UnityEngine.Object settings =
+                Lightmapping.lightingSettings;
+
+            if (settings == null)
+            {
+                Debug.LogWarning(
+                    "No Lighting Settings Asset assigned to this scene!"
+                );
+                return;
+            }
+
+            string assetPath = AssetDatabase.GetAssetPath(settings);
+
+            Debug.Log(
+                "========== LIGHTING SETTINGS ==========\n" +
+                "Asset Name: " + settings.name + "\n" +
+                "Asset Path: " + assetPath + "\n" +
+                "Bake Running: " + Lightmapping.isRunning + "\n" +
+                "Baked Lightmaps: " + LightmapSettings.lightmaps.Length + "\n" +
+                "======================================="
+            );
+
+            // Select the Lighting Settings Asset in the Inspector.
+            Selection.activeObject = settings;
+            EditorGUIUtility.PingObject(settings);
+        }
+
         private void SetAllObjectsStatic(bool makeStatic)
         {
             if (Application.isPlaying)
@@ -716,6 +745,13 @@ namespace KillTeam
                 GUILayout.Height(40)))
             {
                 lighting.BakeLighting();
+            }
+
+            if (GUILayout.Button(
+    "Check Lighting Settings Asset",
+    GUILayout.Height(35)))
+            {
+                lighting.DebugLightingSettings();
             }
 
             EditorGUI.EndDisabledGroup();
