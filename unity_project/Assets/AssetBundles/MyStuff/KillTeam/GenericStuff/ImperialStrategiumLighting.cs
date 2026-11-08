@@ -360,9 +360,7 @@ namespace KillTeam
 
 #if UNITY_EDITOR
                 Undo.RecordObject(light, "Change Light Bake Type");
-#endif
                 light.lightmapBakeType = bakeType;
-#if UNITY_EDITOR
                 EditorUtility.SetDirty(light);
 #endif
             }

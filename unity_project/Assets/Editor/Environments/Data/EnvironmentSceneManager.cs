@@ -121,14 +121,14 @@ namespace EditorTools.Environments
 
         public static void BakeLighting(List<SceneAsset> sceneAssets)
         {
-            bool batch = UnityEditorInternal.InternalEditorUtility.inBatchMode;
+            bool batch = true;// UnityEditorInternal.InternalEditorUtility.inBatchMode;
 
             // open relevant scenes
             var loadedScenes = OpenScenes(sceneAssets);
 
             // force disable navmesh renderers
 
-            SaveOpenScenes();
+            //SaveOpenScenes();
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
 
@@ -143,7 +143,7 @@ namespace EditorTools.Environments
                 EditorCoroutineUtility.StartCoroutineOwnerless(BakeCompleted());
             }
 
-            SaveOpenScenes();
+            //SaveOpenScenes();
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
