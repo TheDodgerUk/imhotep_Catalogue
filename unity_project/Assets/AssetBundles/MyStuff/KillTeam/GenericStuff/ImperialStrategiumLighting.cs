@@ -21,7 +21,7 @@ namespace KillTeam
         [Header("Room Dimensions")]
         public float roomWidth = 10;
         public float roomLength = 10f;
-        public float ceilingHeight = 7f;
+        public float ceilingHeight = 4.8f;
 
         [Header("Table")]
         public Transform table;
@@ -107,7 +107,7 @@ namespace KillTeam
             new Color(1f, 0.48f, 0.12f);
 
         public float candleIntensity = 0.5f;
-        public float candleRange = 2.5f;
+        public float candleRange = 0.2f;
 
         public bool flickerCandles = true;
         public float flickerAmount = 0.15f;
