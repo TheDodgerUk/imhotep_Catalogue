@@ -25,7 +25,7 @@ namespace KillTeam
 
         [Header("Table")]
         public Transform table;
-        public float tableLightHeight = 1.118f;
+        public float tableLightHeight = 2.484f;
 
         [Header("Main Table Light")]
         public Color tableLightColor =
@@ -1639,69 +1639,72 @@ namespace KillTeam
 
 #endif
 
+        // ==================================================
+        // SORT ONLY THIS OBJECT'S CHILDREN A-Z
+        // ==================================================
+
+        [Header("Hierarchy Sorting")]
+        public bool sortNestedChildren = true;
+
         public void SortAllScenes()
         {
+            // Retain the existing method name for compatibility,
+            // but only sort descendants of this lighting manager.
             if (Application.isPlaying)
                 return;
 
-            for (int i = 0; i < SceneManager.sceneCount; i++)
+            Undo.SetCurrentGroupName("Sort Lighting Children A-Z");
+            int undoGroup = Undo.GetCurrentGroup();
+
+            int count = SortChildrenAlphabetically(transform);
+
+            Undo.CollapseUndoOperations(undoGroup);
+
+            if (gameObject.scene.IsValid() && gameObject.scene.isLoaded)
             {
-                Scene scene = SceneManager.GetSceneAt(i);
+                EditorSceneManager.MarkSceneDirty(gameObject.scene);
 
-                if (!scene.isLoaded)
-                    continue;
-
-                // Sort root GameObjects.
-                List<Transform> roots = new List<Transform>();
-
-                foreach (GameObject root in scene.GetRootGameObjects())
-                    roots.Add(root.transform);
-
-                SortTransforms(roots);
-
-                // Sort every child hierarchy recursively.
-                foreach (Transform root in roots)
-                    SortChildrenRecursive(root);
-
-                EditorSceneManager.MarkSceneDirty(scene);
+                if (!string.IsNullOrEmpty(gameObject.scene.path))
+                    EditorSceneManager.SaveScene(gameObject.scene);
+                else
+                    EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
             }
 
-            EditorSceneManager.SaveOpenScenes();
-
-            Debug.Log("Hierarchy sorted alphabetically A-Z.");
+            Debug.Log("Sorted " + count + " child objects A-Z under " + gameObject.name, this);
         }
 
-        private static void SortChildrenRecursive(Transform parent)
+        private int SortChildrenAlphabetically(Transform parent)
         {
             List<Transform> children = new List<Transform>();
 
             foreach (Transform child in parent)
                 children.Add(child);
 
-            SortTransforms(children);
-
-            foreach (Transform child in children)
-                SortChildrenRecursive(child);
-        }
-
-        private static void SortTransforms(List<Transform> items)
-        {
-            items.Sort((a, b) =>
-                StringComparer.OrdinalIgnoreCase.Compare(
-                    a.name,
-                    b.name
-                )
-            );
-
-            for (int i = 0; i < items.Count; i++)
+            // Stable alphabetical ordering for identical names.
+            children.Sort((a, b) =>
             {
-                Undo.RecordObject(
-                    items[i],
-                    "Sort Hierarchy Alphabetically"
-                );
+                int result = StringComparer.OrdinalIgnoreCase.Compare(a.name, b.name);
+                return result != 0 ? result : a.GetSiblingIndex().CompareTo(b.GetSiblingIndex());
+            });
 
-                items[i].SetSiblingIndex(i);
+            if (children.Count > 1)
+            {
+                // Record the hierarchy change for Undo.
+                Undo.RegisterFullObjectHierarchyUndo(parent.gameObject, "Sort Children A-Z");
+
+                for (int i = 0; i < children.Count; i++)
+                    children[i].SetSiblingIndex(i);
             }
+
+            int count = children.Count;
+
+            if (sortNestedChildren)
+            {
+                foreach (Transform child in children)
+                    count += SortChildrenAlphabetically(child);
+            }
+
+            return count;
         }
 
         // ==================================================
@@ -1804,6 +1807,15 @@ namespace KillTeam
                 (ImperialStrategiumLighting)target;
 
             EditorGUILayout.Space(12);
+
+            EditorGUILayout.LabelField("Hierarchy Sorting", EditorStyles.boldLabel);
+            if (GUILayout.Button("SORT CHILDREN A-Z", GUILayout.Height(40)))
+            {
+                lighting.SortAllScenes();
+                SceneView.RepaintAll();
+            }
+
+            EditorGUILayout.Space(10);
 
             // ----------------------------------------------
             // PILLAR SEARCH
@@ -1994,7 +2006,6 @@ namespace KillTeam
                     ImperialStrategiumLighting
                         .BakeQuality.UltraFast
                 );
-                lighting.SortAllScenes();
             }
 
             if (GUILayout.Button(
@@ -2005,7 +2016,6 @@ namespace KillTeam
                     ImperialStrategiumLighting
                         .BakeQuality.Fast
                 );
-                lighting.SortAllScenes();
             }
 
             if (GUILayout.Button(
@@ -2016,7 +2026,6 @@ namespace KillTeam
                     ImperialStrategiumLighting
                         .BakeQuality.Good
                 );
-                lighting.SortAllScenes();
             }
 
             EditorGUI.EndDisabledGroup();
