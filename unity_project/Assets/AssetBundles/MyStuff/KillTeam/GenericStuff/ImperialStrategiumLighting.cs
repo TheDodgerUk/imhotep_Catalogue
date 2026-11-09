@@ -21,7 +21,7 @@ namespace KillTeam
         [Header("Room Dimensions")]
         public float roomWidth = 10;
         public float roomLength = 10f;
-        public float ceilingHeight = 5f;
+        public float ceilingHeight = 7f;
 
         [Header("Table")]
         public Transform table;
@@ -694,11 +694,9 @@ namespace KillTeam
         {
             ClearLighting();
 
-            float halfWidth =
-                roomWidth * 0.5f;
+            float halfWidth = 4F;
 
-            float halfLength =
-                roomLength * 0.5f;
+            float halfLength = 4F;
 
             Vector3 tablePosition =
                 table != null
@@ -749,71 +747,7 @@ namespace KillTeam
             // Find and generate pillar lights.
             GeneratePillarLights();
 
-            // Orange wall lights.
-            for (int i = 0; i < 3; i++)
-            {
-                float z = Mathf.Lerp(
-                    -halfLength + 2f,
-                    halfLength - 2f,
-                    i / 2f
-                );
-
-                CreatePoint(
-                    "Wall_Left_" + i,
-                    new Vector3(
-                        -halfWidth + 0.5f,
-                        3f,
-                        z
-                    ),
-                    wallColor,
-                    wallIntensity,
-                    wallRange,
-                    false,
-                    wallShadowRadius
-                );
-
-                CreatePoint(
-                    "Wall_Right_" + i,
-                    new Vector3(
-                        halfWidth - 0.5f,
-                        3f,
-                        z
-                    ),
-                    wallColor,
-                    wallIntensity,
-                    wallRange,
-                    false,
-                    wallShadowRadius
-                );
-
-                CreatePoint(
-                    "Wall_Front_" + i,
-                    new Vector3(
-                        z,
-                        3f,
-                        halfWidth - 0.5f
-                    ),
-                    wallColor,
-                    wallIntensity,
-                    wallRange,
-                    false,
-                    wallShadowRadius
-                );
-
-                CreatePoint(
-                    "Wall_Back_" + i,
-                    new Vector3(
-                        z,
-                        3f,
-                       -halfWidth - 0.5f
-                    ),
-                    wallColor,
-                    wallIntensity,
-                    wallRange,
-                    false,
-                    wallShadowRadius
-                );
-            }
+            GenerateWallLights(halfWidth, ceilingHeight);
 
             // Candle lights.
             GenerateCandleLights();
@@ -838,6 +772,77 @@ namespace KillTeam
                 generatedLights.Count,
                 this
             );
+        }
+
+        private void GenerateWallLights(float halfWidth, float ceilingHeight)
+        {
+            var localCeilingHeight = ceilingHeight /2;
+
+            // Orange wall lights.
+            for (int i = 0; i < 3; i++)
+            {
+                float z = Mathf.Lerp(
+                    -halfWidth + 2f,
+                    localCeilingHeight,
+                    i / 2f
+                );
+
+                CreatePoint(
+                    "Wall_Left_" + i,
+                    new Vector3(
+                        -halfWidth,
+                        localCeilingHeight,
+                        z
+                    ),
+                    wallColor,
+                    wallIntensity,
+                    wallRange,
+                    false,
+                    wallShadowRadius
+                );
+
+                CreatePoint(
+                    "Wall_Right_" + i,
+                    new Vector3(
+                        halfWidth,
+                        localCeilingHeight,
+                        z
+                    ),
+                    wallColor,
+                    wallIntensity,
+                    wallRange,
+                    false,
+                    wallShadowRadius
+                );
+
+                CreatePoint(
+                    "Wall_Front_" + i,
+                    new Vector3(
+                        z,
+                        localCeilingHeight,
+                        halfWidth
+                    ),
+                    wallColor,
+                    wallIntensity,
+                    wallRange,
+                    false,
+                    wallShadowRadius
+                );
+
+                CreatePoint(
+                    "Wall_Back_" + i,
+                    new Vector3(
+                        z,
+                       localCeilingHeight,
+                       -halfWidth
+                    ),
+                    wallColor,
+                    wallIntensity,
+                    wallRange,
+                    false,
+                    wallShadowRadius
+                );
+            }
         }
 
         // ==================================================
