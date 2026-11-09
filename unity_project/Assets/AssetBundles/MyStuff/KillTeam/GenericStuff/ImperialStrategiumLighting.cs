@@ -432,7 +432,7 @@ namespace KillTeam
                 GetGeneratedRoot(),
                 false
             );
-
+            obj.AddComponent<ShowObjectGizmos>();
             obj.transform.localPosition =
                 localPosition;
 
@@ -709,7 +709,7 @@ namespace KillTeam
             // Main table spotlight.
             CreateSpot(
                 "Main_Table_Spotlight",
-                new Vector3(tablePosition.x, tablePosition.y + tableLightHeight, tablePosition.z),
+                new Vector3(tablePosition.x, tableLightHeight, tablePosition.z),
                 tablePosition,
                 tableLightColor,
                 tableLightIntensity,
@@ -1606,6 +1606,104 @@ namespace KillTeam
             EditorGUIUtility.PingObject(settings);
         }
 
+
+#if UNITY_EDITOR
+        // ==================================================
+        // Save Scene
+        // ==================================================
+        public void SaveScene()
+        {
+            if (Application.isPlaying)
+                return;
+
+            UnityEngine.SceneManagement.Scene scene =
+                gameObject.scene;
+
+            if (!scene.IsValid() || !scene.isLoaded)
+                return;
+
+            if (string.IsNullOrEmpty(scene.path))
+            {
+                EditorSceneManager.SaveScene(
+                    scene,
+                    "Assets/" + scene.name + ".unity"
+                );
+            }
+            else
+            {
+                EditorSceneManager.SaveScene(scene);
+            }
+
+            Debug.Log("Scene saved: " + scene.path);
+        }
+
+#endif
+
+        public void SortAllScenes()
+        {
+            if (Application.isPlaying)
+                return;
+
+            for (int i = 0; i < SceneManager.sceneCount; i++)
+            {
+                Scene scene = SceneManager.GetSceneAt(i);
+
+                if (!scene.isLoaded)
+                    continue;
+
+                // Sort root GameObjects.
+                List<Transform> roots = new List<Transform>();
+
+                foreach (GameObject root in scene.GetRootGameObjects())
+                    roots.Add(root.transform);
+
+                SortTransforms(roots);
+
+                // Sort every child hierarchy recursively.
+                foreach (Transform root in roots)
+                    SortChildrenRecursive(root);
+
+                EditorSceneManager.MarkSceneDirty(scene);
+            }
+
+            EditorSceneManager.SaveOpenScenes();
+
+            Debug.Log("Hierarchy sorted alphabetically A-Z.");
+        }
+
+        private static void SortChildrenRecursive(Transform parent)
+        {
+            List<Transform> children = new List<Transform>();
+
+            foreach (Transform child in parent)
+                children.Add(child);
+
+            SortTransforms(children);
+
+            foreach (Transform child in children)
+                SortChildrenRecursive(child);
+        }
+
+        private static void SortTransforms(List<Transform> items)
+        {
+            items.Sort((a, b) =>
+                StringComparer.OrdinalIgnoreCase.Compare(
+                    a.name,
+                    b.name
+                )
+            );
+
+            for (int i = 0; i < items.Count; i++)
+            {
+                Undo.RecordObject(
+                    items[i],
+                    "Sort Hierarchy Alphabetically"
+                );
+
+                items[i].SetSiblingIndex(i);
+            }
+        }
+
         // ==================================================
         // BAKE LIGHTING
         // ==================================================
@@ -1896,6 +1994,7 @@ namespace KillTeam
                     ImperialStrategiumLighting
                         .BakeQuality.UltraFast
                 );
+                lighting.SortAllScenes();
             }
 
             if (GUILayout.Button(
@@ -1906,6 +2005,7 @@ namespace KillTeam
                     ImperialStrategiumLighting
                         .BakeQuality.Fast
                 );
+                lighting.SortAllScenes();
             }
 
             if (GUILayout.Button(
@@ -1916,6 +2016,7 @@ namespace KillTeam
                     ImperialStrategiumLighting
                         .BakeQuality.Good
                 );
+                lighting.SortAllScenes();
             }
 
             EditorGUI.EndDisabledGroup();
