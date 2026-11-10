@@ -38,7 +38,7 @@ public class DirectionalMeshCutter : MonoBehaviour
     public RemovalSide removeSide = RemovalSide.Positive;
 
     [Header("Preview")]
-    public bool showRemovalPreview = true;
+    public bool showRemovalPreview = false;
     public bool showCutPlane = true;
 
     public Color removalColor =
