@@ -135,6 +135,8 @@ namespace EditorTools.CatalogueViewer
             }
             prefab.ForceComponent<ObjectSize>();
             prefab.ForceComponent<TerrainBoxColliderGenerator>();
+            prefab.ForceComponent<GameObjectPolyCounter>();
+
             var renderItem = CreateRenderItem(prefab);
 
             if (string.IsNullOrEmpty(renderItem.Bundle) == true)
