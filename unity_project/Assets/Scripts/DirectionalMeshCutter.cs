@@ -12,6 +12,16 @@ using UnityEditor.Formats.Fbx.Exporter;
 [ExecuteAlways]
 public class DirectionalMeshCutter : MonoBehaviour
 {
+    public enum CutDirection
+    {
+        PositiveX,
+        NegativeX,
+        PositiveY,
+        NegativeY,
+        PositiveZ,
+        NegativeZ
+    }
+
     public enum RemovalSide
     {
         Positive,
@@ -22,14 +32,21 @@ public class DirectionalMeshCutter : MonoBehaviour
     public GameObject targetGameObject;
     public bool includeChildren = true;
 
-    [Header("Cut Plane")]
-    public Vector3 planeRotation = Vector3.zero;
+    [Header("Cut Settings")]
+    public CutDirection cutDirection = CutDirection.PositiveZ;
     public float planeOffset = 0f;
     public RemovalSide removeSide = RemovalSide.Positive;
 
     [Header("Preview")]
+    public bool showRemovalPreview = true;
     public bool showCutPlane = true;
-    public Color planeColor = new Color(1f, 0.3f, 0.2f, 0.8f);
+
+    public Color removalColor =
+        new Color(1f, 0f, 0f, 0.55f);
+
+    public Color planeColor =
+        new Color(1f, 0.7f, 0f, 0.9f);
+
     public float previewSize = 2f;
 
     [Header("Export")]
@@ -37,6 +54,39 @@ public class DirectionalMeshCutter : MonoBehaviour
     public bool overwriteExisting = true;
 
     private const float Epsilon = 0.00001f;
+
+    private Vector3 GetDirection()
+    {
+        switch (cutDirection)
+        {
+            case CutDirection.PositiveX: return Vector3.right;
+            case CutDirection.NegativeX: return Vector3.left;
+            case CutDirection.PositiveY: return Vector3.up;
+            case CutDirection.NegativeY: return Vector3.down;
+            case CutDirection.PositiveZ: return Vector3.forward;
+            case CutDirection.NegativeZ: return Vector3.back;
+            default: return Vector3.forward;
+        }
+    }
+
+    private void GetCutPlane(
+        out Vector3 point,
+        out Vector3 normal)
+    {
+        Transform target = targetGameObject.transform;
+
+        normal = target.rotation * GetDirection();
+        normal.Normalize();
+
+        point = target.position + normal * planeOffset;
+    }
+
+    private bool IsRemoved(float distance)
+    {
+        return removeSide == RemovalSide.Positive
+            ? distance > Epsilon
+            : distance < -Epsilon;
+    }
 
     private struct VertexData
     {
@@ -48,96 +98,218 @@ public class DirectionalMeshCutter : MonoBehaviour
         public Color color;
 
         public static VertexData Lerp(
-            VertexData a,
-            VertexData b,
-            float t)
+            VertexData a, VertexData b, float t)
         {
-            VertexData result = new VertexData();
+            return new VertexData
+            {
+                position = Vector3.LerpUnclamped(
+                    a.position, b.position, t),
 
-            result.position =
-                Vector3.LerpUnclamped(a.position, b.position, t);
+                normal = Vector3.LerpUnclamped(
+                    a.normal, b.normal, t).normalized,
 
-            result.normal =
-                Vector3.LerpUnclamped(a.normal, b.normal, t).normalized;
+                tangent = Vector4.LerpUnclamped(
+                    a.tangent, b.tangent, t),
 
-            result.tangent =
-                Vector4.LerpUnclamped(a.tangent, b.tangent, t);
+                uv = Vector2.LerpUnclamped(
+                    a.uv, b.uv, t),
 
-            result.uv =
-                Vector2.LerpUnclamped(a.uv, b.uv, t);
+                uv2 = Vector2.LerpUnclamped(
+                    a.uv2, b.uv2, t),
 
-            result.uv2 =
-                Vector2.LerpUnclamped(a.uv2, b.uv2, t);
-
-            result.color =
-                Color.LerpUnclamped(a.color, b.color, t);
-
-            return result;
+                color = Color.LerpUnclamped(
+                    a.color, b.color, t)
+            };
         }
     }
 
+#if UNITY_EDITOR
+
     private void OnDrawGizmos()
     {
-        if (!showCutPlane || targetGameObject == null)
+        if (targetGameObject == null)
             return;
 
-        Transform target = targetGameObject.transform;
+        GetCutPlane(out Vector3 point, out Vector3 normal);
 
-        Quaternion rotation =
-            target.rotation * Quaternion.Euler(planeRotation);
+        if (showCutPlane)
+        {
+            Quaternion rotation =
+                Quaternion.FromToRotation(
+                    Vector3.forward, normal);
 
-        Vector3 normal = rotation * Vector3.forward;
+            Gizmos.color = planeColor;
+            Gizmos.matrix = Matrix4x4.TRS(
+                point, rotation, Vector3.one);
 
-        Vector3 centre =
-            target.position + normal * planeOffset;
+            float size = Mathf.Max(0.01f, previewSize);
 
-        Gizmos.color = planeColor;
-        Gizmos.matrix =
-            Matrix4x4.TRS(centre, rotation, Vector3.one);
+            Gizmos.DrawWireCube(
+                Vector3.zero,
+                new Vector3(size, size, 0.001f));
 
-        float size = Mathf.Max(0.01f, previewSize);
+            Gizmos.matrix = Matrix4x4.identity;
+        }
 
-        Gizmos.DrawWireCube(
-            Vector3.zero,
-            new Vector3(size, size, 0.001f));
-
-        Gizmos.DrawLine(
-            Vector3.zero,
-            Vector3.forward * size * 0.4f);
-
-        Gizmos.DrawSphere(
-            Vector3.forward * size * 0.4f,
-            size * 0.025f);
-
-        Gizmos.matrix = Matrix4x4.identity;
+        if (showRemovalPreview)
+            DrawRemovalPreview(point, normal);
     }
 
-#if UNITY_EDITOR
+    private void DrawRemovalPreview(
+        Vector3 planePoint,
+        Vector3 planeNormal)
+    {
+        MeshFilter[] filters = includeChildren
+            ? targetGameObject.GetComponentsInChildren
+                <MeshFilter>(true)
+            : targetGameObject.GetComponents<MeshFilter>();
+
+        Color fillColor = removalColor;
+        Color outlineColor = removalColor;
+        outlineColor.a = 1f;
+
+        foreach (MeshFilter filter in filters)
+        {
+            Mesh mesh = filter.sharedMesh;
+
+            if (mesh == null || !mesh.isReadable)
+                continue;
+
+            Vector3[] vertices = mesh.vertices;
+
+            Matrix4x4 matrix =
+                filter.transform.localToWorldMatrix;
+
+            for (int sub = 0; sub < mesh.subMeshCount; sub++)
+            {
+                if (mesh.GetTopology(sub) !=
+                    MeshTopology.Triangles)
+                    continue;
+
+                int[] triangles = mesh.GetIndices(sub);
+
+                for (int i = 0; i + 2 < triangles.Length; i += 3)
+                {
+                    Vector3 a = matrix.MultiplyPoint3x4(
+                        vertices[triangles[i]]);
+
+                    Vector3 b = matrix.MultiplyPoint3x4(
+                        vertices[triangles[i + 1]]);
+
+                    Vector3 c = matrix.MultiplyPoint3x4(
+                        vertices[triangles[i + 2]]);
+
+                    List<Vector3> polygon =
+                        new List<Vector3> { a, b, c };
+
+                    List<Vector3> removed =
+                        ClipWorldPolygon(
+                            polygon,
+                            planePoint,
+                            planeNormal,
+                            true);
+
+                    if (removed.Count < 3)
+                        continue;
+
+                    Handles.color = fillColor;
+
+                    for (int j = 1; j < removed.Count - 1; j++)
+                    {
+                        Handles.DrawAAConvexPolygon(
+                            removed[0],
+                            removed[j],
+                            removed[j + 1]);
+                    }
+
+                    Handles.color = outlineColor;
+
+                    for (int j = 0; j < removed.Count; j++)
+                    {
+                        Handles.DrawLine(
+                            removed[j],
+                            removed[(j + 1) % removed.Count]);
+                    }
+                }
+            }
+        }
+    }
+
+    private List<Vector3> ClipWorldPolygon(
+        List<Vector3> polygon,
+        Vector3 planePoint,
+        Vector3 planeNormal,
+        bool keepRemoved)
+    {
+        List<Vector3> output = new List<Vector3>();
+
+        for (int i = 0; i < polygon.Count; i++)
+        {
+            Vector3 current = polygon[i];
+            Vector3 next = polygon[(i + 1) % polygon.Count];
+
+            float da = Vector3.Dot(
+                current - planePoint, planeNormal);
+
+            float db = Vector3.Dot(
+                next - planePoint, planeNormal);
+
+            bool insideA = keepRemoved
+                ? IsRemoved(da)
+                : !IsRemoved(da);
+
+            bool insideB = keepRemoved
+                ? IsRemoved(db)
+                : !IsRemoved(db);
+
+            if (insideA && insideB)
+            {
+                output.Add(next);
+            }
+            else if (insideA && !insideB)
+            {
+                output.Add(Intersection(
+                    current, next, da, db));
+            }
+            else if (!insideA && insideB)
+            {
+                output.Add(Intersection(
+                    current, next, da, db));
+
+                output.Add(next);
+            }
+        }
+
+        return output;
+    }
+
+    private static Vector3 Intersection(
+        Vector3 a, Vector3 b,
+        float da, float db)
+    {
+        float denominator = da - db;
+
+        float t = Mathf.Abs(denominator) < Epsilon
+            ? 0f
+            : Mathf.Clamp01(da / denominator);
+
+        return Vector3.LerpUnclamped(a, b, t);
+    }
 
     public void CutTargetAndExport()
     {
         if (targetGameObject == null)
         {
-            Debug.LogError("Assign a Target GameObject.");
+            Debug.LogError("Target GameObject is missing.");
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(exportFolder))
+        string name = GetOriginalFbxName();
+        string path = Path.Combine(exportFolder, name + ".fbx");
+
+        if (File.Exists(path) && !overwriteExisting)
         {
-            Debug.LogError("Export folder is empty.");
-            return;
-        }
-
-        string originalName = GetOriginalFbxName();
-
-        string outputPath = Path.Combine(
-            exportFolder,
-            originalName + ".fbx");
-
-        if (File.Exists(outputPath) && !overwriteExisting)
-        {
-            Debug.LogError(
-                "File already exists: " + outputPath);
+            Debug.LogError("FBX already exists: " + path);
             return;
         }
 
@@ -147,97 +319,54 @@ public class DirectionalMeshCutter : MonoBehaviour
         {
             Directory.CreateDirectory(exportFolder);
 
-            // Duplicate the target so the original is untouched.
+            GetCutPlane(
+                out Vector3 planePoint,
+                out Vector3 planeNormal);
+
             copy = Instantiate(targetGameObject);
-            copy.name = originalName;
-            copy.SetActive(true);
-
-            // Keep the duplicate outside the original hierarchy.
+            copy.name = name;
             copy.transform.SetParent(null, true);
-
-            Vector3 planeNormal =
-                targetGameObject.transform.rotation *
-                Quaternion.Euler(planeRotation) *
-                Vector3.forward;
-
-            planeNormal.Normalize();
-
-            Vector3 planePoint =
-                targetGameObject.transform.position +
-                planeNormal * planeOffset;
-
-            int meshCount = 0;
-            int removedTriangles = 0;
 
             MeshFilter[] filters = includeChildren
                 ? copy.GetComponentsInChildren<MeshFilter>(true)
                 : copy.GetComponents<MeshFilter>();
 
+            int processed = 0;
+
             foreach (MeshFilter filter in filters)
             {
-                if (filter.sharedMesh == null)
+                Mesh mesh = filter.sharedMesh;
+
+                if (mesh == null || !mesh.isReadable)
                     continue;
 
-                Mesh source = filter.sharedMesh;
-
-                if (!source.isReadable)
-                {
-                    Debug.LogWarning(
-                        "Mesh is not readable: " + source.name);
-                    continue;
-                }
-
-                int before = CountTriangles(source);
-
-                Mesh result = CutMesh(
-                    source,
+                Mesh cut = CreateCutMesh(
+                    mesh,
                     filter.transform,
                     planePoint,
                     planeNormal);
 
-                if (result == null)
-                    continue;
-
-                filter.sharedMesh = result;
-
-                removedTriangles +=
-                    before - CountTriangles(result);
-
-                meshCount++;
+                filter.sharedMesh = cut;
+                processed++;
             }
 
-            SkinnedMeshRenderer[] skinned =
-                includeChildren
-                    ? copy.GetComponentsInChildren
-                        <SkinnedMeshRenderer>(true)
-                    : copy.GetComponents
-                        <SkinnedMeshRenderer>();
-
-            if (skinned.Length > 0)
-            {
-                Debug.LogWarning(
-                    "Skinned meshes are not cut by this tool.");
-            }
-
-            if (meshCount == 0)
+            if (processed == 0)
             {
                 Debug.LogError(
-                    "No readable MeshFilter meshes found. " +
-                    "Enable Read/Write in the FBX import settings.");
+                    "No readable meshes. Enable Read/Write " +
+                    "in the FBX import settings.");
                 return;
             }
 
-            // Export the modified duplicate as an FBX.
-            ModelExporter.ExportObject(outputPath, copy);
+            ModelExporter.ExportObject(path, copy);
 
             Debug.Log(
-                "FBX exported: " + outputPath +
-                "\nMeshes processed: " + meshCount +
-                "\nTriangles removed: " + removedTriangles);
+                "Exported cut FBX: " + path +
+                "\nMeshes processed: " + processed);
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
-            Debug.LogException(ex);
+            Debug.LogException(exception);
         }
         finally
         {
@@ -246,308 +375,246 @@ public class DirectionalMeshCutter : MonoBehaviour
         }
     }
 
-    private string GetOriginalFbxName()
-    {
-        MeshFilter filter =
-            targetGameObject.GetComponentInChildren<MeshFilter>(true);
-
-        if (filter != null && filter.sharedMesh != null)
-        {
-            string path =
-                AssetDatabase.GetAssetPath(filter.sharedMesh);
-
-            if (!string.IsNullOrEmpty(path) &&
-                path.EndsWith(
-                    ".fbx",
-                    StringComparison.OrdinalIgnoreCase))
-            {
-                return Path.GetFileNameWithoutExtension(path);
-            }
-        }
-
-        string prefabPath =
-            PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(
-                targetGameObject);
-
-        if (!string.IsNullOrEmpty(prefabPath) &&
-            prefabPath.EndsWith(
-                ".fbx",
-                StringComparison.OrdinalIgnoreCase))
-        {
-            return Path.GetFileNameWithoutExtension(prefabPath);
-        }
-
-        return targetGameObject.name
-            .Replace("(Clone)", "")
-            .Trim();
-    }
-
-    private static int CountTriangles(Mesh mesh)
-    {
-        int count = 0;
-
-        for (int i = 0; i < mesh.subMeshCount; i++)
-        {
-            if (mesh.GetTopology(i) == MeshTopology.Triangles)
-                count += mesh.GetIndices(i).Length / 3;
-        }
-
-        return count;
-    }
-
-    private Mesh CutMesh(
+    private Mesh CreateCutMesh(
         Mesh source,
         Transform meshTransform,
-        Vector3 planePointWorld,
-        Vector3 planeNormalWorld)
+        Vector3 planePoint,
+        Vector3 planeNormal)
     {
         Vector3[] positions = source.vertices;
         Vector3[] normals = source.normals;
         Vector4[] tangents = source.tangents;
-        Vector2[] uv = source.uv;
-        Vector2[] uv2 = source.uv2;
+        Vector2[] uvs = source.uv;
+        Vector2[] uv2s = source.uv2;
         Color[] colors = source.colors;
 
         bool hasNormals = normals.Length == positions.Length;
         bool hasTangents = tangents.Length == positions.Length;
-        bool hasUV = uv.Length == positions.Length;
-        bool hasUV2 = uv2.Length == positions.Length;
+        bool hasUV = uvs.Length == positions.Length;
+        bool hasUV2 = uv2s.Length == positions.Length;
         bool hasColors = colors.Length == positions.Length;
 
-        List<Vector3> outPositions = new List<Vector3>();
-        List<Vector3> outNormals = new List<Vector3>();
-        List<Vector4> outTangents = new List<Vector4>();
-        List<Vector2> outUV = new List<Vector2>();
-        List<Vector2> outUV2 = new List<Vector2>();
-        List<Color> outColors = new List<Color>();
+        List<Vector3> outputPositions = new List<Vector3>();
+        List<Vector3> outputNormals = new List<Vector3>();
+        List<Vector4> outputTangents = new List<Vector4>();
+        List<Vector2> outputUV = new List<Vector2>();
+        List<Vector2> outputUV2 = new List<Vector2>();
+        List<Color> outputColors = new List<Color>();
 
-        List<int>[] submeshTriangles =
+        List<int>[] outputIndices =
             new List<int>[source.subMeshCount];
 
-        for (int s = 0; s < source.subMeshCount; s++)
-            submeshTriangles[s] = new List<int>();
-
-        // Convert the world-space plane into mesh-local space.
-        Matrix4x4 localToWorld =
-            meshTransform.localToWorldMatrix;
+        for (int i = 0; i < outputIndices.Length; i++)
+            outputIndices[i] = new List<int>();
 
         Matrix4x4 worldToLocal =
             meshTransform.worldToLocalMatrix;
 
-        Vector3 localPlanePoint =
-            worldToLocal.MultiplyPoint3x4(planePointWorld);
+        Matrix4x4 localToWorld =
+            meshTransform.localToWorldMatrix;
 
-        Vector3 localPlaneNormal =
+        Vector3 localPoint =
+            worldToLocal.MultiplyPoint3x4(planePoint);
+
+        Vector3 localNormal =
             localToWorld.transpose
-                .MultiplyVector(planeNormalWorld)
-                .normalized;
-
-        if (localPlaneNormal.sqrMagnitude < Epsilon)
-            return null;
+                .MultiplyVector(planeNormal).normalized;
 
         for (int sub = 0; sub < source.subMeshCount; sub++)
         {
-            if (source.GetTopology(sub) != MeshTopology.Triangles)
-            {
-                Debug.LogWarning(
-                    "Skipping non-triangle submesh: " + sub);
+            if (source.GetTopology(sub) !=
+                MeshTopology.Triangles)
                 continue;
-            }
 
             int[] indices = source.GetIndices(sub);
 
             for (int i = 0; i + 2 < indices.Length; i += 3)
             {
-                VertexData a = ReadVertex(indices[i]);
-                VertexData b = ReadVertex(indices[i + 1]);
-                VertexData c = ReadVertex(indices[i + 2]);
+                List<VertexData> triangle =
+                    new List<VertexData>
+                    {
+                        Read(indices[i]),
+                        Read(indices[i + 1]),
+                        Read(indices[i + 2])
+                    };
 
-                List<VertexData> polygon =
-                    new List<VertexData> { a, b, c };
+                List<VertexData> kept =
+                    ClipLocalPolygon(
+                        triangle,
+                        localPoint,
+                        localNormal);
 
-                List<VertexData> clipped =
-                    ClipPolygon(
-                        polygon,
-                        localPlanePoint,
-                        localPlaneNormal);
-
-                if (clipped.Count < 3)
-                    continue;
-
-                // Triangulate the resulting polygon.
-                for (int j = 1; j < clipped.Count - 1; j++)
+                for (int j = 1; j < kept.Count - 1; j++)
                 {
-                    AddVertex(clipped[0], sub);
-                    AddVertex(clipped[j], sub);
-                    AddVertex(clipped[j + 1], sub);
+                    Add(kept[0], sub);
+                    Add(kept[j], sub);
+                    Add(kept[j + 1], sub);
                 }
             }
         }
 
-        Mesh output = new Mesh();
-        output.name = source.name + "_Cut";
+        Mesh result = new Mesh();
+        result.name = source.name + "_Cut";
 
-        if (outPositions.Count > 65535)
+        if (outputPositions.Count > 65535)
         {
-            output.indexFormat =
+            result.indexFormat =
                 UnityEngine.Rendering.IndexFormat.UInt32;
         }
 
-        output.SetVertices(outPositions);
+        result.SetVertices(outputPositions);
 
         if (hasNormals)
-            output.SetNormals(outNormals);
+            result.SetNormals(outputNormals);
 
         if (hasTangents)
-            output.SetTangents(outTangents);
+            result.SetTangents(outputTangents);
 
         if (hasUV)
-            output.SetUVs(0, outUV);
+            result.SetUVs(0, outputUV);
 
         if (hasUV2)
-            output.SetUVs(1, outUV2);
+            result.SetUVs(1, outputUV2);
 
         if (hasColors)
-            output.SetColors(outColors);
+            result.SetColors(outputColors);
 
-        output.subMeshCount = source.subMeshCount;
+        result.subMeshCount = source.subMeshCount;
 
-        for (int sub = 0; sub < source.subMeshCount; sub++)
+        for (int i = 0; i < source.subMeshCount; i++)
         {
-            output.SetTriangles(
-                submeshTriangles[sub],
-                sub,
-                false);
+            result.SetTriangles(
+                outputIndices[i], i, false);
         }
 
         if (!hasNormals)
-            output.RecalculateNormals();
+            result.RecalculateNormals();
 
-        output.RecalculateBounds();
+        result.RecalculateBounds();
 
-        return output;
+        return result;
 
-        VertexData ReadVertex(int index)
+        VertexData Read(int index)
         {
-            VertexData v = new VertexData();
-
-            v.position = positions[index];
-
-            v.normal = hasNormals
-                ? normals[index]
-                : Vector3.up;
-
-            v.tangent = hasTangents
-                ? tangents[index]
-                : new Vector4(1f, 0f, 0f, 1f);
-
-            v.uv = hasUV ? uv[index] : Vector2.zero;
-            v.uv2 = hasUV2 ? uv2[index] : Vector2.zero;
-            v.color = hasColors ? colors[index] : Color.white;
-
-            return v;
+            return new VertexData
+            {
+                position = positions[index],
+                normal = hasNormals
+                    ? normals[index] : Vector3.up,
+                tangent = hasTangents
+                    ? tangents[index]
+                    : new Vector4(1f, 0f, 0f, 1f),
+                uv = hasUV ? uvs[index] : Vector2.zero,
+                uv2 = hasUV2 ? uv2s[index] : Vector2.zero,
+                color = hasColors
+                    ? colors[index] : Color.white
+            };
         }
 
-        void AddVertex(VertexData vertex, int submesh)
+        void Add(VertexData v, int sub)
         {
-            int index = outPositions.Count;
+            int index = outputPositions.Count;
 
-            outPositions.Add(vertex.position);
+            outputPositions.Add(v.position);
 
             if (hasNormals)
-                outNormals.Add(vertex.normal);
+                outputNormals.Add(v.normal);
 
             if (hasTangents)
-                outTangents.Add(vertex.tangent);
+                outputTangents.Add(v.tangent);
 
             if (hasUV)
-                outUV.Add(vertex.uv);
+                outputUV.Add(v.uv);
 
             if (hasUV2)
-                outUV2.Add(vertex.uv2);
+                outputUV2.Add(v.uv2);
 
             if (hasColors)
-                outColors.Add(vertex.color);
+                outputColors.Add(v.color);
 
-            submeshTriangles[submesh].Add(index);
+            outputIndices[sub].Add(index);
         }
     }
 
-    private List<VertexData> ClipPolygon(
+    private List<VertexData> ClipLocalPolygon(
         List<VertexData> polygon,
-        Vector3 planePoint,
-        Vector3 planeNormal)
+        Vector3 point,
+        Vector3 normal)
     {
         List<VertexData> result = new List<VertexData>();
 
         for (int i = 0; i < polygon.Count; i++)
         {
-            VertexData current = polygon[i];
-            VertexData next =
+            VertexData a = polygon[i];
+            VertexData b =
                 polygon[(i + 1) % polygon.Count];
 
-            float currentDistance =
-                Vector3.Dot(
-                    current.position - planePoint,
-                    planeNormal);
+            float da = Vector3.Dot(
+                a.position - point, normal);
 
-            float nextDistance =
-                Vector3.Dot(
-                    next.position - planePoint,
-                    planeNormal);
+            float db = Vector3.Dot(
+                b.position - point, normal);
 
-            bool currentInside = removeSide ==
-                RemovalSide.Positive
-                    ? currentDistance <= Epsilon
-                    : currentDistance >= -Epsilon;
+            bool keepA = !IsRemoved(da);
+            bool keepB = !IsRemoved(db);
 
-            bool nextInside = removeSide ==
-                RemovalSide.Positive
-                    ? nextDistance <= Epsilon
-                    : nextDistance >= -Epsilon;
-
-            if (currentInside && nextInside)
+            if (keepA && keepB)
             {
-                result.Add(next);
+                result.Add(b);
             }
-            else if (currentInside && !nextInside)
+            else if (keepA && !keepB)
             {
                 result.Add(
-                    Intersect(
-                        current,
-                        next,
-                        currentDistance,
-                        nextDistance));
+                    VertexData.Lerp(
+                        a, b, GetT(da, db)));
             }
-            else if (!currentInside && nextInside)
+            else if (!keepA && keepB)
             {
                 result.Add(
-                    Intersect(
-                        current,
-                        next,
-                        currentDistance,
-                        nextDistance));
+                    VertexData.Lerp(
+                        a, b, GetT(da, db)));
 
-                result.Add(next);
+                result.Add(b);
             }
         }
 
         return result;
     }
 
-    private static VertexData Intersect(
-        VertexData a,
-        VertexData b,
-        float distanceA,
-        float distanceB)
+    private static float GetT(float a, float b)
     {
-        float denominator = distanceA - distanceB;
+        float denominator = a - b;
 
-        float t = Mathf.Abs(denominator) < Epsilon
+        return Mathf.Abs(denominator) < Epsilon
             ? 0f
-            : Mathf.Clamp01(distanceA / denominator);
+            : Mathf.Clamp01(a / denominator);
+    }
 
-        return VertexData.Lerp(a, b, t);
+    private string GetOriginalFbxName()
+    {
+        MeshFilter[] filters =
+            targetGameObject.GetComponentsInChildren
+                <MeshFilter>(true);
+
+        foreach (MeshFilter filter in filters)
+        {
+            if (filter.sharedMesh == null)
+                continue;
+
+            string path =
+                AssetDatabase.GetAssetPath(filter.sharedMesh);
+
+            if (path.EndsWith(
+                ".fbx",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                return Path.GetFileNameWithoutExtension(path);
+            }
+        }
+
+        return targetGameObject.name
+            .Replace("(Clone)", "")
+            .Trim();
     }
 
 #endif
@@ -562,25 +629,17 @@ public class DirectionalMeshCutterEditor : Editor
     {
         DrawDefaultInspector();
 
-        EditorGUILayout.Space(12);
-
         DirectionalMeshCutter cutter =
             (DirectionalMeshCutter)target;
 
-        if (cutter.targetGameObject == null)
-        {
-            EditorGUILayout.HelpBox(
-                "Drag the model you want to cut into " +
-                "Target GameObject.",
-                MessageType.Info);
-        }
+        EditorGUILayout.Space(10);
 
         GUI.enabled =
             cutter.targetGameObject != null &&
             !EditorApplication.isPlaying;
 
         if (GUILayout.Button(
-            "CUT TARGET AND EXPORT FBX",
+            "CUT AND EXPORT FBX",
             GUILayout.Height(40)))
         {
             cutter.CutTargetAndExport();
@@ -589,11 +648,9 @@ public class DirectionalMeshCutterEditor : Editor
         GUI.enabled = true;
 
         EditorGUILayout.HelpBox(
-            "The original FBX and scene GameObject " +
-            "will not be modified. " +
-            "The cut model will be exported to the " +
-            "specified folder.",
-            MessageType.None);
+            "Red polygons show the area that will be removed. " +
+            "The original FBX remains unchanged.",
+            MessageType.Info);
     }
 }
 
