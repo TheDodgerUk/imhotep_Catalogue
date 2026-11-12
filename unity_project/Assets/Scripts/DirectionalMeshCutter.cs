@@ -209,7 +209,8 @@ public class DirectionalMeshCutter : MonoBehaviour
         if (filters.Length == 0) { Debug.LogWarning("No MeshFilters found.", Target); return; }
         if (!outputFolder.Replace('\\', '/').StartsWith("Assets/")) { Debug.LogError("Output folder must begin with Assets/"); return; }
         EnsureFolder(outputFolder.Replace('\\', '/'));
-        originalTriangles = 0; finalTriangles = 0;
+        originalTriangles = 0; 
+        finalTriangles = 0;
         int processed = 0;
         foreach (MeshFilter filter in filters)
         {
