@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -12,22 +13,19 @@ public class GameObjectPolyCounter : MonoBehaviour
     public bool includeChildren = true;
     public bool includeInactive = true;
 
-    [Header("Mesh Statistics")]
-    public int gameObjectCount;
-    public int meshCount;
-    public int uniqueMeshCount;
-    public long triangleCount;
-    public long vertexCount;
-    public int subMeshCount;
+    [HideInInspector] public int gameObjectCount;
+    [HideInInspector] public int meshCount;
+    [HideInInspector] public int uniqueMeshCount;
+    [HideInInspector] public long triangleCount;
+    [HideInInspector] public long vertexCount;
+    [HideInInspector] public int subMeshCount;
 
-    [Header("Renderer Statistics")]
-    public int meshRendererCount;
-    public int skinnedMeshRendererCount;
-    public int materialCount;
-    public int textureCount;
+    [HideInInspector] public int meshRendererCount;
+    [HideInInspector] public int skinnedMeshRendererCount;
+    [HideInInspector] public int materialCount;
+    [HideInInspector] public int textureCount;
 
-    [Header("Memory")]
-    public float estimatedMeshMemoryMB;
+    [HideInInspector] public float estimatedMeshMemoryMB;
 
     [ContextMenu("Analyse GameObject")]
     public void Analyse()
@@ -119,13 +117,15 @@ public class GameObjectPolyCounter : MonoBehaviour
 
         foreach (Mesh mesh in uniqueMeshes)
         {
-            // Approximate CPU-side mesh data size.
+            // Approximate mesh memory.
             memoryBytes += (long)mesh.vertexCount * 32;
 
             for (int i = 0; i < mesh.subMeshCount; i++)
+            {
                 memoryBytes += (long)mesh.GetIndexCount(i) *
                     (mesh.indexFormat ==
                      UnityEngine.Rendering.IndexFormat.UInt32 ? 4 : 2);
+            }
         }
 
         estimatedMeshMemoryMB =
@@ -165,24 +165,104 @@ public class GameObjectPolyCounter : MonoBehaviour
 }
 
 #if UNITY_EDITOR
+
 [CustomEditor(typeof(GameObjectPolyCounter))]
 public class GameObjectPolyCounterEditor : Editor
 {
+    private static readonly CultureInfo NumberCulture =
+        CultureInfo.GetCultureInfo("en-GB");
+
     public override void OnInspectorGUI()
     {
-        DrawDefaultInspector();
-
-        GUILayout.Space(10);
-
         GameObjectPolyCounter counter =
             (GameObjectPolyCounter)target;
 
-        if (GUILayout.Button("ANALYSE GAMEOBJECT",
+        serializedObject.Update();
+
+        // Editable settings
+        EditorGUILayout.LabelField(
+            "Settings",
+            EditorStyles.boldLabel
+        );
+
+        EditorGUILayout.PropertyField(
+            serializedObject.FindProperty("includeChildren"));
+
+        EditorGUILayout.PropertyField(
+            serializedObject.FindProperty("includeInactive"));
+
+        serializedObject.ApplyModifiedProperties();
+
+        GUILayout.Space(10);
+
+        if (GUILayout.Button(
+            "ANALYSE GAMEOBJECT",
             GUILayout.Height(35)))
         {
             counter.Analyse();
             EditorUtility.SetDirty(counter);
         }
+
+        GUILayout.Space(15);
+
+        // Read-only mesh statistics
+        EditorGUILayout.LabelField(
+            "Mesh Statistics",
+            EditorStyles.boldLabel
+        );
+
+        DrawNumber("GameObjects", counter.gameObjectCount);
+        DrawNumber("Meshes", counter.meshCount);
+        DrawNumber("Unique Meshes", counter.uniqueMeshCount);
+        DrawNumber("Triangles", counter.triangleCount);
+        DrawNumber("Vertices", counter.vertexCount);
+        DrawNumber("Submeshes", counter.subMeshCount);
+
+        GUILayout.Space(10);
+
+        // Read-only renderer statistics
+        EditorGUILayout.LabelField(
+            "Renderer Statistics",
+            EditorStyles.boldLabel
+        );
+
+        DrawNumber("Mesh Renderers", counter.meshRendererCount);
+        DrawNumber("Skinned Mesh Renderers",
+            counter.skinnedMeshRendererCount);
+        DrawNumber("Materials", counter.materialCount);
+        DrawNumber("Textures", counter.textureCount);
+
+        GUILayout.Space(10);
+
+        // Read-only memory statistics
+        EditorGUILayout.LabelField(
+            "Memory",
+            EditorStyles.boldLabel
+        );
+
+        DrawText(
+            "Estimated Mesh Memory",
+            counter.estimatedMeshMemoryMB.ToString(
+                "N2", NumberCulture) + " MB"
+        );
+    }
+
+    private static void DrawNumber(string label, long value)
+    {
+        DrawText(
+            label,
+            value.ToString("N0", NumberCulture)
+        );
+    }
+
+    private static void DrawText(string label, string value)
+    {
+        EditorGUI.BeginDisabledGroup(true);
+
+        EditorGUILayout.TextField(label, value);
+
+        EditorGUI.EndDisabledGroup();
     }
 }
+
 #endif
