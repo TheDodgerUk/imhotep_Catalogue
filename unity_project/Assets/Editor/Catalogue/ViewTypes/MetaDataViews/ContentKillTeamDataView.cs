@@ -13,15 +13,14 @@ namespace EditorTools.CatalogueViewer
     {
 
         private WeaponItemView m_WeaponItemView;
+        private APItemView m_APItemView;
         public ContentKillTeamDataView(Catalogue catalogue, CatalogueEntry entry, List<IMetaDataView> oldViews) : base(catalogue, entry, oldViews)
         {
-            m_WeaponItemView = new WeaponItemView("Items", m_RootGameObject, m_Entry, m_MetaData.m_Weapons);
+            m_WeaponItemView = new WeaponItemView("Weapon", m_RootGameObject, m_Entry, m_MetaData.m_Weapons);
             m_WeaponItemView.ToggleFoldout(false);
 
-            ////for (int i = 0; i < m_MetaData.weapons.Count; i++)
-            ////{
-            ////    m_MetaData.weapons[i].AnimationGameObject = StringToGameObject(m_MetaData.m_AnimationData[i].AnimationGameObjectName, m_RootGameObject);
-            ////}
+            m_APItemView = new APItemView("APItem", m_RootGameObject, m_Entry, m_MetaData.m_ApList);
+            m_APItemView.ToggleFoldout(false);
         }
         protected override void OnMetaDataGUI()
         {
@@ -35,6 +34,7 @@ namespace EditorTools.CatalogueViewer
             m_MetaData.m_OperativeStats.currentWounds = EditorGUILayout.IntField("currentWounds", m_MetaData.m_OperativeStats.currentWounds);
             m_MetaData.m_OperativeStats.rotateX = false;
             m_WeaponItemView.OnGUI();
+            m_APItemView.OnGUI();
         }
 
         private class WeaponItemView : DefaultListView<ContentKillTeamMetaData.WeaponStats>
@@ -57,7 +57,7 @@ namespace EditorTools.CatalogueViewer
             public static void DrawRenderItem(CatalogueEntry entry, GameObject root, ContentKillTeamMetaData.WeaponStats weaponItem)
             {
 
-                
+
                 {
                     weaponItem.weaponName = EditorGUILayout.TextField($"Weapon Name", weaponItem.weaponName);
                     weaponItem.weaponType = (ContentKillTeamMetaData.WeaponType)EditorGUILayout.EnumPopup($"Weapon Type", weaponItem.weaponType);
@@ -71,6 +71,32 @@ namespace EditorTools.CatalogueViewer
             }
         }
 
+
+        private class APItemView : DefaultListView<ContentKillTeamAPMetaData.ApType>
+        {
+            private readonly CatalogueEntry m_Entry;
+            private GameObject m_RootObject;
+            public APItemView(string name, GameObject root, CatalogueEntry entry, List<ContentKillTeamAPMetaData.ApType> list) : base(name, list)
+            {
+                m_Entry = entry;
+                m_RootObject = root;
+            }
+
+            protected override ContentKillTeamAPMetaData.ApType DrawElement(ContentKillTeamAPMetaData.ApType renderItem)
+            {
+                DrawRenderItem(m_Entry, m_RootObject, renderItem);
+                return renderItem;
+            }
+
+            public static void DrawRenderItem(CatalogueEntry entry, GameObject root, ContentKillTeamAPMetaData.ApType weaponItem)
+            {
+
+                weaponItem = (ContentKillTeamAPMetaData.ApType)EditorGUILayout.EnumPopup($"Ap Type", weaponItem);
+
+                EditorGUILayout.Space();
+
+            }
+        }
     }
 }
 
