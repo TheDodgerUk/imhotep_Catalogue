@@ -1175,159 +1175,6 @@ namespace KillTeam
             );
         }
 
-        // ==================================================
-        // GENERATE LIGHTMAP UVs
-        // ==================================================
-
-        public void GenerateLightmapUVsAll()
-        {
-            Dictionary<string, int> models =
-                new Dictionary<string, int>();
-
-            int updated = 0;
-            int alreadyEnabled = 0;
-            int skipped = 0;
-            int failed = 0;
-            bool cancelled = false;
-
-            // Collect mesh assets before reimporting.
-            for (int sceneIndex = 0;
-                 sceneIndex < SceneManager.sceneCount;
-                 sceneIndex++)
-            {
-                Scene scene =
-                    SceneManager.GetSceneAt(sceneIndex);
-
-                if (!scene.isLoaded)
-                    continue;
-
-                foreach (GameObject root
-                         in scene.GetRootGameObjects())
-                {
-                    MeshFilter[] filters =
-                        root.GetComponentsInChildren<
-                            MeshFilter>(true);
-
-                    foreach (MeshFilter filter in filters)
-                    {
-                        AddModelMesh(
-                            filter.sharedMesh,
-                            models
-                        );
-                    }
-
-                    SkinnedMeshRenderer[] skinned =
-                        root.GetComponentsInChildren<
-                            SkinnedMeshRenderer>(true);
-
-                    foreach (SkinnedMeshRenderer renderer
-                             in skinned)
-                    {
-                        AddModelMesh(
-                            renderer.sharedMesh,
-                            models
-                        );
-                    }
-                }
-            }
-
-            List<string> paths =
-                new List<string>(models.Keys);
-
-            try
-            {
-                for (int i = 0;
-                     i < paths.Count;
-                     i++)
-                {
-                    string path = paths[i];
-
-                    if (EditorUtility
-                        .DisplayCancelableProgressBar(
-                            "Generating Lightmap UVs",
-                            (i + 1) + "/" +
-                            paths.Count + "\n" +
-                            path,
-                            (float)i /
-                            Mathf.Max(1, paths.Count)))
-                    {
-                        cancelled = true;
-                        break;
-                    }
-
-                    int triangles =
-                        models[path];
-
-                    if (maxUVTriangleCount > 0 &&
-                        triangles > maxUVTriangleCount)
-                    {
-                        skipped++;
-
-                        Debug.LogWarning(
-                            "Skipped high-poly model (" +
-                            triangles +
-                            " triangles): " +
-                            path,
-                            this
-                        );
-
-                        continue;
-                    }
-
-                    ModelImporter importer =
-                        AssetImporter.GetAtPath(path)
-                            as ModelImporter;
-
-                    if (importer == null)
-                    {
-                        skipped++;
-                        continue;
-                    }
-
-                    if (importer.generateSecondaryUV)
-                    {
-                        alreadyEnabled++;
-                        continue;
-                    }
-
-                    try
-                    {
-                        importer.generateSecondaryUV =
-                            true;
-
-                        importer.SaveAndReimport();
-
-                        updated++;
-                    }
-                    catch (Exception exception)
-                    {
-                        failed++;
-
-                        Debug.LogError(
-                            "UV generation failed: " +
-                            path + "\n" +
-                            exception,
-                            this
-                        );
-                    }
-                }
-            }
-            finally
-            {
-                EditorUtility.ClearProgressBar();
-            }
-
-            EditorUtility.DisplayDialog(
-                "Lightmap UV Generation Finished",
-                "Updated: " + updated + "\n" +
-                "Already Enabled: " +
-                alreadyEnabled + "\n" +
-                "Skipped: " + skipped + "\n" +
-                "Failed: " + failed + "\n" +
-                "Cancelled: " + cancelled,
-                "OK"
-            );
-        }
 
         // ==================================================
         // COLLECT MODEL TRIANGLE COUNTS
@@ -1469,7 +1316,10 @@ namespace KillTeam
         {
             UltraFast,
             Fast,
-            Good
+            Good,
+            VeryGood,
+            High,
+            Ultra
         }
 
         public void SetBakeQuality(
@@ -1551,6 +1401,33 @@ namespace KillTeam
                     settings.maxBounces = 3;
                     settings.ao = true;
 
+                    break;
+                case BakeQuality.High:
+
+                    settings.lightmapResolution = 60f;
+                    settings.lightmapMaxSize = 4096;
+                    settings.lightmapPadding = 4;
+
+                    settings.directSampleCount = 512;
+                    settings.indirectSampleCount = 1024;
+                    settings.environmentSampleCount = 1024;
+
+                    settings.maxBounces = 5;
+                    settings.ao = false;
+                    break;
+
+                case BakeQuality.Ultra:
+
+                    settings.lightmapResolution = 80f;
+                    settings.lightmapMaxSize = 4096;
+                    settings.lightmapPadding = 5;
+
+                    settings.directSampleCount = 1024;
+                    settings.indirectSampleCount = 2048;
+                    settings.environmentSampleCount = 2048;
+
+                    settings.maxBounces = 6;
+                    settings.ao = false;
                     break;
             }
 
@@ -1919,38 +1796,6 @@ namespace KillTeam
             EditorGUILayout.Space(10);
 
             // ----------------------------------------------
-            // LIGHTMAP UV TOOLS
-            // ----------------------------------------------
-
-            EditorGUILayout.LabelField(
-                "Lightmap UV Tools",
-                EditorStyles.boldLabel
-            );
-
-            EditorGUI.BeginDisabledGroup(
-                Application.isPlaying
-            );
-
-            if (GUILayout.Button(
-                "Generate Lightmap UVs ALL",
-                GUILayout.Height(35)))
-            {
-                lighting.GenerateLightmapUVsAll();
-            }
-
-            EditorGUI.EndDisabledGroup();
-
-            EditorGUILayout.HelpBox(
-                "High-poly models above the triangle " +
-                "limit are skipped. Reimporting a model " +
-                "can still take time and cannot be " +
-                "interrupted once Unity starts its import.",
-                MessageType.Warning
-            );
-
-            EditorGUILayout.Space(10);
-
-            // ----------------------------------------------
             // CONTRIBUTE GI
             // ----------------------------------------------
 
@@ -2033,12 +1878,38 @@ namespace KillTeam
                 );
             }
 
+            if (GUILayout.Button(
+                "HIGH QUALITY BAKE",
+                GUILayout.Height(35)))
+            {
+                lighting.SetBakeQuality(
+                    ImperialStrategiumLighting
+                        .BakeQuality.High
+                );
+            }
+
+            if (GUILayout.Button(
+                "ULTRA QUALITY BAKE",
+                GUILayout.Height(35)))
+            {
+                lighting.SetBakeQuality(
+                    ImperialStrategiumLighting
+                        .BakeQuality.Ultra
+                );
+            }
+
             EditorGUI.EndDisabledGroup();
 
             EditorGUILayout.HelpBox(
-                "ULTRA FAST: 2 texels/unit\n" +
-                "FAST: 10 texels/unit\n" +
-                "GOOD: 30 texels/unit\n\n" +
+                "LIGHTMAP BAKE QUALITY\n\n" +
+                "ULTRA FAST: 2 texels/unit  |  512 max\n" +
+                "FAST:       10 texels/unit | 1024 max\n" +
+                "GOOD:       30 texels/unit | 2048 max\n" +
+                "HIGH:       60 texels/unit | 4096 max\n" +
+                "ULTRA:      80 texels/unit | 4096 max\n\n" +
+                "FAST: Testing and iteration\n" +
+                "GOOD: Recommended starting point for final VR lighting\n" +
+                "HIGH / ULTRA: High-detail baking, expensive\n\n" +
                 "Choose a preset, then bake.",
                 MessageType.Info
             );
