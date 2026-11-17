@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 304229836066536443}
   - component: {fileID: 3966686782112400025}
   - component: {fileID: 4363709059067929759}
+  - component: {fileID: -5757412271339829309}
   m_Layer: 8
   m_Name: Card_Shoot_Prefab
   m_TagString: RootCatalogueItem
@@ -132,8 +133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f656ba065a4dfbe4aa5a4639870d8361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 10, y: 2.220446e-16, z: 10}
-  sizeCm: {x: 1000, y: 0, z: 1000}
+  size: {x: 0.63, y: 2.220446e-16, z: 0.88}
+  sizeCm: {x: 63, y: 0, z: 88}
   resizeBy: 1
   targetSize: 0.035
   targetDiameterMM: 40
@@ -161,6 +162,31 @@ MonoBehaviour:
   maxColliders: 2000
   maxVoxelCount: 1500000
   colliderContainer: {fileID: 0}
+--- !u!114 &-5757412271339829309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3669853060817893888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03cfce4ffcb31d84bac9603ce0263368, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  includeChildren: 1
+  includeInactive: 1
+  gameObjectCount: 0
+  meshCount: 0
+  uniqueMeshCount: 0
+  triangleCount: 0
+  vertexCount: 0
+  subMeshCount: 0
+  meshRendererCount: 0
+  skinnedMeshRendererCount: 0
+  materialCount: 0
+  textureCount: 0
+  estimatedMeshMemoryMB: 0
 --- !u!1 &5064527056784595246
 GameObject:
   m_ObjectHideFlags: 0
