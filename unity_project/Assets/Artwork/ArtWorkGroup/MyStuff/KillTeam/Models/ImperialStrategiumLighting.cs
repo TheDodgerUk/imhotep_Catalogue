@@ -114,6 +114,33 @@ namespace KillTeam
         public float flickerSpeed = 5f;
 
         // ==================================================
+        // TORCH SETTINGS (OBJECT NAMES CONTAINING "_fire")
+        // ==================================================
+
+        [Header("Wooden Torch Lights")]
+        public bool generateTorchLights = true;
+
+        [Tooltip("Find torch flame objects containing this text anywhere in their name (case-insensitive).")]
+        public string torchNameContains = "_fire";
+
+        [Tooltip("Also find inactive torch flame objects. Inactive torches must be enabled to contribute to a bake.")]
+        public bool includeInactiveTorches = false;
+
+        [Tooltip("If both a parent and child match, generate one light at the deepest matching child.")]
+        public bool preferChildTorchMatches = true;
+
+        [Tooltip("Offset from each matching object's position, in the object's local axes. Set this if _fire identifies the whole torch rather than the flame tip.")]
+        public Vector3 torchLightOffset = Vector3.zero;
+
+        public Color torchColor = new Color(1f, 0.48f, 0.12f);
+        public float torchIntensity = 2f;
+        public float torchRange = 4f;
+        public bool torchCastShadows = true;
+
+        [Min(0f)]
+        public float torchShadowRadius = 0.1f;
+
+        // ==================================================
         // SHADOW SETTINGS
         // ==================================================
 
@@ -152,6 +179,7 @@ namespace KillTeam
         public bool showPillarLightRanges = true;
         public bool showWallLightRanges = true;
         public bool showCandleLightRanges = true;
+        public bool showTorchLightRanges = true;
 
         [Header("Gizmo Appearance")]
         [Range(0.1f, 1f)]
@@ -687,6 +715,89 @@ namespace KillTeam
         }
 
         // ==================================================
+        // GENERATE TORCH LIGHTS
+        // ==================================================
+
+        // Finds all loaded-scene objects whose names contain the torch
+        // search text (e.g. "WallTorch_fire" or "_fire"). Lights are
+        // created under GeneratedLights, like all other lights, and
+        // therefore removed/rebuilt by the existing ClearLighting logic.
+        // Their LightmapBakeType follows the existing generateAsBaked flag.
+        private int GenerateTorchLights()
+        {
+            if (!generateTorchLights || string.IsNullOrWhiteSpace(torchNameContains))
+                return 0;
+
+            List<Transform> matches = new List<Transform>();
+
+            for (int sceneIndex = 0; sceneIndex < SceneManager.sceneCount; sceneIndex++)
+            {
+                Scene scene = SceneManager.GetSceneAt(sceneIndex);
+                if (!scene.isLoaded)
+                    continue;
+
+                foreach (GameObject root in scene.GetRootGameObjects())
+                {
+                    Transform[] objects = root.GetComponentsInChildren<Transform>(true);
+
+                    foreach (Transform item in objects)
+                    {
+                        if (item == null || item == transform || item.IsChildOf(transform))
+                            continue;
+
+                        if (!includeInactiveTorches && !item.gameObject.activeInHierarchy)
+                            continue;
+
+                        if (item.name.IndexOf(torchNameContains,
+                                StringComparison.OrdinalIgnoreCase) < 0)
+                            continue;
+
+                        matches.Add(item);
+                    }
+                }
+            }
+
+            int count = 0;
+            foreach (Transform item in matches)
+            {
+                // If a torch and its child flame both match, prefer the
+                // child: its position is usually closer to the flame tip.
+                if (preferChildTorchMatches)
+                {
+                    bool childMatches = false;
+                    foreach (Transform other in matches)
+                    {
+                        if (other != item && other.IsChildOf(item))
+                        {
+                            childMatches = true;
+                            break;
+                        }
+                    }
+                    if (childMatches)
+                        continue;
+                }
+
+                Vector3 worldPosition = item.TransformPoint(torchLightOffset);
+                Vector3 localPosition = transform.InverseTransformPoint(worldPosition);
+
+                CreatePoint(
+                    "Torch_Fire_" + count,
+                    localPosition,
+                    torchColor,
+                    torchIntensity,
+                    torchRange,
+                    torchCastShadows,
+                    torchShadowRadius
+                );
+                count++;
+            }
+
+            Debug.Log("Generated " + count + " torch lights for names containing '" +
+                      torchNameContains + "'.", this);
+            return count;
+        }
+
+        // ==================================================
         // GENERATE ALL LIGHTING
         // ==================================================
 
@@ -752,6 +863,10 @@ namespace KillTeam
             // Candle lights.
             GenerateCandleLights();
 
+            // Wooden torches whose names contain "_fire".
+            // Their lights participate in the same bake as all other lights.
+            int torchLightCount = GenerateTorchLights();
+
 #if UNITY_EDITOR
 
             if (!Application.isPlaying &&
@@ -768,6 +883,7 @@ namespace KillTeam
                 "Lighting generated.\n" +
                 "Pillars found: " +
                 foundPillars.Count + "\n" +
+                "Torch lights: " + torchLightCount + "\n" +
                 "Total lights: " +
                 generatedLights.Count,
                 this
@@ -776,7 +892,7 @@ namespace KillTeam
 
         private void GenerateWallLights(float halfWidth, float ceilingHeight)
         {
-            var localCeilingHeight = ceilingHeight /2;
+            var localCeilingHeight = ceilingHeight / 2;
 
             // Orange wall lights.
             for (int i = 0; i < 3; i++)
@@ -971,6 +1087,9 @@ namespace KillTeam
 
             if (name.StartsWith("Candle_"))
                 return showCandleLightRanges;
+
+            if (name.StartsWith("Torch_Fire_"))
+                return showTorchLightRanges;
 
             return true;
         }
@@ -2003,6 +2122,7 @@ namespace KillTeam
                 lighting.showPillarLightRanges = true;
                 lighting.showWallLightRanges = true;
                 lighting.showCandleLightRanges = true;
+                lighting.showTorchLightRanges = true;
 
                 EditorUtility.SetDirty(lighting);
                 SceneView.RepaintAll();
